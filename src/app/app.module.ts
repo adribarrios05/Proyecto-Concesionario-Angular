@@ -6,12 +6,19 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { LoginPageModule } from './folder/pages/login/login.module';
+import { SideMenuComponent } from './components/side-menu/side-menu.component';
+import { InventoryPageModule } from './folder/pages/inventory/inventory.module';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule, 
     IonicModule.forRoot(), 
-    AppRoutingModule],
+    AppRoutingModule,
+    LoginPageModule,
+    SharedModule
+  ],
 
   providers: [{ provide: RouteReuseStrategy, 
     useClass: IonicRouteStrategy }],
