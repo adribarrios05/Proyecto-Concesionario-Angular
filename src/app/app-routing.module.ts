@@ -16,11 +16,11 @@ const routes: Routes = [
     loadChildren: () => import('./folder/pages/inventory/inventory.module').then( m => m.InventoryPageModule)
   },
   {
-    path: 'sales-history',
+    path: 'sales',
     loadChildren: () => import('./folder/pages/sales-history/sales-history.module').then( m => m.SalesHistoryPageModule)
   },
   {
-    path: 'rents-history',
+    path: 'rents',
     loadChildren: () => import('./folder/pages/rents-history/rents-history.module').then( m => m.RentsHistoryPageModule)
   },
   {

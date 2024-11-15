@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { SideMenuComponent } from './side-menu.component';
+import { SideMenuComponent } from './navbar.component';
 
 describe('SideMenuComponent', () => {
   let component: SideMenuComponent;
@@ -18,6 +18,7 @@ describe('SideMenuComponent', () => {
     fixture.detectChanges();
   }));
 
+  
   it('should create', () => {
     expect(component).toBeTruthy();
   });

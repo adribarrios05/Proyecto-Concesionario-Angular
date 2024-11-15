@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar class="dark-red">
+    <ion-buttons slot="start">
+      <ion-button *ngFor="let p of appPages; let i = index" 
+      [routerLink]="[p.url]" 
+      routerLinkActive="active-page"
+      [routerDirection]="'root'">
+        <ion-icon [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'" slot="start"></ion-icon>
+        <ion-label class="nav-label">{{ p.title }}</ion-label>
+      </ion-button>
+    </ion-buttons>
+    <ion-item slot="end">
+      <ion-avatar class="dark-red"> 
+        <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+      </ion-avatar>
+      <ion-text>example&#64;gmail.com</ion-text>
+    </ion-item>
+  </ion-toolbar>
+</ion-header>

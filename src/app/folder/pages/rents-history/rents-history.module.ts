@@ -7,13 +7,12 @@ import { IonicModule } from '@ionic/angular';
 import { RentsHistoryPageRoutingModule } from './rents-history-routing.module';
 
 import { RentsHistoryPage } from './rents-history.page';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    RentsHistoryPageRoutingModule
+    RentsHistoryPageRoutingModule,
+    SharedModule
   ],
   declarations: [RentsHistoryPage]
 })
