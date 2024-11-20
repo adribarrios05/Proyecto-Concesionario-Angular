@@ -7,7 +7,6 @@ import { IonicModule } from '@ionic/angular';
 import { HomePageRoutingModule } from './home-routing.module';
 
 import { HomePage } from './home.page';
-import { SideMenuComponent } from 'src/app/components/navbar/navbar.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({

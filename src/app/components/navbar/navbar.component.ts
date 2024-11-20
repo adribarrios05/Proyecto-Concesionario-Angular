@@ -7,13 +7,13 @@ import { Router } from '@angular/router';
   styleUrls: ['./navbar.component.scss'],
   standalone: false
 })
-export class SideMenuComponent implements OnInit {
+export class NavBarComponent implements OnInit {
   public appPages = [
+    { title: 'Home', url: '/home', icon: 'home' },
     { title: 'Inventory', url: '/inventory', icon: 'file-tray-full' },
     { title: 'Sales history', url: '/sales', icon: 'cash' },
     { title: 'Rent history', url: '/rents', icon: 'calendar' },
-    { title: 'Employees', url: '/Employees', icon: 'people' },
-    { title: 'Spam', url: '/folder/Spam', icon: 'warning' },
+    { title: 'Customers', url: '/a', icon: 'people' },
   ];
 
   showMenu: boolean = true;
@@ -21,14 +21,14 @@ export class SideMenuComponent implements OnInit {
   constructor(private router: Router) {}
 
   ngOnInit() {
-    this.router.events.subscribe(() => {
-      this.checkRoute();
-    });
-    this.checkRoute(); 
+  //  this.router.events.subscribe(() => {
+  //    this.checkRoute();
+  //  });
+  //  this.checkRoute(); 
   }
 
-  private checkRoute() {
-    const excludedRoutes = ['/login', '/register'];
-    this.showMenu = !excludedRoutes.includes(this.router.url);
-  }
+  //private checkRoute() {
+  //  const excludedRoutes = ['/login', '/register'];
+  //  this.showMenu = !excludedRoutes.includes(this.router.url);
+  //} 
 }

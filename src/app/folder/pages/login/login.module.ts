@@ -8,7 +8,6 @@ import { LoginPageRoutingModule } from './login-routing.module';
 
 import { LoginPage } from './login.page';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { SideMenuComponent } from 'src/app/components/navbar/navbar.component';
 
 @NgModule({
   imports: [

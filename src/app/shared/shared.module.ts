@@ -1,14 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SideMenuComponent } from '../components/navbar/navbar.component';
+import { NavBarComponent } from '../components/navbar/navbar.component';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { SideMenuComponent } from '../components/side-menu/side-menu.component';
 
 
 
 @NgModule({
   declarations: [
+    NavBarComponent,
     SideMenuComponent
   ],
   imports: [
@@ -20,6 +22,7 @@ import { FormsModule } from '@angular/forms';
   exports: [
     CommonModule,
     IonicModule,
+    NavBarComponent,
     SideMenuComponent,
     FormsModule,
     RouterModule

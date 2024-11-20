@@ -7,7 +7,6 @@ import { IonicModule } from '@ionic/angular';
 import { InventoryPageRoutingModule } from './inventory-routing.module';
 
 import { InventoryPage } from './inventory.page';
-import { SideMenuComponent } from 'src/app/components/navbar/navbar.component';
 import { AppModule } from 'src/app/app.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 
