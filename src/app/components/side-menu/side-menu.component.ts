@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { RangeCustomEvent } from '@ionic/angular';
+import { RangeValue } from '@ionic/core';
 
 @Component({
   selector: 'app-side-menu',
@@ -7,10 +9,26 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SideMenuComponent  implements OnInit {
 
+  caballos: RangeValue = { lower: 200, upper: 800 };
+  precio: RangeValue = { lower: 50000, upper: 2000000 }
+
+
   constructor() { }
 
   ngOnInit() {
 
+  }
+
+  onCaballosChange(ev: Event) {
+    const rangeEvent = ev as RangeCustomEvent;
+    this.caballos = rangeEvent.detail.value;
+    console.log('Nuevo rango de caballos:', this.caballos);
+  }
+
+  onPrecioChange(ev: Event) {
+    const rangeEvent = ev as RangeCustomEvent; 
+    this.precio = rangeEvent.detail.value;
+    console.log('Nuevo rango de precios:', this.precio);
   }
 
 }

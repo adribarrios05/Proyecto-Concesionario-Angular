@@ -2,8 +2,8 @@ import { Observable } from "rxjs";
 import { Car } from "../../models/car.model";
 import { IBaseRepository } from "./base-repository.interface";
 import { Customer } from "../../models/customer.model";
+import { AppUser } from "../../models/appUser.model";
 
-export interface ICarRepository extends IBaseRepository<Car>{
-    getCustomerCar(carId: number): Observable<Customer>
-    getCustomerRentCar(carId: number): Observable<Customer>
+export interface IAppUserRepository extends IBaseRepository<AppUser>{
+    getCustomerFromUser(id: number): Observable<Customer>
 }
