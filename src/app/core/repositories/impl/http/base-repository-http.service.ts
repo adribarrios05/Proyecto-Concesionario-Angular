@@ -2,13 +2,13 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
-import { Model } from '../../models/base.model';
-import { Paginated } from '../../models/paginated.model';
-import { IStrapiAuthentication } from '../../services/interfaces/strapi-authentication.interface';
-import { IAuthentication } from '../../services/interfaces/authentication.interface';
-import { IBaseRepository, SearchParams } from '../interfaces/base-repository.interface';
-import { IBaseMapping } from '../interfaces/base-mapping.interface';
-import { API_URL_TOKEN, AUTH_TOKEN, REPOSITORY_MAPPING_TOKEN, RESOURCE_NAME_TOKEN } from '../repository.tokens';
+import { Model } from '../../../models/base.model';
+import { Paginated } from '../../../models/paginated.model';
+import { IStrapiAuthentication } from '../../../services/interfaces/strapi-authentication.interface';
+import { IAuthentication } from '../../../services/interfaces/authentication.interface';
+import { IBaseRepository, SearchParams } from '../../interfaces/base-repository.interface';
+import { IBaseMapping } from '../../interfaces/base-mapping.interface';
+import { API_URL_TOKEN, AUTH_TOKEN, REPOSITORY_MAPPING_TOKEN, RESOURCE_NAME_TOKEN } from '../../repository.tokens';
 
 
 @Injectable({

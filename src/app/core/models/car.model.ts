@@ -1,13 +1,21 @@
 import { Model } from "./base.model";
 
 export interface Car extends Model{
-    brand: String,
-    model: String,
-    price: Number,
-    doors: Number,
-    description: String,
-    horsePower: Number,
-    color: String,
-    type: String,
-    customerId?: Number
+    brand: string,
+    model: string,
+    price: number,
+    doors: number,
+    description: string,
+    horsePower: number,
+    color: string,
+    type: string,
+    plate: string,
+    customerSell?: number
+    picture?:{
+        url:string | undefined,
+        large:string | undefined,
+        medium:string | undefined,
+        small:string | undefined,
+        thumbnail:string | undefined
+    },
 }
