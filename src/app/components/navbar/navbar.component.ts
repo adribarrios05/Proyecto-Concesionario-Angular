@@ -13,7 +13,7 @@ export class NavBarComponent implements OnInit {
     { title: 'Inventory', url: '/inventory', icon: 'file-tray-full' },
     { title: 'Sales history', url: '/sales', icon: 'cash' },
     { title: 'Rent history', url: '/rents', icon: 'calendar' },
-    { title: 'Customers', url: '/a', icon: 'people' },
+    { title: 'Customers', url: '/customers', icon: 'people' },
   ];
 
   showMenu: boolean = true;

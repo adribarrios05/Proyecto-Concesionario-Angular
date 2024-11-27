@@ -11,7 +11,8 @@ import { NavBarComponent } from './components/navbar/navbar.component';
 import { InventoryPageModule } from './folder/pages/inventory/inventory.module';
 import { SharedModule } from './shared/shared.module';
 import { provideHttpClient } from '@angular/common/http';
-import { APPUSERS_API_URL_TOKEN, APPUSERS_RESOURCE_NAME_TOKEN, BACKEND_TOKEN, CAR_RESOURCE_NAME_TOKEN, CUSTOMER_RESOURCE_NAME_TOKEN } from './core/repositories/repository.tokens';
+import { APPUSERS_API_URL_TOKEN, APPUSERS_RESOURCE_NAME_TOKEN, BACKEND_TOKEN, CAR_API_URL_TOKEN, CAR_RESOURCE_NAME_TOKEN, CUSTOMER_API_URL_TOKEN, CUSTOMER_RESOURCE_NAME_TOKEN } from './core/repositories/repository.tokens';
+import { CarService } from './core/services/impl/car-service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -30,6 +31,15 @@ import { APPUSERS_API_URL_TOKEN, APPUSERS_RESOURCE_NAME_TOKEN, BACKEND_TOKEN, CA
   { provide: CAR_RESOURCE_NAME_TOKEN, useValue: 'cars' },
   { provide: CUSTOMER_RESOURCE_NAME_TOKEN, useValue: 'customers' },
   { provide: APPUSERS_API_URL_TOKEN, useValue: 'http://localhost:1337/api' },
+  { provide: CAR_API_URL_TOKEN, useValue: 'http://localhost:1337/api' },
+  { provide: CUSTOMER_API_URL_TOKEN, useValue: 'http://localhost:1337/api' },
+
+
+  {
+    provide: 'CarService',
+    useClass: CarService
+  }
+
   ],
     
   bootstrap: [AppComponent],
