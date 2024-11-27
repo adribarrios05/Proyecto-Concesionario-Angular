@@ -3,7 +3,7 @@ import { Platform } from '@ionic/angular';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Car } from 'src/app/core/models/car.model';
 import { Paginated } from 'src/app/core/models/paginated.model';
-import { CarService } from 'src/app/core/services/impl/car-service';
+import { CarService } from 'src/app/core/services/impl/car.service';
 
 @Component({
   selector: 'app-inventory',
@@ -15,20 +15,20 @@ export class InventoryPage implements OnInit {
 
   _cars: BehaviorSubject<Car[]> = new BehaviorSubject<Car[]>([]);
   cars$: Observable<Car[]> = this._cars.asObservable();
+
   constructor(
     private carSvc: CarService,
-    private platform: Platform
   ) { }
 
   ngOnInit() {
-    this.loadGroups()
+    this.loadCars()
   }
 
   page:number = 1;
   pageSize:number = 25;
   pages:number = 0;
 
-  loadGroups(){
+  loadCars(){
     this.page=1;
     this.carSvc.getAll(this.page, this.pageSize).subscribe({
       next:(response:Paginated<Car>)=>{
@@ -38,5 +38,4 @@ export class InventoryPage implements OnInit {
       }
     });
   }
-
 }

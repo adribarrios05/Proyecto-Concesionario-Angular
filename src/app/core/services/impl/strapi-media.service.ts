@@ -1,9 +1,9 @@
 import { HttpClient } from "@angular/common/http";
+import { BaseMediaService } from "./base-media.service";
 import { STRAPI_AUTH_TOKEN, UPLOAD_API_URL_TOKEN } from "../../repositories/repository.tokens";
 import { Inject } from "@angular/core";
 import { map, Observable } from "rxjs";
 import { IStrapiAuthentication } from "../interfaces/strapi-authentication.interface";
-import { BaseMediaService } from "./base-media.service";
 
 export type StrapiUploadResponse = StrapiMediaData[]
 

@@ -2,13 +2,14 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
-import { API_URL_TOKEN, REPOSITORY_MAPPING_TOKEN, RESOURCE_NAME_TOKEN, STRAPI_AUTH_TOKEN } from '../../repository.tokens';
-import { Model } from '../../../models/base.model';
-import { Paginated } from '../../../models/paginated.model';
-import { IStrapiAuthentication } from '../../../services/interfaces/strapi-authentication.interface';
-import { IBaseMapping } from '../../interfaces/base-mapping.interface';
-import { BaseRepositoryHttpService } from '../http/base-repository-http.service';
-import { SearchParams } from '../../interfaces/base-repository.interface';
+import { IBaseRepository, SearchParams } from '../intefaces/base-repository.interface';
+import { API_URL_TOKEN, REPOSITORY_MAPPING_TOKEN, RESOURCE_NAME_TOKEN, STRAPI_AUTH_TOKEN } from '../repository.tokens';
+import { Model } from '../../models/base.model';
+import { IBaseMapping } from '../intefaces/base-mapping.interface';
+import { Paginated } from '../../models/paginated.model';
+import { BaseRepositoryHttpService } from './base-repository-http.service';
+import { BaseAuthenticationService } from '../../services/impl/base-authentication.service';
+import { IStrapiAuthentication } from '../../services/interfaces/strapi-authentication.interface';
 
 export interface PaginatedRaw<T> {
   data: Data<T>[]
@@ -40,7 +41,7 @@ export class StrapiRepositoryService<T extends Model> extends BaseRepositoryHttp
 
   constructor(
     http: HttpClient,
-    @Inject(STRAPI_AUTH_TOKEN) auth: IStrapiAuthentication,
+    @Inject(STRAPI_AUTH_TOKEN) override auth: IStrapiAuthentication,
     @Inject(API_URL_TOKEN) apiUrl: string, // URL base de la API para el modelo
     @Inject(RESOURCE_NAME_TOKEN) resource:string, //nombre del recurso del repositorio
     @Inject(REPOSITORY_MAPPING_TOKEN) mapping:IBaseMapping<T>

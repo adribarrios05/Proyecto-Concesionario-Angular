@@ -1,7 +1,8 @@
-import { Observable } from "rxjs";
-import { Car } from "../../models/car.model";
-import { IBaseService } from "./base-service.interface";
+import { Observable } from 'rxjs';
+import { IBaseService } from './base-service.interface';
+import { Car } from '../../models/car.model';
 
-export interface ICarService extends IBaseService<Car>{
-    getByOwner(customerId: string): Observable< Car | null>
+export interface ICarService extends IBaseService<Car> {
+  // Métodos específicos si los hay
+  getByUserId(userId: string): Observable<Car | null>;
 }

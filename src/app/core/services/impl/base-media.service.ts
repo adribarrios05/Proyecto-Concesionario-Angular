@@ -7,4 +7,3 @@ import { Observable } from "rxjs";
   export abstract class BaseMediaService {  
     public abstract upload(blob:Blob):Observable<number[]>;
   }
-  

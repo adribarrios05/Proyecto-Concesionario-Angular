@@ -2,7 +2,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { IBaseService } from '../interfaces/base-service.interface';
-import { IBaseRepository, SearchParams } from '../../repositories/interfaces/base-repository.interface'
+import { IBaseRepository, SearchParams } from '../../repositories/intefaces/base-repository.interface';
 import { Model } from '../../models/base.model';
 import { Paginated } from '../../models/paginated.model';
 import { REPOSITORY_TOKEN } from '../../repositories/repository.tokens';

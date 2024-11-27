@@ -1,8 +1,9 @@
 import { Injectable } from "@angular/core";
-import { Paginated } from "../../../models/paginated.model";
-import { StrapiMedia } from "../../../services/impl/strapi-media.service";
-import { IBaseMapping } from "../../interfaces/base-mapping.interface";
-import { Customer } from "../../../models/customer.model";
+import { Customer } from "../../models/customer.model";
+import { Paginated } from "../../models/paginated.model";
+import { StrapiMedia } from "../../services/impl/strapi-media.service";
+import { IBaseMapping } from "../intefaces/base-mapping.interface";
+
 
 
 interface MediaRaw{
