@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { Platform } from '@ionic/angular';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Platform, RangeCustomEvent } from '@ionic/angular';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Car } from 'src/app/core/models/car.model';
 import { Paginated } from 'src/app/core/models/paginated.model';
 import { CarService } from 'src/app/core/services/impl/car.service';
+import { RangeValue } from '@ionic/core';
+
 
 @Component({
   selector: 'app-inventory',
@@ -13,6 +15,11 @@ import { CarService } from 'src/app/core/services/impl/car.service';
 })
 export class InventoryPage implements OnInit {
 
+  @Output() filterChange = new EventEmitter<any>();
+
+  caballos: RangeValue = { lower: 200, upper: 800 };
+  precio: RangeValue = { lower: 50000, upper: 2000000 }
+  marcasSeleccionadas: string[] = [];
   _cars: BehaviorSubject<Car[]> = new BehaviorSubject<Car[]>([]);
   cars$: Observable<Car[]> = this._cars.asObservable();
 
@@ -38,4 +45,26 @@ export class InventoryPage implements OnInit {
       }
     });
   }
+
+  onCaballosChange(ev: Event) {
+    const rangeEvent = ev as RangeCustomEvent;
+    this.caballos = rangeEvent.detail.value;
+    console.log('Nuevo rango de caballos:', this.caballos);
+  }
+
+  onPrecioChange(ev: Event) {
+    const rangeEvent = ev as RangeCustomEvent; 
+    this.precio = rangeEvent.detail.value;
+    console.log('Nuevo rango de precios:', this.precio);
+  }
+
+  onMarcaChange() {
+    /*this.filterChange.emit({
+      caballos: this.caballos,
+      precio: this.precio,
+      marcas: this.marcasSeleccionadas
+    });*/
+  }
+
+  
 }

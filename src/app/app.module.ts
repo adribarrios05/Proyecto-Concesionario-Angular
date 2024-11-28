@@ -11,9 +11,9 @@ import { NavBarComponent } from './components/navbar/navbar.component';
 import { InventoryPageModule } from './folder/pages/inventory/inventory.module';
 import { SharedModule } from './shared/shared.module';
 import { provideHttpClient } from '@angular/common/http';
-import { BACKEND_TOKEN, CAR_RESOURCE_NAME_TOKEN, CUSTOMER_RESOURCE_NAME_TOKEN, CAR_API_URL_TOKEN, CUSTOMER_API_URL_TOKEN } from './core/repositories/repository.tokens';
+import { BACKEND_TOKEN, CAR_RESOURCE_NAME_TOKEN, CUSTOMER_RESOURCE_NAME_TOKEN, CAR_API_URL_TOKEN, CUSTOMER_API_URL_TOKEN, AUTH_ME_API_URL_TOKEN, AUTH_SIGN_IN_API_URL_TOKEN, AUTH_SIGN_UP_API_URL_TOKEN, UPLOAD_API_URL_TOKEN } from './core/repositories/repository.tokens';
 import { CarService } from './core/services/impl/car.service';
-import { CarRepositoryFactory, CustomerRepositoryFactory } from './core/repositories/repository.factory';
+import { AuthMappingFactory, AuthenticationServiceFactory, CarMappingFactory, CarRepositoryFactory, CustomerMappingFactory, CustomerRepositoryFactory, MediaServiceFactory } from './core/repositories/repository.factory';
 
 @NgModule({
   declarations: [AppComponent],
@@ -34,10 +34,19 @@ import { CarRepositoryFactory, CustomerRepositoryFactory } from './core/reposito
   //{ provide: APPUSERS_API_URL_TOKEN, useValue: 'http://localhost:1337/api' },
   { provide: CAR_API_URL_TOKEN, useValue: 'http://localhost:1337/api' },
   { provide: CUSTOMER_API_URL_TOKEN, useValue: 'http://localhost:1337/api' },
+  { provide: AUTH_SIGN_IN_API_URL_TOKEN, useValue: 'http://localhost:1337/api/auth/local' },
+  { provide: AUTH_SIGN_UP_API_URL_TOKEN, useValue: 'http://localhost:1337/api/auth/local/register' },
+  { provide: AUTH_ME_API_URL_TOKEN, useValue: 'http://localhost:1337/api/users/me' },
+  { provide: UPLOAD_API_URL_TOKEN, useValue: 'http://localhost:1337/api/upload' },
 
+  CarMappingFactory,
+  CustomerMappingFactory,
+  AuthMappingFactory,
+  AuthenticationServiceFactory,
+  MediaServiceFactory,
   CarRepositoryFactory,
   CustomerRepositoryFactory,
-
+  
   {
     provide: 'CarService',
     useClass: CarService

@@ -8,6 +8,7 @@ import { User } from "../../models/auth.model";
 @Injectable({
     providedIn: 'root'
   })
+
 export abstract class BaseAuthenticationService implements IAuthentication{
     protected _authenticated:BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     public authenticated$:Observable<boolean> = this._authenticated.asObservable();
@@ -19,8 +20,9 @@ export abstract class BaseAuthenticationService implements IAuthentication{
     constructor(
         protected authMapping:IAuthMapping
     ){
-
+        
     }
+    
     abstract getCurrentUser(): Promise<any>;
     abstract signIn(authPayload: any): Observable<any>;
     abstract signUp(registerPayload: any): Observable<any>;

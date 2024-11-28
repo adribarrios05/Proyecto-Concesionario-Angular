@@ -3,5 +3,75 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <app-side-menu></app-side-menu>
+  
+  <ion-split-pane  contentId="main-content">
+    <ion-menu side="start" menuId="menu">
+      <ion-header>
+        <ion-toolbar class="dark-red">
+          <ion-title>Filtros</ion-title>
+        </ion-toolbar>
+      </ion-header>
+  
+      <ion-content>
+        <ion-list>
+  
+          <ion-item>
+            <ion-label>Caballos</ion-label>
+            <ion-range [(ngModel)]="caballos" [min]=200 [max]=800 step="10" [dualKnobs]="true" pin="true" (ionChange)="onCaballosChange($event)" >
+              <ion-label slot="start">{{ caballos.lower }}</ion-label>
+              <ion-label slot="end">{{ caballos.upper }}</ion-label>
+            </ion-range>
+          </ion-item>
+  
+          <ion-item>
+            <ion-label>Precio</ion-label>
+            <ion-range [(ngModel)]="precio" [min]=50000 [max]=2000000 step="1000" [dualKnobs]="true" pin="true" (ionChange)="onPrecioChange($event)" >
+              <ion-label slot="start">{{ precio.lower }}</ion-label>
+              <ion-label slot="end">{{ precio.upper }}</ion-label>
+            </ion-range>
+          </ion-item>
+  
+          <ion-item>
+            <ion-label>Marca</ion-label>
+          </ion-item>
+          <ion-list>
+            <ion-item>
+              <ion-checkbox slot="start" value="Ferrari" (ionChange)="onMarcaChange()"></ion-checkbox>
+              <ion-label>Ferrari</ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-checkbox slot="start" value="Lamborghini" (ionChange)="onMarcaChange()"></ion-checkbox>
+              <ion-label>Lamborghini</ion-label>
+            </ion-item>
+          </ion-list>
+  
+        </ion-list>
+      </ion-content>
+    </ion-menu>
+  
+
+    <div class="ion-page" id="main-content">
+      <ion-grid>
+        <ion-row>
+          <ion-col size="30"  *ngFor="let car of cars$ | async">
+            <ion-card>
+              <img *ngIf="car.picture?.url" [src]="car.picture?.url" alt="Car image" />
+              <ion-card-header>
+                <ion-card-title>{{ car.brand }} {{ car.model }}</ion-card-title>
+                <ion-card-subtitle>{{ car.price | currency }}</ion-card-subtitle>
+              </ion-card-header>
+              <ion-card-content>
+                <p><strong>Horse Power:</strong> {{ car.horsePower }}</p>
+                <p><strong>Doors:</strong> {{ car.doors }}</p>
+                <p><strong>Color:</strong> {{ car.color }}</p>
+                <p><strong>Type:</strong> {{ car.type }}</p>
+                <p><strong>Plate:</strong> {{ car.plate }}</p>
+                <p>{{ car.description }}</p>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+  </ion-split-pane>
 </ion-content>
