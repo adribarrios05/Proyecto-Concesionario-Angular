@@ -1,0 +1,69 @@
+/* login.page.scss */
+
+/* Fondo principal y botones */
+:host {
+    display: block;
+    --background: var(--ion-color-light);
+  }
+  
+  .login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    background-color: var(--ion-color-dark); /* Blanco */
+  }
+  
+  .login-box {
+    background-color: var(--ion-color-secondary); /* Gris suave */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+  }
+  
+  h2 {
+    color: var(--ion-color-primary); /* Rojo oscuro */
+    margin-bottom: 30px;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  ion-item {
+    margin-bottom: 20px;
+  }
+  
+  ion-label {
+    color: var(--ion-color-primary); /* Rojo oscuro */
+  }
+  
+  .login-button {
+    background-color: var(--ion-color-primary);
+    color: white;
+    font-size: 16px;
+    padding: 10px;
+    border-radius: 5px;
+  
+    &:hover {
+      background-color: darken(#550000, 10%);
+    }
+  }
+  
+  .signup-link {
+    margin-top: 20px;
+    color: var(--ion-color-primary); /* Rojo oscuro */
+    font-size: 14px;
+  }
+  
+  .signup-link a {
+    color: var(--ion-color-primary);
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .signup-link a:hover {
+    text-decoration: underline;
+  }
+  

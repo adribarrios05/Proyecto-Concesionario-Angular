@@ -21,6 +21,7 @@ ion-content{
   
   ion-col {
     padding: 0;
+    margin-bottom: 10px;
   }
   
   ion-card {
@@ -28,6 +29,7 @@ ion-content{
     flex-direction: column;
     height: 100%;
     margin: 10px;
+
     border-radius: 10px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   }

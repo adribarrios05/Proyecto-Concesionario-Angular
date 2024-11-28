@@ -1,17 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NavBarComponent } from '../components/navbar/navbar.component';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { SideMenuComponent } from '../components/side-menu/side-menu.component';
+import { ProfilePopoverComponent } from '../components/profile-popover/profile-popover.component';
 
 
 
 @NgModule({
   declarations: [
-    NavBarComponent,
-    SideMenuComponent
+    SideMenuComponent,
+    ProfilePopoverComponent
   ],
   imports: [
     CommonModule,
@@ -22,8 +22,8 @@ import { SideMenuComponent } from '../components/side-menu/side-menu.component';
   exports: [
     CommonModule,
     IonicModule,
-    NavBarComponent,
     SideMenuComponent,
+    ProfilePopoverComponent,
     FormsModule,
     RouterModule
   ]

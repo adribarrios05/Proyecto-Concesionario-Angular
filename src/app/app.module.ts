@@ -7,13 +7,13 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { LoginPageModule } from './folder/pages/login/login.module';
-import { NavBarComponent } from './components/navbar/navbar.component';
 import { InventoryPageModule } from './folder/pages/inventory/inventory.module';
 import { SharedModule } from './shared/shared.module';
 import { provideHttpClient } from '@angular/common/http';
 import { BACKEND_TOKEN, CAR_RESOURCE_NAME_TOKEN, CUSTOMER_RESOURCE_NAME_TOKEN, CAR_API_URL_TOKEN, CUSTOMER_API_URL_TOKEN, AUTH_ME_API_URL_TOKEN, AUTH_SIGN_IN_API_URL_TOKEN, AUTH_SIGN_UP_API_URL_TOKEN, UPLOAD_API_URL_TOKEN } from './core/repositories/repository.tokens';
 import { CarService } from './core/services/impl/car.service';
 import { AuthMappingFactory, AuthenticationServiceFactory, CarMappingFactory, CarRepositoryFactory, CustomerMappingFactory, CustomerRepositoryFactory, MediaServiceFactory } from './core/repositories/repository.factory';
+import { RegisterPageModule } from './folder/pages/register/register.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -21,6 +21,7 @@ import { AuthMappingFactory, AuthenticationServiceFactory, CarMappingFactory, Ca
     IonicModule.forRoot(), 
     AppRoutingModule,
     LoginPageModule,
+    RegisterPageModule,
     SharedModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
