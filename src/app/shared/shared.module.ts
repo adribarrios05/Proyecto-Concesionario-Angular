@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SideMenuComponent } from '../components/side-menu/side-menu.component';
 import { ProfilePopoverComponent } from '../components/profile-popover/profile-popover.component';
 
@@ -18,6 +18,7 @@ import { ProfilePopoverComponent } from '../components/profile-popover/profile-p
     IonicModule,
     RouterModule,
     FormsModule,
+    ReactiveFormsModule,
   ],
   exports: [
     CommonModule,
@@ -25,7 +26,8 @@ import { ProfilePopoverComponent } from '../components/profile-popover/profile-p
     SideMenuComponent,
     ProfilePopoverComponent,
     FormsModule,
-    RouterModule
+    RouterModule,
+    ReactiveFormsModule,
   ]
 })
 export class SharedModule { }

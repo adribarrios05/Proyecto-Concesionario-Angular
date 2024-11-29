@@ -1,5 +1,3 @@
-
-
 <ion-content fullscreen>
   <div class="login-container">
     <div class="login-box">
@@ -9,13 +7,27 @@
       <form (ngSubmit)="login()">
         <ion-item lines="full">
           <ion-label position="floating" >Correo electrónico</ion-label>
-          <ion-input [(ngModel)]="email" name="email" type="email" required></ion-input>
+          <ion-input  name="email" type="email" required></ion-input>
         </ion-item>
         
         <ion-item lines="full">
           <ion-label position="floating" >Contraseña</ion-label>
-          <ion-input [(ngModel)]="password" name="password" type="password" required></ion-input>
+          <ion-input  name="password" type="password" required></ion-input>
         </ion-item>
+
+        <!-- Errores -->
+        <ion-text color="danger" *ngIf="loginForm.get('email')?.hasError('required') && loginForm.get('email')?.touched">
+          El correo electrónico es obligatorio.
+        </ion-text>
+        <ion-text color="danger" *ngIf="loginForm.get('email')?.hasError('email') && loginForm.get('email')?.touched">
+          Por favor, ingresa un correo electrónico válido.
+        </ion-text>
+        <ion-text color="danger" *ngIf="loginForm.get('password')?.hasError('required') && loginForm.get('password')?.touched">
+          La contraseña es obligatoria.
+        </ion-text>
+        <ion-text color="danger" *ngIf="loginForm.get('password')?.hasError('minlength') && loginForm.get('password')?.touched">
+          La contraseña debe tener al menos 8 caracteres.
+        </ion-text>
 
         <ion-button expand="block" type="submit" class="login-button">Iniciar sesión</ion-button>
       </form>

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { LoadingController, NavController } from '@ionic/angular';
+import { LoadingController, NavController, PopoverController } from '@ionic/angular';
 import { BaseAuthenticationService } from 'src/app/core/services/impl/base-authentication.service';
 import { StrapiAuthenticationService } from 'src/app/core/services/impl/strapi-authentication.service';
 
@@ -16,26 +16,24 @@ export class ProfilePopoverComponent {
     private navCtrl: NavController,
     private authService: BaseAuthenticationService ,
     private loadingController: LoadingController,
+    private popoverController: PopoverController
 
   ) {
     // Verifica si el usuario está autenticado
     
   }
 
-  async ngOnInit() {
-    const loading = await this.loadingController.create();
-    await loading.present();
-
-    try {
-      const user = await this.authService.getCurrentUser();
-      if(user){
-          this.isLoggedIn = true
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      await loading.dismiss();
+  async onItemClick() {
+    // Tu lógica de navegación aquí.
+    if (this.isLoggedIn) {
+      // Redirigir a la página de perfil.
+      this.goToProfile()
+    } else {
+      // Redirigir a la página de inicio de sesión.
+      this.goToLogin()
     }
+    // Cerrar el popover.
+    await this.popoverController.dismiss();
   }
 
   goToProfile() {

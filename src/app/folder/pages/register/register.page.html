@@ -1,13 +1,45 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>register</ion-title>
-  </ion-toolbar>
+
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">register</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content fullscreen>
+  <div class="login-container">
+    <div class="login-box">
+      <h2>Bienvenido</h2>
+      
+      <!-- Formulario de Login -->
+      <form (ngSubmit)="register()">
+        <ion-item lines="full">
+          <ion-label position="floating" >Correo electrónico</ion-label>
+          <ion-input  name="email" type="email" required></ion-input>
+        </ion-item>
+        
+        <ion-item lines="full">
+          <ion-label position="floating" >Contraseña</ion-label>
+          <ion-input  name="password" type="password" required></ion-input>
+        </ion-item>
+
+        <!-- Errores -->
+        <ion-text color="danger" *ngIf="loginForm.get('email')?.hasError('required') && loginForm.get('email')?.touched">
+          El correo electrónico es obligatorio.
+        </ion-text>
+        <ion-text color="danger" *ngIf="loginForm.get('email')?.hasError('email') && loginForm.get('email')?.touched">
+          Por favor, ingresa un correo electrónico válido.
+        </ion-text>
+        <ion-text color="danger" *ngIf="loginForm.get('password')?.hasError('required') && loginForm.get('password')?.touched">
+          La contraseña es obligatoria.
+        </ion-text>
+        <ion-text color="danger" *ngIf="loginForm.get('password')?.hasError('minlength') && loginForm.get('password')?.touched">
+          La contraseña debe tener al menos 8 caracteres.
+        </ion-text>
+
+        <ion-button expand="block" type="submit" class="login-button">Iniciar sesión</ion-button>
+      </form>
+      
+      <!-- Enlace para registro -->
+      <div class="signup-link">
+        <p>No tienes cuenta? <a [routerLink]="['/register']">Regístrate aquí</a></p>
+      </div>
+    </div>
+  </div>
 </ion-content>
