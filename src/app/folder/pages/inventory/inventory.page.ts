@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { Car } from 'src/app/core/models/car.model';
 import { Paginated } from 'src/app/core/models/paginated.model';
 import { CarService } from 'src/app/core/services/impl/car.service';
-import { RangeValue } from '@ionic/core';
+import { InfiniteScrollCustomEvent, RangeValue } from '@ionic/core';
 
 
 @Component({
@@ -32,7 +32,7 @@ export class InventoryPage implements OnInit {
   }
 
   page:number = 1;
-  pageSize:number = 25;
+  pageSize:number = 4;
   pages:number = 0;
 
   loadCars(){
@@ -44,6 +44,20 @@ export class InventoryPage implements OnInit {
         this.pages = response.pages;
       }
     });
+  }
+
+  loadMoreCars(notify: HTMLIonInfiniteScrollElement | null = null){
+    if(this.page<=this.pages){
+      this.carSvc.getAll(this.page, this.pageSize).subscribe({
+        next:(response:Paginated<Car>)=>{
+          this._cars.next([...this._cars.value, ...response.data])
+          this.page++
+          notify?.complete()
+        }
+      })
+    } else {
+      notify?.complete()
+    }
   }
 
   onCaballosChange(ev: Event) {
@@ -64,6 +78,10 @@ export class InventoryPage implements OnInit {
       precio: this.precio,
       marcas: this.marcasSeleccionadas
     });*/
+  }
+
+  onIonInfinite(ev: InfiniteScrollCustomEvent) {
+    this.loadMoreCars(ev.target)
   }
 
   

@@ -20,11 +20,8 @@ interface UserData{
 interface UserAttributes {
     username: string
     email: string
-    provider: string
-    confirmed: boolean
-    blocked: boolean
-    createdAt: string
-    updatedAt: string
+    imageUrl: string,
+    customerId: string
   }
 
 interface CarRaw{

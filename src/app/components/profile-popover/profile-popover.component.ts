@@ -14,8 +14,6 @@ export class ProfilePopoverComponent {
 
   constructor(
     private navCtrl: NavController,
-    private authService: BaseAuthenticationService ,
-    private loadingController: LoadingController,
     private popoverController: PopoverController
 
   ) {
@@ -24,23 +22,12 @@ export class ProfilePopoverComponent {
   }
 
   async onItemClick() {
-    // Tu lógica de navegación aquí.
+
     if (this.isLoggedIn) {
-      // Redirigir a la página de perfil.
-      this.goToProfile()
+      //this.navCtrl.navigateForward('/profile'); 
     } else {
-      // Redirigir a la página de inicio de sesión.
-      this.goToLogin()
+      this.navCtrl.navigateForward('/login'); 
     }
-    // Cerrar el popover.
     await this.popoverController.dismiss();
-  }
-
-  goToProfile() {
-    this.navCtrl.navigateForward('/profile');  // Redirige al perfil
-  }
-
-  goToLogin() {
-    this.navCtrl.navigateForward('/login');  // Redirige al login
   }
 }

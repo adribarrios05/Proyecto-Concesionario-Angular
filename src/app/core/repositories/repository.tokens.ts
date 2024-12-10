@@ -8,25 +8,19 @@ import { ICarRepository } from './intefaces/car-repository.interface';
 import { ICustomerRepository } from './intefaces/customer-repository.interface';
 import { Car } from '../models/car.model';
 import { Customer } from '../models/customer.model';
-import { AppUser } from '../models/appUser.model';
-import { IAuthMapping } from '../services/interfaces/auth-mapping.interface';
 import { User } from '../models/auth.model';
-import { IAppUserRepository } from './intefaces/appUser-repository.interface';
 
 export const RESOURCE_NAME_TOKEN = new InjectionToken<string>('ResourceName');
 export const CAR_RESOURCE_NAME_TOKEN = new InjectionToken<string>('CarResourceName');
 export const CUSTOMER_RESOURCE_NAME_TOKEN = new InjectionToken<string>('CustomerResourceName');
-export const APPUSER_RESOURCE_NAME_TOKEN = new InjectionToken<string>('AppUserResourceName');
 export const REPOSITORY_TOKEN = new InjectionToken<IBaseRepository<any>>('REPOSITORY_TOKEN');
 export const CAR_REPOSITORY_TOKEN = new InjectionToken<ICarRepository>('ICarRepository');
 export const CUSTOMER_REPOSITORY_TOKEN = new InjectionToken<ICustomerRepository>('ICustomerRepository');
-export const APPUSER_REPOSITORY_TOKEN = new InjectionToken<IAppUserRepository>('IAppUserRepository');
 
 
 export const API_URL_TOKEN = new InjectionToken<string>('ApiUrl');
 export const CAR_API_URL_TOKEN = new InjectionToken<string>('CarApiUrl');
 export const CUSTOMER_API_URL_TOKEN = new InjectionToken<string>('CustomerApiUrl');
-export const APPUSER_API_URL_TOKEN = new InjectionToken<string>('AppUserApiUrl');
 
 export const AUTH_SIGN_IN_API_URL_TOKEN = new InjectionToken<string>('AuthSignInApiUrl');
 export const AUTH_SIGN_UP_API_URL_TOKEN = new InjectionToken<string>('AuthSignUpApiUrl');
@@ -36,7 +30,6 @@ export const UPLOAD_API_URL_TOKEN = new InjectionToken<string>('UploadApiUrl');
 export const REPOSITORY_MAPPING_TOKEN = new InjectionToken<IBaseMapping<any>>('IBaseRepositoryMapping');
 export const CAR_REPOSITORY_MAPPING_TOKEN = new InjectionToken<IBaseMapping<Car>>('ICarRepositoryMapping');
 export const CUSTOMER_REPOSITORY_MAPPING_TOKEN = new InjectionToken<IBaseMapping<Customer>>('ICustomerRepositoryMapping');
-export const APPUSER_REPOSITORY_MAPPING_TOKEN = new InjectionToken<IBaseMapping<AppUser>>('IAppUserRepositoryMapping');
 export const AUTH_TOKEN = new InjectionToken<IAuthentication>('IAuthentication');
 export const STRAPI_AUTH_TOKEN = new InjectionToken<IStrapiAuthentication>('IStrapiAuthentication');
 export const AUTH_MAPPING_TOKEN = new InjectionToken<IBaseMapping<User>>('IAuthMapping');

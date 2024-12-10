@@ -42,6 +42,22 @@
               <ion-checkbox slot="start" value="Lamborghini" (ionChange)="onMarcaChange()"></ion-checkbox>
               <ion-label>Lamborghini</ion-label>
             </ion-item>
+            <ion-item>
+              <ion-checkbox slot="start" value="Aston Martin" (ionChange)="onMarcaChange()"></ion-checkbox>
+              <ion-label>Aston Martin</ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-checkbox slot="start" value="Bugatti" (ionChange)="onMarcaChange()"></ion-checkbox>
+              <ion-label>Bugatti</ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-checkbox slot="start" value="BMW" (ionChange)="onMarcaChange()"></ion-checkbox>
+              <ion-label>BMW</ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-checkbox slot="start" value="Porsche" (ionChange)="onMarcaChange()"></ion-checkbox>
+              <ion-label>Porsche</ion-label>
+            </ion-item> 
           </ion-list>
   
         </ion-list>
@@ -49,13 +65,13 @@
     </ion-menu>
   
 
-    <div class="ion-page" id="main-content">
+    <ion-content id="main-content">
       <ion-grid>
         <ion-row>
           <ion-col size="20" size-md="10" size-lg="6"  *ngFor="let car of cars$ | async">
             <ion-card >
               <ion-img *ngIf="car.picture?.url" [src]="car.picture?.url" alt="Car image" />
-              <!--<ion-img *ngIf="!car.picture?.url" [src]="defaultImage" alt="Car image"/>-->
+              <ion-img *ngIf="!car.picture?.url" [src]="car.picture?.url" alt="Car image"/>
               <ion-card-header>
                 <ion-card-title>{{ car.brand }} {{ car.model }}</ion-card-title>
                 <ion-card-subtitle>{{ car.price | currency }}</ion-card-subtitle>
@@ -72,6 +88,12 @@
           </ion-col>
         </ion-row>
       </ion-grid>
-    </div>
+      <ion-infinite-scroll threshold="100px" (ionInfinite)="onIonInfinite($event)">
+        <ion-infinite-scroll-content
+          loadingSpinner="bubbles"
+          loadingText="Cargando más coches...">
+        </ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+    </ion-content>
   </ion-split-pane>
 </ion-content>

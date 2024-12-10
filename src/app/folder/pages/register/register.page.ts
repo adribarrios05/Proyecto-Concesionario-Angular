@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { User } from 'src/app/core/models/auth.model';
-import { AppUserService } from 'src/app/core/services/impl/appUser.service';
 import { BaseAuthenticationService } from 'src/app/core/services/impl/base-authentication.service';
-import { passwordValidator, passwordsMatchValidator } from 'src/app/core/utils/validators';
+import { CustomerService } from 'src/app/core/services/impl/customer.service';
+import { passwordsMatchValidator, passwordValidator } from 'src/app/core/utils/validators';
 
 @Component({
   selector: 'app-register',
@@ -20,7 +20,7 @@ export class RegisterPage {
     private router: Router,
     private route:ActivatedRoute,
     private authSvc:BaseAuthenticationService,
-    private appuserSvc:AppUserService
+    private customerSvc: CustomerService,
   ) {
     this.registerForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2)]],
@@ -32,7 +32,7 @@ export class RegisterPage {
     { validators: passwordsMatchValidator });
   }
 
-  register() {
+  onSubmit() {
     if (this.registerForm.valid) {
       this.authSvc.signUp(this.registerForm.value).subscribe({
         next: (resp:User) => {
@@ -41,7 +41,7 @@ export class RegisterPage {
             userId: resp.id.toString()
           };
           
-          this.appuserSvc.add(userData).subscribe({
+          this.customerSvc.add(userData).subscribe({
             next: resp => {
               const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/home';
               this.router.navigateByUrl(returnUrl);

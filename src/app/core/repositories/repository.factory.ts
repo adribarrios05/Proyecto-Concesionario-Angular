@@ -3,7 +3,7 @@ import { FactoryProvider, InjectionToken } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BaseRepositoryHttpService } from './impl/base-repository-http.service';
 import { IBaseRepository } from './intefaces/base-repository.interface';
-import { APPUSER_API_URL_TOKEN, APPUSER_REPOSITORY_MAPPING_TOKEN, APPUSER_REPOSITORY_TOKEN, APPUSER_RESOURCE_NAME_TOKEN, AUTH_MAPPING_TOKEN, AUTH_ME_API_URL_TOKEN, AUTH_SIGN_IN_API_URL_TOKEN, AUTH_SIGN_UP_API_URL_TOKEN, BACKEND_TOKEN, CAR_API_URL_TOKEN, CAR_REPOSITORY_MAPPING_TOKEN, CAR_REPOSITORY_TOKEN, CAR_RESOURCE_NAME_TOKEN, CUSTOMER_API_URL_TOKEN, CUSTOMER_REPOSITORY_MAPPING_TOKEN, CUSTOMER_REPOSITORY_TOKEN, CUSTOMER_RESOURCE_NAME_TOKEN, UPLOAD_API_URL_TOKEN } from './repository.tokens';
+import { AUTH_MAPPING_TOKEN, AUTH_ME_API_URL_TOKEN, AUTH_SIGN_IN_API_URL_TOKEN, AUTH_SIGN_UP_API_URL_TOKEN, BACKEND_TOKEN, CAR_API_URL_TOKEN, CAR_REPOSITORY_MAPPING_TOKEN, CAR_REPOSITORY_TOKEN, CAR_RESOURCE_NAME_TOKEN, CUSTOMER_API_URL_TOKEN, CUSTOMER_REPOSITORY_MAPPING_TOKEN, CUSTOMER_REPOSITORY_TOKEN, CUSTOMER_RESOURCE_NAME_TOKEN, UPLOAD_API_URL_TOKEN } from './repository.tokens';
 import { BaseRespositoryLocalStorageService } from './impl/base-repository-local-storage.service';
 import { Model } from '../models/base.model';
 import { IBaseMapping } from './intefaces/base-mapping.interface';
@@ -47,7 +47,7 @@ export function createBaseRepositoryFactory<T extends Model>(
 export function createBaseMappingFactory<T extends Model>(
   token: InjectionToken<IBaseMapping<T>>,
   dependencies: any[],
-  modelType: 'car' | 'customer'
+  modelType: 'car' | 'customer',
 ): FactoryProvider {
   return {
     provide: token,
@@ -147,6 +147,4 @@ export const CarRepositoryFactory: FactoryProvider = createBaseRepositoryFactory
 export const CustomerRepositoryFactory: FactoryProvider = createBaseRepositoryFactory<Customer>(CUSTOMER_REPOSITORY_TOKEN,
   [BACKEND_TOKEN, HttpClient, BaseAuthenticationService, CUSTOMER_API_URL_TOKEN, CUSTOMER_RESOURCE_NAME_TOKEN, CUSTOMER_REPOSITORY_MAPPING_TOKEN]
 );
-export const AppUserRepositoryFactory: FactoryProvider = createBaseRepositoryFactory<Customer>(APPUSER_REPOSITORY_TOKEN,
-  [BACKEND_TOKEN, HttpClient, BaseAuthenticationService, APPUSER_API_URL_TOKEN, APPUSER_RESOURCE_NAME_TOKEN, APPUSER_REPOSITORY_MAPPING_TOKEN]
-);
+
