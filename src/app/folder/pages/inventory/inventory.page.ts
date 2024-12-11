@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ModalController, Platform, RangeCustomEvent } from '@ionic/angular';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, timer } from 'rxjs';
 import { Car } from 'src/app/core/models/car.model';
 import { Paginated } from 'src/app/core/models/paginated.model';
 import { CarService } from 'src/app/core/services/impl/car.service';
@@ -84,11 +84,11 @@ export class InventoryPage implements OnInit {
   }
 
   onIonInfinite(ev: InfiniteScrollCustomEvent) {
-    do{
-      this.isLoading = true
-      this.loadMoreCars(ev.target)
-    }while(this.page>=this.pages)
-      this.isLoading = false
+    timer(1000).subscribe({
+      next:(value)=>{
+        this.loadMoreCars(ev.target)
+      }
+    })
   }
 
   async openCarModal() {
