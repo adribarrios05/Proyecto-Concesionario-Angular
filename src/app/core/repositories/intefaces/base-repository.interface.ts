@@ -11,4 +11,5 @@ export interface IBaseRepository<T extends Model> {
   add(entity: T): Observable<T>; // Retorna el ID generado
   update(id: string, entity: T): Observable<T>;
   delete(id: string): Observable<T>;
+  uploadImage?(file: File): Observable<any>;
 }

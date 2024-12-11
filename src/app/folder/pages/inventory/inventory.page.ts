@@ -1,10 +1,11 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { Platform, RangeCustomEvent } from '@ionic/angular';
+import { ModalController, Platform, RangeCustomEvent } from '@ionic/angular';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Car } from 'src/app/core/models/car.model';
 import { Paginated } from 'src/app/core/models/paginated.model';
 import { CarService } from 'src/app/core/services/impl/car.service';
 import { InfiniteScrollCustomEvent, RangeValue } from '@ionic/core';
+import { CarModalComponent } from 'src/app/components/car-modal/car-modal.component';
 
 
 @Component({
@@ -24,6 +25,7 @@ export class InventoryPage implements OnInit {
   cars$: Observable<Car[]> = this._cars.asObservable();
 
   constructor(
+    private modalCtrl: ModalController,
     private carSvc: CarService,
   ) { }
 
@@ -34,6 +36,7 @@ export class InventoryPage implements OnInit {
   page:number = 1;
   pageSize:number = 4;
   pages:number = 0;
+  isLoading: boolean = true
 
   loadCars(){
     this.page=1;
@@ -73,16 +76,41 @@ export class InventoryPage implements OnInit {
   }
 
   onMarcaChange() {
-    /*this.filterChange.emit({
+    this.filterChange.emit({
       caballos: this.caballos,
       precio: this.precio,
       marcas: this.marcasSeleccionadas
-    });*/
+    });
   }
 
   onIonInfinite(ev: InfiniteScrollCustomEvent) {
-    this.loadMoreCars(ev.target)
+    do{
+      this.isLoading = true
+      this.loadMoreCars(ev.target)
+    }while(this.page>=this.pages)
+      this.isLoading = false
   }
 
+  async openCarModal() {
+    const modal = await this.modalCtrl.create({
+      component: CarModalComponent,
+    });
   
+    modal.onDidDismiss().then((result) => {
+      if (result.data) {
+        const { carData, file } = result.data;
+  
+        /*this.carSvc.uploadImage(file).subscribe((uploadResp) => {
+          carData.picture = { url: uploadResp.url };
+  
+          this.carSvc.add(carData).subscribe(() => {
+            this.cars$ = this.carSvc.getAll(); 
+          });
+        });*/
+      }
+    });
+  
+    await modal.present();
+  }
+
 }

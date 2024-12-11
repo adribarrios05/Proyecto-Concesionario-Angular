@@ -6,8 +6,7 @@ export interface SignInPayload{
 export interface SignUpPayload{
     email:string,
     password:string,
-    name:string,
-    surname:string,
+    username: string,
     birthDate:string,
     gender:string,
     group:string,

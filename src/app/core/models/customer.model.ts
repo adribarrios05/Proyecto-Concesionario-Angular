@@ -3,10 +3,9 @@ import { Model } from "./base.model";
 export interface Customer extends Model{
     name: string,
     surname: string,
-    DNI: string,
+    dni: string,
     phone: string,
-    age: string,
-    gender: string,
+    age: Date,
     carRent?: number,
     userId?: number,
     picture?:{

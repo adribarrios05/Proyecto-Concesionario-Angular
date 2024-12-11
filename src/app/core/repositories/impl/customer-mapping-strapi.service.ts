@@ -3,6 +3,7 @@ import { Customer } from "../../models/customer.model";
 import { Paginated } from "../../models/paginated.model";
 import { StrapiMedia } from "../../services/impl/strapi-media.service";
 import { IBaseMapping } from "../intefaces/base-mapping.interface";
+import { map } from "rxjs";
 
 
 
@@ -42,10 +43,9 @@ interface CustomerData {
 interface CustomerAttributes {
     name: string
     surname: string,
-    DNI: string,
+    dni: string,
     phone: string,
-    age: string,
-    gender: string
+    age: Date,
     createdAt?: string
     updatedAt?: string
     publishedAt?: string
@@ -97,10 +97,9 @@ interface Meta {}
             data:{
                 name: data.name,
                 surname: data.surname,
-                DNI: data.DNI,
+                dni: data.dni,
                 phone: data.phone,
                 age: data.age,
-                gender: data.gender,
                 carRent: data.carRent ? Number(data.carRent) : null,
                 appUser: data.userId ? Number(data.userId) : null,
                 createdAt: data.createdAt,
@@ -119,13 +118,11 @@ interface Meta {}
                 break;
                 case 'surname': mappedData.surname = data[key];
                 break;
-                case 'DNI': mappedData.DNI = data[key];
+                case 'dni': mappedData.dni = data[key];
                 break;
                 case 'phone': mappedData.phone = data[key];
                 break;
                 case 'age': mappedData.age = data[key];
-                break;
-                case 'gender': mappedData.gender = data[key];
                 break;
                 case 'carRent': mappedData.carRent = data[key] ? Number(data[key]) : null;
                 break;
@@ -156,10 +153,9 @@ interface Meta {}
             id: id.toString(),
             name: attributes.name,
             surname: attributes.surname,
-            DNI: attributes.DNI,
+            dni: attributes.dni,
             phone: attributes.phone,
             age: attributes.age,
-            gender: attributes.gender,
             carRent: typeof attributes.carRent === 'object' ? attributes.carRent?.data?.id/*.toString()*/ : undefined,
             userId: typeof attributes.appUser === 'object' ? attributes.appUser?.data?.id/*.toString()*/ : undefined,
             picture: typeof attributes.picture === 'object' ? {

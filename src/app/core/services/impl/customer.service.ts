@@ -5,6 +5,7 @@ import { Customer } from '../../models/customer.model';
 import { ICustomerService } from '../interfaces/customer-service.interface';
 import { CUSTOMER_REPOSITORY_TOKEN } from '../../repositories/repository.tokens';
 import { ICustomerRepository } from '../../repositories/intefaces/customer-repository.interface';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,10 @@ export class CustomerService extends BaseService<Customer> implements ICustomerS
     @Inject(CUSTOMER_REPOSITORY_TOKEN) repository: ICustomerRepository
   ) {
     super(repository);
+  }
+
+  override add(entity: any): Observable<Customer> {
+      return this.repository.add(entity);
   }
 
   // Implementa métodos específicos si los hay

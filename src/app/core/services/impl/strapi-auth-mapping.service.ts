@@ -65,7 +65,7 @@ export interface GroupRaw {
         return {
             email:payload.email,
             password:payload.password,
-            username:payload.name + " "+ payload.surname
+            username:payload.username
         };
     }
     signIn(response: StrapiSignInResponse): User {

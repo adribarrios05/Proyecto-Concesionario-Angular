@@ -1,0 +1,67 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Añadir Coche</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="addCarForm" (ngSubmit)="addCar()">
+    <!-- Datos del coche -->
+    <ion-item>
+      <ion-label position="floating">Marca</ion-label>
+      <ion-input formControlName="brand"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Modelo</ion-label>
+      <ion-input formControlName="model"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Precio</ion-label>
+      <ion-input formControlName="price" type="number"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Caballos</ion-label>
+      <ion-input formControlName="horsePower" type="number"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Puertas</ion-label>
+      <ion-input formControlName="doors" type="number"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Color</ion-label>
+      <ion-input formControlName="color"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Tipo</ion-label>
+      <ion-input formControlName="type"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Placa</ion-label>
+      <ion-input formControlName="plate"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Descripción</ion-label>
+      <ion-textarea formControlName="description"></ion-textarea>
+    </ion-item>
+
+    <!-- Subir Imagen -->
+    <ion-item>
+      <ion-label position="floating">Imagen</ion-label>
+      <input type="file" (change)="onFileSelected($event)" />
+    </ion-item>
+
+    <ion-item *ngIf="imagePreview">
+      <ion-label>Vista previa:</ion-label>
+      <ion-img [src]="imagePreview"></ion-img>
+    </ion-item>
+
+    <ion-button expand="block" type="submit" [disabled]="addCarForm.invalid || !selectedFile">
+      Añadir Coche
+    </ion-button>
+  </form>
+</ion-content>

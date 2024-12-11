@@ -49,7 +49,7 @@ export class StrapiRepositoryService<T extends Model> extends BaseRepositoryHttp
     super(http, auth, apiUrl, resource, mapping);
   }
 
-  private getHeaders() {
+  protected getHeaders() {
     const token = this.auth.getToken();
     return {
       headers: token ? { 'Authorization': `Bearer ${token}` } : undefined
@@ -62,7 +62,7 @@ export class StrapiRepositoryService<T extends Model> extends BaseRepositoryHttp
       .reduce((p, v) => `${p}${v}`, "");
     if(page!=-1){
       return this.http.get<PaginatedRaw<T>>(
-        `${this.apiUrl}/${this.resource}?pagination[page]=${page}&pagination[pageSize]=${pageSize}&${search}&populate=user,group,picture`, 
+        `${this.apiUrl}/${this.resource}?pagination[page]=${page}&pagination[pageSize]=${pageSize}&${search}&populate=user,customer,picture`, 
         this.getHeaders()).pipe(map(res=>{
           return this.mapping.getPaginated(page, pageSize, res.meta.pagination.total, res.data);
         }));

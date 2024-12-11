@@ -5,13 +5,15 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SideMenuComponent } from '../components/side-menu/side-menu.component';
 import { ProfilePopoverComponent } from '../components/profile-popover/profile-popover.component';
+import { CarModalComponent } from '../components/car-modal/car-modal.component';
 
 
 
 @NgModule({
   declarations: [
     SideMenuComponent,
-    ProfilePopoverComponent
+    ProfilePopoverComponent,
+    CarModalComponent
   ],
   imports: [
     CommonModule,
@@ -25,6 +27,7 @@ import { ProfilePopoverComponent } from '../components/profile-popover/profile-p
     IonicModule,
     SideMenuComponent,
     ProfilePopoverComponent,
+    CarModalComponent,
     FormsModule,
     RouterModule,
     ReactiveFormsModule,

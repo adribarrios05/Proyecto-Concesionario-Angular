@@ -64,6 +64,7 @@ export class StrapiAuthenticationService extends BaseAuthenticationService imple
   }
 
   signUp(signUpPayload: any): Observable<User> {
+    console.log('Payload enviado al backend:', this.authMapping.signUpPayload(signUpPayload));
     return this.httpClient.post<StrapiSignUpResponse>(
       `${this.signUpUrl}`, 
       this.authMapping.signUpPayload(signUpPayload)).pipe(map((resp:StrapiSignUpResponse)=>{

@@ -15,3 +15,10 @@ export function passwordsMatchValidator(group: AbstractControl): ValidationError
   return password === confirmPassword ? null : { passwordsMismatch: 'Las contraseñas no coinciden' };
 }
 
+export function dniValidator(control: AbstractControl): ValidationErrors | null {
+  const dniRegex = /^\d{8}[A-Z]$/
+  const valid = dniRegex.test(control.value);
+
+  return valid ? null : { dniValidation: 'El DNI no existe' }
+}
+
