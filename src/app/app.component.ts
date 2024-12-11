@@ -10,6 +10,8 @@ import { ProfilePopoverComponent } from './components/profile-popover/profile-po
 })
 export class AppComponent {
   showNavbar: boolean = true;
+  isLoggedIn: boolean = false; 
+  profileImageUrl: string = ''; 
   public appPages = [
     { title: 'Home', url: '/home', icon: 'home' },
     { title: 'Inventory', url: '/inventory', icon: 'file-tray-full' },
@@ -38,6 +40,7 @@ export class AppComponent {
   }
 
   async presentPopover(event: Event) {
+    console.log("Llamada al popover")
     const popover = await this.popoverController.create({
       component: ProfilePopoverComponent,
       event: event,

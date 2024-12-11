@@ -5,7 +5,7 @@ import { Customer } from '../../models/customer.model';
 import { ICustomerService } from '../interfaces/customer-service.interface';
 import { CUSTOMER_REPOSITORY_TOKEN } from '../../repositories/repository.tokens';
 import { ICustomerRepository } from '../../repositories/intefaces/customer-repository.interface';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -17,9 +17,9 @@ export class CustomerService extends BaseService<Customer> implements ICustomerS
     super(repository);
   }
 
-  override add(entity: any): Observable<Customer> {
-      return this.repository.add(entity);
+  getByUserId(userId: string): Observable<Customer | null> {
+    return this.repository.getAll(1, 1, {user: userId}).pipe(
+      map(res => Array.isArray(res) ? res[0] || null : res.data[0] || null)
+    );
   }
-
-  // Implementa métodos específicos si los hay
 }

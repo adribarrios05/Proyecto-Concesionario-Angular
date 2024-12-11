@@ -44,15 +44,15 @@ export class RegisterPage {
       this.authSvc.signUp(this.registerForm.value).subscribe({
         next: (resp:User) => {
           console.log('Respuesta del backend:', resp);
-          const userData = {
+          let userData = {
             ...this.registerForm.value,
             userId: resp.id,
-            age: this.convertToISODate(this.registerForm.value.age)
           };
+
 
           console.log('Datos del cliente después de formatear la fecha:', userData);
 
-          this.customerSvc.add({userData}).subscribe({
+          this.customerSvc.add(userData).subscribe({
             next: resp => {
               console.log('Customer registrado: ', resp)
               const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/home';
@@ -78,11 +78,6 @@ export class RegisterPage {
     this.router.navigate(['/login'], {queryParams:{ returnUrl:returnUrl}, replaceUrl:true});
   }
 
-  convertToISODate(date: string): string {
-    const [day, month, year] = date.split('-');
-  
-    return `${year}-${month}-${day}`;
-  }
 
   get name() {
     return this.registerForm.get('name');

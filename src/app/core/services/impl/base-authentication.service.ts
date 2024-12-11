@@ -10,6 +10,7 @@ import { User } from "../../models/auth.model";
   })
 
 export abstract class BaseAuthenticationService implements IAuthentication{
+
     protected _authenticated:BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     public authenticated$:Observable<boolean> = this._authenticated.asObservable();
 

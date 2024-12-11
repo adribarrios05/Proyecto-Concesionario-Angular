@@ -10,12 +10,16 @@ import { LoginPageModule } from './folder/pages/login/login.module';
 import { InventoryPageModule } from './folder/pages/inventory/inventory.module';
 import { SharedModule } from './shared/shared.module';
 import { provideHttpClient } from '@angular/common/http';
-import { BACKEND_TOKEN, CAR_RESOURCE_NAME_TOKEN, CUSTOMER_RESOURCE_NAME_TOKEN, CAR_API_URL_TOKEN, CUSTOMER_API_URL_TOKEN, AUTH_ME_API_URL_TOKEN, AUTH_SIGN_IN_API_URL_TOKEN, AUTH_SIGN_UP_API_URL_TOKEN, UPLOAD_API_URL_TOKEN } from './core/repositories/repository.tokens';
+import { BACKEND_TOKEN, CAR_RESOURCE_NAME_TOKEN, CUSTOMER_RESOURCE_NAME_TOKEN, CAR_API_URL_TOKEN, CUSTOMER_API_URL_TOKEN, AUTH_ME_API_URL_TOKEN, AUTH_SIGN_IN_API_URL_TOKEN, AUTH_SIGN_UP_API_URL_TOKEN, UPLOAD_API_URL_TOKEN, STRAPI_AUTH_TOKEN } from './core/repositories/repository.tokens';
 import { CarService } from './core/services/impl/car.service';
 import { CustomerService } from './core/services/impl/customer.service';
 import { AuthMappingFactory, AuthenticationServiceFactory, CarMappingFactory, CarRepositoryFactory, CustomerMappingFactory, CustomerRepositoryFactory, MediaServiceFactory } from './core/repositories/repository.factory';
 import { RegisterPageModule } from './folder/pages/register/register.module';
-import { environment } from 'src/environments/environment.prod';
+import { environment } from 'src/environments/environment';
+import { BaseAuthenticationService } from './core/services/impl/base-authentication.service';
+import { StrapiAuthenticationService } from './core/services/impl/strapi-authentication.service';
+import { IStrapiAuthentication } from './core/services/interfaces/strapi-authentication.interface';
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -54,6 +58,10 @@ import { environment } from 'src/environments/environment.prod';
   {
     provide: 'CustomerService',
     useClass: CustomerService
+  },
+  {
+    provide: STRAPI_AUTH_TOKEN,
+    useClass: StrapiAuthenticationService,
   }
 
   ],

@@ -7,6 +7,8 @@ import { SideMenuComponent } from '../components/side-menu/side-menu.component';
 import { ProfilePopoverComponent } from '../components/profile-popover/profile-popover.component';
 import { CarModalComponent } from '../components/car-modal/car-modal.component';
 import { PictureSelectableComponent } from '../components/picture-selectable/picture-selectable.component';
+import { BaseAuthenticationService } from '../core/services/impl/base-authentication.service';
+import { StrapiAuthenticationService } from '../core/services/impl/strapi-authentication.service';
 
 
 
@@ -23,6 +25,9 @@ import { PictureSelectableComponent } from '../components/picture-selectable/pic
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
+  ],
+  providers: [
+    { provide: BaseAuthenticationService, useClass: StrapiAuthenticationService }
   ],
   exports: [
     CommonModule,

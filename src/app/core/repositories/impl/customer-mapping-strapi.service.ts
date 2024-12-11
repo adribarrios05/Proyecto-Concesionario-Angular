@@ -26,7 +26,7 @@ interface UserAttributes {
     customerId: string
   }
 
-interface CustomerRaw{
+export interface CustomerRaw{
     data: Data,
     meta: Meta
 }
@@ -46,10 +46,10 @@ interface CustomerAttributes {
     dni: string,
     phone: string,
     age: Date,
-    createdAt?: string
+    /*createdAt?: string
     updatedAt?: string
     publishedAt?: string
-    //carRent:CarRaw | number | null,
+    carRent:CarRaw | number | null,*/
     userId:UserRaw | number | null,
     picture:MediaRaw | number | null
 }
@@ -93,22 +93,29 @@ interface Meta {}
   export class CustomerMappingStrapi implements IBaseMapping<Customer> {
 
     setAdd(data: Customer):CustomerData {
-        const miCustomer: CustomerData = {
+        const formatToISODate = (date: string): Date => {
+            const [day, month, year] = date.split('-');
+            return new Date(Number(year), Number(month) - 1, Number(day));; 
+          };
+        console.log('Datos recibidos en setAdd:', data);
+
+        const miCustomer = {
             data:{
                 name: data.name,
                 surname: data.surname,
                 dni: data.dni,
                 phone: data.phone,
-                age: data.age,
+                age: formatToISODate(data.age.toString()),
                 //carRent: data.carRent ? Number(data.carRent) : null,
                 userId: data.userId ? Number(data.userId) : null,
-                picture: data.picture?Number(data.picture):null
+                picture: data.picture ? Number(data.picture) : null
             }
         }
         console.log("Pongo un texto cualquiera: ", miCustomer)
         return miCustomer
             
         };
+
     setUpdate(data: Partial<Customer>): CustomerData {
         const mappedData: Partial<CustomerAttributes> = {};
 

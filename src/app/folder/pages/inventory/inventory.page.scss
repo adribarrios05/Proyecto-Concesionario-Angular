@@ -93,4 +93,16 @@ ion-content{
     margin-bottom: 8px;
   }
 }
+
+ion-button {
+  color: white;
+  font-weight: bold;
+  text-transform: uppercase;
+
+  &.md {
+    --background: #3880ff; /* Cambia a tu color deseado */
+    --background-hover: #3171e0; /* Color al pasar el mouse */
+    --border-radius: 8px;
+  }
+}
   

@@ -4,5 +4,4 @@ import { Car } from '../../models/car.model';
 
 export interface ICarService extends IBaseService<Car> {
   // Métodos específicos si los hay
-  getByUserId(userId: string): Observable<Car | null>;
 }

@@ -16,12 +16,7 @@ export class CarService extends BaseService<Car> implements ICarService {
   ) {
     super(repository);
   }
-  
-  getByUserId(userId: string): Observable<Car | null> {
-    return this.repository.getAll(1, 1, {user: userId}).pipe(
-      map(res => Array.isArray(res) ? res[0] || null : res.data[0] || null)
-    );
-  }
+
 
     /*uploadImage(file: File): Observable<any>{
         return this.repository.uploadImage(file);

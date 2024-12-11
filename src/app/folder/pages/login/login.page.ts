@@ -29,7 +29,8 @@ export class LoginPage {
       this.authSvc.signIn(this.loginForm.value).subscribe({
         next: resp=>{
           const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/home';
-          this.router.navigateByUrl(returnUrl); 
+          this.router.navigateByUrl(returnUrl);
+          console.log("Usuario logueado correctamente: ", resp.username) 
         },
         error: err=>{
           console.log(err);
