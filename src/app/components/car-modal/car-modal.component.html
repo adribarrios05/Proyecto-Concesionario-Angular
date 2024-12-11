@@ -10,8 +10,7 @@
 </ion-header>
 
 <ion-content>
-  <form [formGroup]="addCarForm" (ngSubmit)="addCar()">
-    <!-- Datos del coche -->
+  <form [formGroup]="formGroup" (ngSubmit)="addCar()">
     <ion-item>
       <ion-label position="floating">Marca</ion-label>
       <ion-input formControlName="brand"></ion-input>
@@ -49,18 +48,11 @@
       <ion-textarea formControlName="description"></ion-textarea>
     </ion-item>
 
-    <!-- Subir Imagen -->
     <ion-item>
-      <ion-label position="floating">Imagen</ion-label>
-      <input type="file" (change)="onFileSelected($event)" />
+      <app-picture-selectable formControlName="picture"></app-picture-selectable>
     </ion-item>
 
-    <ion-item *ngIf="imagePreview">
-      <ion-label>Vista previa:</ion-label>
-      <ion-img [src]="imagePreview"></ion-img>
-    </ion-item>
-
-    <ion-button expand="block" type="submit" [disabled]="addCarForm.invalid || !selectedFile">
+    <ion-button expand="block" type="submit" [disabled]="formGroup.invalid">
       Añadir Coche
     </ion-button>
   </form>

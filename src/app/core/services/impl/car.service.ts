@@ -23,7 +23,7 @@ export class CarService extends BaseService<Car> implements ICarService {
     );
   }
 
-    /*override uploadImage(file: File): Observable<any>{
+    /*uploadImage(file: File): Observable<any>{
         return this.repository.uploadImage(file);
     }*/
 

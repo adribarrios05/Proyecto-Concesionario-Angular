@@ -15,6 +15,12 @@
         <ion-list>
   
           <ion-item>
+            <ion-searchbar
+              
+            ></ion-searchbar>
+          </ion-item>
+
+          <ion-item>
             <ion-label>Caballos</ion-label>
             <ion-range [(ngModel)]="caballos" [min]=200 [max]=800 step="10" [dualKnobs]="true" pin="true" (ionChange)="onCaballosChange($event)" >
               <ion-label slot="start">{{ caballos.lower }}</ion-label>
@@ -87,7 +93,7 @@
             </ion-card>
           </ion-col>
 
-          <ion-col size="20" size-md="10" size-lg="6" *ngIf="!isLoading">
+          <ion-col size="20" size-md="10" size-lg="6" >
             <ion-card (click)="openCarModal()" class="add-card">
               <ion-card-content>
                 <ion-icon name="add-circle" style="font-size: 3rem; color: gray;"></ion-icon>

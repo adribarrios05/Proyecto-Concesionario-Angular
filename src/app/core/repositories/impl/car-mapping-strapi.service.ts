@@ -104,9 +104,6 @@ interface Meta {}
                 price: data.price,
                 plate: data.plate,
                 customerSell: data.customerSell ? Number(data.customerSell) : null,
-                createdAt: data.createdAt,
-                updatedAt: data.updatedAt,
-                publishedAt: "",
                 picture: data.picture?Number(data.picture):null
             }
         };

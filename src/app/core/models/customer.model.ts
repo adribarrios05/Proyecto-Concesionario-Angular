@@ -6,7 +6,7 @@ export interface Customer extends Model{
     dni: string,
     phone: string,
     age: Date,
-    carRent?: number,
+    //carRent?: number,
     userId?: number,
     picture?:{
         url:string | undefined,

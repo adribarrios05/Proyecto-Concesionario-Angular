@@ -51,17 +51,8 @@ export class RegisterPage {
           };
 
           console.log('Datos del cliente después de formatear la fecha:', userData);
-          
-          this.customerSvc.add({
-            data: {
-              Name: userData.name,
-              Surnames: userData.surname,
-              DNI: userData.dni,
-              PhoneNumber: userData.phone,
-              Age: userData.age, 
-              user: resp.id,
-            }
-          }).subscribe({
+
+          this.customerSvc.add({userData}).subscribe({
             next: resp => {
               console.log('Customer registrado: ', resp)
               const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/home';

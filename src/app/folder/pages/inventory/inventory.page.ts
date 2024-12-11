@@ -84,11 +84,12 @@ export class InventoryPage implements OnInit {
   }
 
   onIonInfinite(ev: InfiniteScrollCustomEvent) {
-    timer(1000).subscribe({
-      next:(value)=>{
-        this.loadMoreCars(ev.target)
-      }
-    })
+    if(this.page<=this.pages){}
+      timer(1000).subscribe({
+        next:(value)=>{
+          this.loadMoreCars(ev.target)
+        }
+      })
   }
 
   async openCarModal() {
@@ -98,15 +99,33 @@ export class InventoryPage implements OnInit {
   
     modal.onDidDismiss().then((result) => {
       if (result.data) {
-        const { carData, file } = result.data;
+        const { carData, file } = result.data; 
   
-        /*this.carSvc.uploadImage(file).subscribe((uploadResp) => {
-          carData.picture = { url: uploadResp.url };
+        /*if (file) {
+          // Subir la imagen primero
+          this.carSvc.uploadImage(file).subscribe({
+            next: (response) => {
+              const imageUrl = response[0]?.url; 
   
+              if (imageUrl) {
+                carData.picture = { url: imageUrl }; 
+  
+                // Crea el coche con la imagen
+                this.carSvc.addCar(carData).subscribe(() => {
+                  this.cars$ = this.carSvc.getCars(); 
+                });
+              }
+            },
+            error: (err) => {
+              console.error('Error al subir la imagen:', err);
+            },
+          });
+        } else*/ {
+          // Crea el coche sin imagen
           this.carSvc.add(carData).subscribe(() => {
             this.cars$ = this.carSvc.getAll(); 
           });
-        });*/
+        }
       }
     });
   

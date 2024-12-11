@@ -1,15 +1,4 @@
-.add-card {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    height: 200px;
-    background-color: #f9f9f9;
-    border: 2px dashed #ccc;
-    color: #666;
-    cursor: pointer;
-  
-    ion-icon {
-      margin-bottom: 8px;
-    }
-  }
+ion-content{
+  margin: 10%;
+}
+

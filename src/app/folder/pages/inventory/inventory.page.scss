@@ -79,4 +79,18 @@ ion-content{
     --background: #550000;
 }
 
+.add-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 200px;
+  padding-top: 12%;
+
+  cursor: pointer;
+
+  ion-icon {
+    margin-bottom: 8px;
+  }
+}
   

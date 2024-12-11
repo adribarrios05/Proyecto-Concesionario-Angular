@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SideMenuComponent } from '../components/side-menu/side-menu.component';
 import { ProfilePopoverComponent } from '../components/profile-popover/profile-popover.component';
 import { CarModalComponent } from '../components/car-modal/car-modal.component';
+import { PictureSelectableComponent } from '../components/picture-selectable/picture-selectable.component';
 
 
 
@@ -13,7 +14,8 @@ import { CarModalComponent } from '../components/car-modal/car-modal.component';
   declarations: [
     SideMenuComponent,
     ProfilePopoverComponent,
-    CarModalComponent
+    CarModalComponent,
+    PictureSelectableComponent
   ],
   imports: [
     CommonModule,
@@ -28,6 +30,7 @@ import { CarModalComponent } from '../components/car-modal/car-modal.component';
     SideMenuComponent,
     ProfilePopoverComponent,
     CarModalComponent,
+    PictureSelectableComponent,
     FormsModule,
     RouterModule,
     ReactiveFormsModule,

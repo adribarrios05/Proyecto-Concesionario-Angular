@@ -49,8 +49,8 @@ interface CustomerAttributes {
     createdAt?: string
     updatedAt?: string
     publishedAt?: string
-    carRent:CarRaw | number | null,
-    appUser:UserRaw | number | null,
+    //carRent:CarRaw | number | null,
+    userId:UserRaw | number | null,
     picture:MediaRaw | number | null
 }
   
@@ -93,22 +93,22 @@ interface Meta {}
   export class CustomerMappingStrapi implements IBaseMapping<Customer> {
 
     setAdd(data: Customer):CustomerData {
-        return {
+        const miCustomer: CustomerData = {
             data:{
                 name: data.name,
                 surname: data.surname,
                 dni: data.dni,
                 phone: data.phone,
                 age: data.age,
-                carRent: data.carRent ? Number(data.carRent) : null,
-                appUser: data.userId ? Number(data.userId) : null,
-                createdAt: data.createdAt,
-                updatedAt: data.updatedAt,
-                publishedAt: "",
+                //carRent: data.carRent ? Number(data.carRent) : null,
+                userId: data.userId ? Number(data.userId) : null,
                 picture: data.picture?Number(data.picture):null
             }
+        }
+        console.log("Pongo un texto cualquiera: ", miCustomer)
+        return miCustomer
+            
         };
-    }
     setUpdate(data: Partial<Customer>): CustomerData {
         const mappedData: Partial<CustomerAttributes> = {};
 
@@ -124,9 +124,9 @@ interface Meta {}
                 break;
                 case 'age': mappedData.age = data[key];
                 break;
-                case 'carRent': mappedData.carRent = data[key] ? Number(data[key]) : null;
-                break;
-                case 'userId': mappedData.appUser = data[key] ? Number(data[key]) : null;
+                //case 'carRent': mappedData.carRent = data[key] ? Number(data[key]) : null;
+                //break;
+                case 'userId': mappedData.userId = data[key] ? Number(data[key]) : null;
                 break;
                 case 'picture': mappedData.picture = data[key] ? Number(data[key]) : null;
                 break;
@@ -156,8 +156,8 @@ interface Meta {}
             dni: attributes.dni,
             phone: attributes.phone,
             age: attributes.age,
-            carRent: typeof attributes.carRent === 'object' ? attributes.carRent?.data?.id/*.toString()*/ : undefined,
-            userId: typeof attributes.appUser === 'object' ? attributes.appUser?.data?.id/*.toString()*/ : undefined,
+            //carRent: typeof attributes.carRent === 'object' ? attributes.carRent?.data?.id/*.toString()*/ : undefined,
+            userId: typeof attributes.userId === 'object' ? attributes.userId?.data?.id : undefined,
             picture: typeof attributes.picture === 'object' ? {
                 url: attributes.picture?.data?.attributes?.url,
                 large: attributes.picture?.data?.attributes?.formats?.large?.url || attributes.picture?.data?.attributes?.url,
