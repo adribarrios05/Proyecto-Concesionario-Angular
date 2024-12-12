@@ -1,11 +1,5 @@
 <ion-list>
   <ion-item button (click)="onItemClick()">
-    <ion-avatar slot="start" *ngIf="isLoggedIn">
-      <ion-img [src]="profileImage" alt="Imagen de perfil"></ion-img>
-    </ion-avatar>
-    <ion-avatar slot="start" *ngIf="!isLoggedIn">
-      <ion-img src="https://ionicframework.com/docs/img/demos/avatar.svg" alt="Imagen por defecto"></ion-img>
-    </ion-avatar>
     <ion-label>
       {{ isLoggedIn ? 'Mi Perfil' : 'Iniciar Sesión' }}
     </ion-label>

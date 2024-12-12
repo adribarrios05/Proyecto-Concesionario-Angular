@@ -9,8 +9,9 @@ import { BaseAuthenticationService } from 'src/app/core/services/impl/base-authe
   styleUrls: ['./login.page.scss'],
   standalone: false
 })
-export class LoginPage {
+export class LoginPage implements OnInit{
   loginForm: FormGroup;
+  showPassword: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -21,6 +22,20 @@ export class LoginPage {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
+    });
+  }
+
+  ngOnInit() {
+    this.authSvc.me().subscribe({
+      next: (user) => {
+        if (user) {
+          const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/home';
+          this.router.navigateByUrl(returnUrl);
+        }
+      },
+      error: (err) => {
+        console.log('No hay sesión activa.', err);
+      }
     });
   }
 
@@ -48,8 +63,8 @@ export class LoginPage {
     this.router.navigate(['/register'], {queryParams:{ returnUrl:returnUrl}, replaceUrl:true});
   }
 
-  onForgotPassword(){
-
+  changePasswordVisibility() {
+    this.showPassword = !this.showPassword
   }
 
   get email(){

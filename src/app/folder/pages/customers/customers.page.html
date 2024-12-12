@@ -1,13 +1,52 @@
-<ion-header [translucent]="true">
+<!--<ion-header>
   <ion-toolbar>
-    <ion-title>customers</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>{{ 'PEOPLE.TITLE' | translate }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="onAddPerson()">
+        <ion-icon name="add-outline"></ion-icon>
+        {{ 'PEOPLE.ADD_BUTTON' | translate }}
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
-</ion-header>
+</ion-header>-->
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">customers</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <ion-searchbar
+    [placeholder]="'PEOPLE.SEARCH_PLACEHOLDER' | translate"
+  ></ion-searchbar>
+
+  <ion-content>
+    <ion-grid>
+      <!-- Encabezado con títulos de los campos -->
+      <ion-row class="header-row">
+        <ion-col size="2" class="header-cell">  </ion-col>
+        <ion-col size="2" class="header-cell">{{ 'NAME' | translate }}</ion-col>
+        <ion-col size="2" class="header-cell">{{ 'SURNAME' | translate }}</ion-col>
+        <ion-col size="2" class="header-cell">{{ 'DNI' | translate }}</ion-col>
+        <ion-col size="2" class="header-cell">{{ 'EMAIL' | translate }}</ion-col>
+        <ion-col size="1" class="header-cell">{{ 'PHONE' | translate }}</ion-col>
+        <ion-col size="1" class="header-cell">{{ 'AGE' | translate }}</ion-col>
+      </ion-row>
+  
+      <!-- Lista de clientes -->
+      <ion-row *ngFor="let customer of _customers | async" class="data-row">
+        <ion-col size="2" class="data-cell">
+          <ion-avatar (click)="openCustomerModal(customer)">
+            <img [src]="customer.picture?.thumbnail || 'https://ionicframework.com/docs/img/demos/avatar.svg'" alt="Customer Photo" />
+          </ion-avatar>
+        </ion-col>
+        <ion-col size="2" class="data-cell">{{ customer.name }}</ion-col>
+        <ion-col size="2" class="data-cell">{{ customer.surname }}</ion-col>
+        <ion-col size="2" class="data-cell">{{ customer.dni }}</ion-col>
+        <ion-col size="2" class="data-cell">{{ customer.userId }}</ion-col>
+        <ion-col size="1" class="data-cell">{{ customer.phone }}</ion-col>
+        <ion-col size="1" class="data-cell">{{ customer.age }}</ion-col>
+      </ion-row>
+    </ion-grid>
+  <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>

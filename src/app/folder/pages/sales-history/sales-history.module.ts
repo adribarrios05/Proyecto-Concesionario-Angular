@@ -8,11 +8,13 @@ import { SalesHistoryPageRoutingModule } from './sales-history-routing.module';
 
 import { SalesHistoryPage } from './sales-history.page';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
     SalesHistoryPageRoutingModule,
-    SharedModule
+    SharedModule,
+    TranslateModule.forChild(),
   ],
   declarations: [SalesHistoryPage]
 })

@@ -15,6 +15,7 @@ import { dniValidator, passwordsMatchValidator, passwordValidator } from 'src/ap
 export class RegisterPage {
 
   registerForm: FormGroup;
+  showPassword: boolean = false;
 
 
   constructor(
@@ -78,6 +79,9 @@ export class RegisterPage {
     this.router.navigate(['/login'], {queryParams:{ returnUrl:returnUrl}, replaceUrl:true});
   }
 
+  changePasswordVisibility() {
+    this.showPassword = !this.showPassword
+  }
 
   get name() {
     return this.registerForm.get('name');

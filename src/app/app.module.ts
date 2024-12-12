@@ -9,7 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { LoginPageModule } from './folder/pages/login/login.module';
 import { InventoryPageModule } from './folder/pages/inventory/inventory.module';
 import { SharedModule } from './shared/shared.module';
-import { provideHttpClient } from '@angular/common/http';
+import { HttpClient, HttpClientModule, provideHttpClient } from '@angular/common/http';
 import { BACKEND_TOKEN, CAR_RESOURCE_NAME_TOKEN, CUSTOMER_RESOURCE_NAME_TOKEN, CAR_API_URL_TOKEN, CUSTOMER_API_URL_TOKEN, AUTH_ME_API_URL_TOKEN, AUTH_SIGN_IN_API_URL_TOKEN, AUTH_SIGN_UP_API_URL_TOKEN, UPLOAD_API_URL_TOKEN, STRAPI_AUTH_TOKEN } from './core/repositories/repository.tokens';
 import { CarService } from './core/services/impl/car.service';
 import { CustomerService } from './core/services/impl/customer.service';
@@ -19,7 +19,12 @@ import { environment } from 'src/environments/environment';
 import { BaseAuthenticationService } from './core/services/impl/base-authentication.service';
 import { StrapiAuthenticationService } from './core/services/impl/strapi-authentication.service';
 import { IStrapiAuthentication } from './core/services/interfaces/strapi-authentication.interface';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json')
+}
 
 @NgModule({
   declarations: [AppComponent],
@@ -28,7 +33,15 @@ import { IStrapiAuthentication } from './core/services/interfaces/strapi-authent
     AppRoutingModule,
     LoginPageModule,
     RegisterPageModule,
-    SharedModule
+    SharedModule,
+    HttpClientModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: createTranslateLoader,
+        deps: [HttpClient]
+      }
+    })
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [{ provide: RouteReuseStrategy, 

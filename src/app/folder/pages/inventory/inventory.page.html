@@ -7,7 +7,7 @@
     <ion-menu side="start" menuId="menu">
       <ion-header>
         <ion-toolbar class="dark-red">
-          <ion-title>Filtros</ion-title>
+          <ion-title>{{ 'FILTERS' | translate}}</ion-title>
         </ion-toolbar>
       </ion-header>
   
@@ -21,7 +21,7 @@
           </ion-item>
 
           <ion-item>
-            <ion-label>Caballos</ion-label>
+            <ion-label>{{ 'HORSEPOWER' | translate }}</ion-label>
             <ion-range [(ngModel)]="caballos" [min]=200 [max]=800 step="10" [dualKnobs]="true" pin="true" (ionChange)="onCaballosChange($event)" >
               <ion-label slot="start">{{ caballos.lower }}</ion-label>
               <ion-label slot="end">{{ caballos.upper }}</ion-label>
@@ -29,7 +29,7 @@
           </ion-item>
   
           <ion-item>
-            <ion-label>Precio</ion-label>
+            <ion-label>{{ 'PRICE' | translate }}</ion-label>
             <ion-range [(ngModel)]="precio" [min]=50000 [max]=2000000 step="1000" [dualKnobs]="true" pin="true" (ionChange)="onPrecioChange($event)" >
               <ion-label slot="start">{{ precio.lower }}</ion-label>
               <ion-label slot="end">{{ precio.upper }}</ion-label>
@@ -37,7 +37,7 @@
           </ion-item>
   
           <ion-item>
-            <ion-label>Marca</ion-label>
+            <ion-label>{{ 'BRAND' | translate}}</ion-label>
           </ion-item>
           <ion-list>
             <ion-item>
@@ -64,7 +64,7 @@
               <ion-checkbox slot="start" value="Porsche" (ionChange)="onMarcaChange($event, 'Porsche')"></ion-checkbox>
               <ion-label>Porsche</ion-label>
             </ion-item> 
-            <ion-button (click)="resetFilters()">Resetear Filtros</ion-button>
+            <ion-button (click)="resetFilters()">{{ 'RESET-FILTERS' | translate }}</ion-button>
 
           </ion-list>
   
@@ -82,17 +82,19 @@
               <ion-img *ngIf="!car.picture?.url" src="../../../../assets/img/car-img-placeholder.png" alt="Car image"/>
               <ion-card-header>
                 <ion-card-title>{{ car.brand }} {{ car.model }}</ion-card-title>
-                <ion-card-subtitle>{{ car.price | currency }}</ion-card-subtitle>
+                <ion-card-subtitle appPriceFormat="{{car.price}}"></ion-card-subtitle>
               </ion-card-header>
               <ion-card-content>
-                <p><strong>Horse Power:</strong> {{ car.horsePower }}</p>
-                <p><strong>Doors:</strong> {{ car.doors }}</p>
-                <p><strong>Color:</strong> {{ car.color }}</p>
-                <p><strong>Type:</strong> {{ car.type }}</p>
-                <p><strong>Plate:</strong> {{ car.plate }}</p>
+                <p><strong>{{ 'HORSEPOWER' | translate }}:</strong> {{ car.horsePower }}</p>
+                <p><strong>{{ 'DOORS' | translate }}:</strong> {{ car.doors }}</p>
+                <p><strong>{{ 'COLOR' | translate }}:</strong> {{ car.color }}</p>
+                <p><strong>{{ 'TYPE' | translate }}:</strong> {{ car.type }}</p>
+                <p><strong>{{ 'PLATE' | translate}}:</strong> {{ car.plate }}</p>
                 <p>{{ car.description }}</p>
               </ion-card-content>
-              <ion-button expand="block" color="primary" (click)="onBuy(car)">Comprar</ion-button>
+              <ion-button *ngIf="isLoggedIn" expand="block" color="primary" (click)="onBuy(car)">
+                {{ 'BUY' | translate }}
+              </ion-button>
 
             </ion-card>
           </ion-col>
@@ -101,7 +103,7 @@
             <ion-card (click)="openCarModal()" class="add-card">
               <ion-card-content>
                 <ion-icon name="add-circle" style="font-size: 3rem; color: gray;"></ion-icon>
-                <p>Añadir Coche</p>
+                <p>{{ 'ADD-CAR' | translate }}</p>
               </ion-card-content>
             </ion-card>
           </ion-col>
@@ -110,8 +112,7 @@
       </ion-grid>
       <ion-infinite-scroll threshold="100px" (ionInfinite)="onIonInfinite($event)">
         <ion-infinite-scroll-content
-          loadingSpinner="bubbles"
-          loadingText="Cargando más coches...">
+          loadingSpinner="bubbles">
         </ion-infinite-scroll-content>
       </ion-infinite-scroll>
     </ion-content>

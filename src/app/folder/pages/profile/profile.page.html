@@ -7,7 +7,7 @@
           <img [src]="profileImage" alt="Imagen de perfil" />
         </ion-avatar>
         <ion-button expand="block" color="primary" (click)="changeProfileImage()">
-          Cambiar Imagen
+          {{ 'CHANGE-IMAGE' | translate }}
         </ion-button>
       </ion-col>
 
@@ -20,26 +20,26 @@
               <ion-col size="6">
                 <ion-card>
                   <ion-card-header>
-                    <ion-card-title>Información del Usuario</ion-card-title>
+                    <ion-card-title>{{ 'USER-INFO' | translate}}</ion-card-title>
                   </ion-card-header>
                   <ion-card-content>
                     <ion-item>
-                      <ion-label position="stacked">Nombre de Usuario</ion-label>
+                      <ion-label position="stacked">{{ 'USERNAME' | translate }}</ion-label>
                       <ion-input type="text" formControlName="username"></ion-input>
                     </ion-item>
 
                     <ion-item>
-                      <ion-label position="stacked">Correo Electrónico</ion-label>
+                      <ion-label position="stacked">{{ 'EMAIL' | translate }}</ion-label>
                       <ion-input type="email" formControlName="email"></ion-input>
                     </ion-item>
 
                     <ion-item>
-                      <ion-label position="stacked">Contraseña</ion-label>
+                      <ion-label position="stacked">{{ 'PASSWORD' | translate }}</ion-label>
                       <ion-input type="password" ></ion-input>
                     </ion-item>
 
                     <ion-item>
-                      <ion-label position="stacked">Confirmar contraseña</ion-label>
+                      <ion-label position="stacked">{{ 'CONFIRM-PASSWORD' | translate}}</ion-label>
                       <ion-input type="password" ></ion-input>
                     </ion-item>
                   </ion-card-content>
@@ -50,26 +50,26 @@
               <ion-col size="6">
                 <ion-card>
                   <ion-card-header>
-                    <ion-card-title>Información del Cliente</ion-card-title>
+                    <ion-card-title>{{ 'CUSTOMER-INFO' | translate}}</ion-card-title>
                   </ion-card-header>
                   <ion-card-content>
                     <ion-item>
-                      <ion-label position="stacked">Nombre</ion-label>
+                      <ion-label position="stacked">{{ 'NAME' | translate }}</ion-label>
                       <ion-input type="text" formControlName="name"></ion-input>
                     </ion-item>
 
                     <ion-item>
-                      <ion-label position="stacked">Apellidos</ion-label>
+                      <ion-label position="stacked">{{ 'SURNAME' | translate }}</ion-label>
                       <ion-input type="text" formControlName="surname"></ion-input>
                     </ion-item>
 
                     <ion-item>
-                      <ion-label position="stacked">Teléfono</ion-label>
+                      <ion-label position="stacked">{{ 'PHONE' | translate }}</ion-label>
                       <ion-input type="tel" formControlName="phone"></ion-input>
                     </ion-item>
 
                     <ion-item>
-                      <ion-label position="stacked">DNI</ion-label>
+                      <ion-label position="stacked">{{ 'ID' | translate }}</ion-label>
                       <ion-input type="text" formControlName="dni"></ion-input>
                     </ion-item>
                   </ion-card-content>
@@ -81,17 +81,17 @@
           <!-- Botones de acción -->
           <ion-row class="action-buttons">
             <ion-col size="6">
-              <ion-button expand="block" color="success" (click)="saveChanges()">Guardar Cambios</ion-button>
+              <ion-button expand="block" color="success" (click)="saveChanges()">{{ 'SAVE-CHANGES' | translate }}</ion-button>
             </ion-col>
             <ion-col size="6">
-              <ion-button expand="block" color="danger" (click)="discardChanges()">Deshacer Cambios</ion-button>
+              <ion-button expand="block" color="danger" (click)="discardChanges()">{{ 'UNDO-CHANGES' | translate }}</ion-button>
             </ion-col>
           </ion-row>
 
           <ion-row>
             <ion-col>
               <ion-button expand="full" color="danger" class="logout-button" (click)="logout()">
-                Cerrar sesión
+                {{ 'LOGOUT' | translate }}
               </ion-button>
             </ion-col>
           </ion-row>

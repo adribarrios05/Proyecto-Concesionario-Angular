@@ -9,6 +9,7 @@ import { InventoryPageRoutingModule } from './inventory-routing.module';
 import { InventoryPage } from './inventory.page';
 import { AppModule } from 'src/app/app.module';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -16,7 +17,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
     FormsModule,
     IonicModule,
     InventoryPageRoutingModule,
-    SharedModule
+    SharedModule,
+    TranslateModule.forChild(),
 ],
   declarations: [InventoryPage]
 })

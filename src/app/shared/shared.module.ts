@@ -3,12 +3,16 @@ import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SideMenuComponent } from '../components/side-menu/side-menu.component';
+import { SideMenuComponent } from '../components/side-menu.backup/side-menu.component';
 import { ProfilePopoverComponent } from '../components/profile-popover/profile-popover.component';
 import { CarModalComponent } from '../components/car-modal/car-modal.component';
 import { PictureSelectableComponent } from '../components/picture-selectable/picture-selectable.component';
 import { BaseAuthenticationService } from '../core/services/impl/base-authentication.service';
 import { StrapiAuthenticationService } from '../core/services/impl/strapi-authentication.service';
+import { LanguagePopoverComponent } from '../components/language-popover/language-popover.component';
+import { TranslateModule } from '@ngx-translate/core';
+import { PriceFormatDirective } from './directives/price-format.directive';
+import { CustomerModalComponent } from '../components/customer-modal/customer-modal.component';
 
 
 
@@ -17,7 +21,10 @@ import { StrapiAuthenticationService } from '../core/services/impl/strapi-authen
     SideMenuComponent,
     ProfilePopoverComponent,
     CarModalComponent,
-    PictureSelectableComponent
+    PictureSelectableComponent,
+    LanguagePopoverComponent,
+    PriceFormatDirective,
+    CustomerModalComponent
   ],
   imports: [
     CommonModule,
@@ -25,6 +32,7 @@ import { StrapiAuthenticationService } from '../core/services/impl/strapi-authen
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
+    TranslateModule,
   ],
   providers: [
     { provide: BaseAuthenticationService, useClass: StrapiAuthenticationService }
@@ -36,9 +44,13 @@ import { StrapiAuthenticationService } from '../core/services/impl/strapi-authen
     ProfilePopoverComponent,
     CarModalComponent,
     PictureSelectableComponent,
+    LanguagePopoverComponent,
+    CustomerModalComponent,
     FormsModule,
     RouterModule,
     ReactiveFormsModule,
+    TranslateModule,
+    PriceFormatDirective
   ]
 })
 export class SharedModule { }

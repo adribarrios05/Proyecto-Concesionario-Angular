@@ -5,6 +5,8 @@ import { BaseAuthenticationService } from 'src/app/core/services/impl/base-authe
 import { CustomerStrapiRepositoryService } from 'src/app/core/repositories/impl/customer-strapi-repository.service';
 import { Router } from '@angular/router';
 import { CustomerService } from 'src/app/core/services/impl/customer.service';
+import { User } from 'src/app/core/models/auth.model';
+import { LoadingController, ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-profile',
@@ -16,13 +18,13 @@ export class ProfilePage implements OnInit {
   originalValues: any = {};
   profileImage: string = 'https://ionicframework.com/docs/img/demos/avatar.svg'; 
   isLoggedIn: boolean = false;
+  customerId!: string
 
   constructor(
     private fb: FormBuilder,
     private authSvc: BaseAuthenticationService,
     private customerSvc: CustomerService,
-    private repository: CustomerStrapiRepositoryService,
-    private router: Router
+    private router: Router,
   ) {
     this.profileForm = this.fb.group({
       username: ['', Validators.required],
@@ -50,48 +52,56 @@ export class ProfilePage implements OnInit {
           email: user.email,
         });
   
-        const customerId = this.repository.getCustomerWithUser(user?.id);
-  
-        if (customerId) {
-          customerId.subscribe({
-            next: (customer) => {
+        this.customerSvc.getByUserId(user.id).subscribe({
+          next: (customer) => {
+            if (customer) {
+              this.customerId = customer.id;
               this.profileForm.patchValue({
                 name: customer.name,
                 surname: customer.surname,
                 phone: customer.phone,
                 dni: customer.dni,
               });
-  
               this.profileImage = customer.picture?.url || 'https://ionicframework.com/docs/img/demos/avatar.svg';
-  
-              this.originalValues = { ...this.profileForm.value };
-            },
-            error: (err) => {
-              console.error('Error al cargar los datos del cliente:', err);
-              this.profileImage = 'https://ionicframework.com/docs/img/demos/avatar.svg';
-            },
-          });
-        } else {
-          console.log('El usuario no tiene un cliente vinculado.');
-        }
+            } else {
+              console.log('El usuario no tiene un cliente vinculado.');
+            }
+          },
+          error: (err) => {
+            console.error('Error al cargar los datos del cliente:', err);
+            this.profileImage = 'https://ionicframework.com/docs/img/demos/avatar.svg';
+          }
+        });
       },
       error: (err) => {
         this.isLoggedIn = false;
         console.error('Error al verificar la autenticación:', err);
-
-      },
+      }
     });
   }
 
   saveChanges() {
-    const updatedData = this.profileForm.value;
+    if (this.profileForm.valid) {
+      const updatedData = this.profileForm.value;
 
-    // Lógica para guardar los datos del usuario
-    console.log('Guardar cambios', updatedData);
+      console.log('Datos actualizados que se enviarán:', updatedData);
+  
+      this.customerSvc.update(this.customerId, updatedData).subscribe({
+        next: () => {
+          console.log('Cambios guardados correctamente');
+  
+          this.originalValues = { ...updatedData };
 
-    // Actualiza los valores originales
-    this.originalValues = { ...updatedData };
+        },
+        error: (err) => {
+          console.error('Error al guardar los cambios:', err);
+        }
+      });
+    } else {
+      console.warn('El formulario no es válido.');
+    }
   }
+  
 
   discardChanges() {
     this.profileForm.patchValue(this.originalValues);
@@ -107,7 +117,7 @@ export class ProfilePage implements OnInit {
     this.authSvc.signOut().subscribe({
       next: () => {
         console.log('Sesión cerrada correctamente');
-        this.router.navigate(['/login']); // Redirigir al login después de cerrar sesión
+        this.router.navigate(['/login']); 
       },
       error: (err) => {
         console.error('Error al cerrar sesión:', err);

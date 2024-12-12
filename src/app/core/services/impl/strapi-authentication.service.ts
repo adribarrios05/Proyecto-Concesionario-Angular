@@ -4,7 +4,7 @@ import { BaseAuthenticationService } from './base-authentication.service';
 import { AUTH_MAPPING_TOKEN, AUTH_ME_API_URL_TOKEN, AUTH_SIGN_IN_API_URL_TOKEN, AUTH_SIGN_UP_API_URL_TOKEN } from '../../repositories/repository.tokens';
 import { HttpClient } from '@angular/common/http';
 import { IAuthMapping } from '../interfaces/auth-mapping.interface';
-import { StrapiMeResponse, StrapiSignInResponse, StrapiSignUpResponse } from './strapi-auth-mapping.service';
+import { StrapiMeResponse, StrapiSignInResponse, StrapiSignUpResponse, StrapiUser } from './strapi-auth-mapping.service';
 import { IStrapiAuthentication } from '../interfaces/strapi-authentication.interface';
 import { User } from '../../models/auth.model';
 
@@ -12,6 +12,7 @@ import { User } from '../../models/auth.model';
   providedIn: 'root'
 })
 export class StrapiAuthenticationService extends BaseAuthenticationService implements IStrapiAuthentication {
+  
 
   private jwt_token:string|null = null;
   constructor(

@@ -7,6 +7,8 @@ import { CarService } from 'src/app/core/services/impl/car.service';
 import { InfiniteScrollCustomEvent, RangeValue } from '@ionic/core';
 import { CarModalComponent } from 'src/app/components/car-modal/car-modal.component';
 import { SearchParams } from 'src/app/core/repositories/intefaces/base-repository.interface';
+import { BaseAuthenticationService } from 'src/app/core/services/impl/base-authentication.service';
+import { CustomerService } from 'src/app/core/services/impl/customer.service';
 
 
 @Component({
@@ -24,13 +26,24 @@ export class InventoryPage implements OnInit {
   marcasSeleccionadas: string[] = [];
   _cars: BehaviorSubject<Car[]> = new BehaviorSubject<Car[]>([]);
   cars$: Observable<Car[]> = this._cars.asObservable();
+  isLoggedIn: boolean = false;
 
   constructor(
     private modalCtrl: ModalController,
     private carSvc: CarService,
+    private authSvc: BaseAuthenticationService,
+    private customerSvc: CustomerService,
   ) { }
 
   ngOnInit() {
+    this.authSvc.me().subscribe({
+      next: (user) => {
+        this.isLoggedIn = true; 
+      },
+      error: () => {
+        this.isLoggedIn = false; 
+      },
+    });
     this.loadCars()
   }
 
@@ -172,8 +185,42 @@ export class InventoryPage implements OnInit {
     await modal.present();
   }
 
-  onBuy(_t106: Car) {
-    throw new Error('Method not implemented.');
+  onBuy(car: Car) {
+    if (this.isLoggedIn) {
+      this.authSvc.me().subscribe({
+        next: (user) => {
+          if (user) {
+            this.customerSvc.getByUserId(user.id).subscribe({
+              next: (customer) => {
+                if (customer) {
+                  const updatedCar = { ...car, customerId: customer.id };
+                  this.carSvc.update(updatedCar.id, updatedCar).subscribe({
+                    next: () => {
+                      console.log(`Coche ${car.brand} ${car.model} comprado con éxito por el cliente ${customer.name}. Id: ${car.customerSell}`);
+                    },
+                    error: (err) => {
+                      console.error('Error al comprar el coche:', err);
+                    },
+                  });
+                } else {
+                  console.error('No se encontró un cliente asociado al usuario');
+                }
+              },
+              error: (err) => {
+                console.error('Error al obtener el cliente:', err);
+              },
+            });
+          } else {
+            console.error('Usuario no encontrado en la sesión activa');
+          }
+        },
+        error: (err) => {
+          console.error('Error al verificar la sesión:', err);
+        },
+      });
+    } else {
+      console.error('El usuario no está autenticado');
     }
+  }
 
 }

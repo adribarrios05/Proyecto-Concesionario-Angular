@@ -10,7 +10,12 @@
         </ion-item>
         
         <ion-item>
-          <ion-input labelPlacement="floating" label="Contraseña" type="password" formControlName="password" required></ion-input>
+          <ion-input labelPlacement="floating" label="Contraseña" 
+          [type]="showPassword ? 'text' : 'password'" 
+          formControlName="password" required></ion-input>
+          <ion-button slot="end" fill="clear" (click)="changePasswordVisibility()">
+            <ion-icon style="color: white;" [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+          </ion-button>
         </ion-item>
 
         <ion-button  expand="block" type="submit">

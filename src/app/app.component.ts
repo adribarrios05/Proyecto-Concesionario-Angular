@@ -2,6 +2,10 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { PopoverController } from '@ionic/angular';
 import { ProfilePopoverComponent } from './components/profile-popover/profile-popover.component';
+import { LanguagePopoverComponent } from './components/language-popover/language-popover.component';
+import { TranslateService } from '@ngx-translate/core';
+import { BaseAuthenticationService } from './core/services/impl/base-authentication.service';
+import { CustomerService } from './core/services/impl/customer.service';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -12,19 +16,29 @@ export class AppComponent {
   showNavbar: boolean = true;
   isLoggedIn: boolean = false; 
   profileImageUrl: string = ''; 
+
   public appPages = [
-    { title: 'Home', url: '/home', icon: 'home' },
-    { title: 'Inventory', url: '/inventory', icon: 'file-tray-full' },
-    { title: 'Sales history', url: '/sales', icon: 'cash' },
-    { title: 'Rent history', url: '/rents', icon: 'calendar' },
-    { title: 'Customers', url: '/customers', icon: 'people' },
+    { title: 'HOME', url: '/home', icon: 'home' },
+    { title: 'INVENTORY', url: '/inventory', icon: 'file-tray-full' },
+    { title: 'SALES_HISTORY', url: '/sales', icon: 'cash' },
+    //{ title: 'Rent history', url: '/rents', icon: 'calendar' },
+    { title: 'CUSTOMERS-PAGE', url: '/customers', icon: 'people' },
   ];
   
   constructor(
     private router: Router,
-    private reute: ActivatedRoute,
-    private popoverController: PopoverController
-  ) {}
+    private popoverController: PopoverController,
+    private translateSvc: TranslateService,
+    private authSvc: BaseAuthenticationService,
+    private customerSvc: CustomerService,
+
+  ) {
+    const savedLanguage = localStorage.getItem('selectedLanguage') || 'en';
+    this.translateSvc.setDefaultLang(savedLanguage);
+    this.translateSvc.use(savedLanguage);
+
+    this.checkUserAuthentication()
+  }
 
   ngOnInit(){
     this.router.events.subscribe((event) => {
@@ -40,12 +54,49 @@ export class AppComponent {
   }
 
   async presentPopover(event: Event) {
-    console.log("Llamada al popover")
     const popover = await this.popoverController.create({
       component: ProfilePopoverComponent,
       event: event,
       translucent: true
     });
     return await popover.present()
+  }
+
+  async presentLanguagePopover(event: Event) {
+    const popover = await this.popoverController.create({
+      component: LanguagePopoverComponent,
+      event: event,
+      translucent: true
+    });
+    await popover.present();
+  }
+
+  private checkUserAuthentication() {
+    this.authSvc.me().subscribe({
+      next: (user) => {
+        if (user?.id) {
+          this.customerSvc.getByUserId(user.id).subscribe({
+            next: (customer) => {
+              this.isLoggedIn = true;
+              this.profileImageUrl = customer?.picture?.url || 'https://ionicframework.com/docs/img/demos/avatar.svg';
+            },
+            error: () => {
+              console.error('Error al obtener el cliente');
+              this.isLoggedIn = false;
+              this.profileImageUrl = 'https://ionicframework.com/docs/img/demos/avatar.svg';
+            },
+          });
+        } else {
+          console.error('El usuario autenticado no tiene un ID');
+          this.isLoggedIn = false;
+          this.profileImageUrl = 'https://ionicframework.com/docs/img/demos/avatar.svg';
+        }
+      },
+      error: () => {
+        console.error('Error al obtener el usuario autenticado');
+        this.isLoggedIn = false;
+        this.profileImageUrl = 'https://ionicframework.com/docs/img/demos/avatar.svg';
+      },
+    });
   }
 }

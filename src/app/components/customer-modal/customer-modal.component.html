@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ 'CUSTOMERS.TITLE' | translate }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="formGroup">
+    <ion-list>
+      <ion-item>
+        <ion-label position="stacked">{{ 'CUSTOMERS.NAME' | translate }}</ion-label>
+        <ion-input type="text" formControlName="name"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">{{ 'CUSTOMERS.SURNAME' | translate }}</ion-label>
+        <ion-input type="text" formControlName="surname"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">{{ 'CUSTOMERS.DNI' | translate }}</ion-label>
+        <ion-input type="text" formControlName="dni"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">{{ 'CUSTOMERS.PHONE' | translate }}</ion-label>
+        <ion-input type="text" formControlName="phone"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">{{ 'CUSTOMERS.AGE' | translate }}</ion-label>
+        <ion-input type="number" formControlName="age"></ion-input>
+      </ion-item>
+    </ion-list>
+    <ion-footer>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-button class="delete-btn" (click)="delete()">{{ 'DELETE' | translate }}</ion-button>
+        </ion-buttons>
+        <ion-buttons slot="end">
+          <ion-button class="update-btn" (click)="save()">{{ 'SAVE' | translate }}</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-footer>
+  </form>
+</ion-content>

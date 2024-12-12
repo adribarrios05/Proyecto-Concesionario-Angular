@@ -25,6 +25,7 @@ export abstract class BaseAuthenticationService implements IAuthentication{
     }
     
     abstract getCurrentUser(): Promise<any>;
+    //abstract getUserById(id: string): Observable<User>
     abstract signIn(authPayload: any): Observable<any>;
     abstract signUp(registerPayload: any): Observable<any>;
     abstract signOut(): Observable<any>;

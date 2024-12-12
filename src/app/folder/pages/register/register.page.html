@@ -30,19 +30,25 @@
                 <ion-input 
                   labelPlacement="floating" 
                   label="Contraseña" 
-                  type="password" 
+                  [type]="showPassword ? 'text' : 'password'" 
                   formControlName="password" 
                   required>
                 </ion-input>
+                <ion-button slot="end" fill="clear" (click)="changePasswordVisibility()">
+                  <ion-icon style="color: white;" [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+                </ion-button>
               </ion-item>
               <ion-item>
                 <ion-input 
                   labelPlacement="floating" 
                   label="Repita contraseña" 
-                  type="password" 
+                  [type]="showPassword ? 'text' : 'password'"  
                   formControlName="confirmPassword" 
                   required>
                 </ion-input>
+                <ion-button slot="end" fill="clear" (click)="changePasswordVisibility()">
+                  <ion-icon style="color: white;" [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+                </ion-button>
               </ion-item>
             </ion-col>
 

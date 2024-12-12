@@ -47,7 +47,7 @@ export class ProfilePopoverComponent implements OnInit{
       },
       error: (err) => {
         console.error("Error al cargar el cliente: ", err)
-        this.profileImage = 'https://ionicframework.com/docs/img/demos/avatar.svg'
+        this.profileImage = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxRWPsrqnTimFNyfNHYDME6x-V9hT1foBnMlg2JANOAMUQj1fqpI7e6xhP_Uh9j90t-yU&usqp=CAU'
       }
     })
   }

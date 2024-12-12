@@ -6,16 +6,20 @@
               <ion-avatar class="logo">
                 <img alt="Silhouette of a person's head" src="../../../assets/icon/favicon.png" />
               </ion-avatar>
-              <ion-text>Concesionario</ion-text>
+              <ion-text>Concesionarios BaCa</ion-text>
             </ion-button>
           </ion-buttons>
           <ion-buttons slot="end">
+            <ion-button (click)="presentLanguagePopover($event)">
+              <ion-label class="language-btn">{{ 'LANGUAGE' | translate }}</ion-label>
+              <ion-icon name="language"></ion-icon>
+            </ion-button>
             <ion-button *ngFor="let p of appPages; let i = index" 
             [routerLink]="[p.url]" 
             routerLinkActive="active-page"
             [routerDirection]="'root'">
               <ion-icon [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'" slot="start"></ion-icon>
-              <ion-label class="nav-label">{{ p.title }}</ion-label>
+              <ion-text class="nav-text">{{ p.title | translate}}</ion-text>
             </ion-button>
           </ion-buttons>
           <ion-buttons slot="end">
