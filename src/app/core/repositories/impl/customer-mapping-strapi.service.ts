@@ -78,7 +78,7 @@ interface CarAttributes {
     type: string,
     price: number,
     plate: string,
-    customerSell: CustomerRaw | number | null,
+    customer: CustomerRaw | number | null,
     createdAt?: string
     updatedAt?: string
     publishedAt?: string,
@@ -92,10 +92,10 @@ interface Meta {}
   })
   export class CustomerMappingStrapi implements IBaseMapping<Customer> {
 
-    setAdd(data: Customer):CustomerData {
+    setAdd(data: any):any {
         const formatToISODate = (date: string): Date => {
             const [day, month, year] = date.split('-');
-            return new Date(Number(year), Number(month) - 1, Number(day));; 
+            return new Date(Number(month) - 1, Number(day) , Number(year));; 
           };
         console.log('Datos recibidos en setAdd:', data);
 
@@ -107,7 +107,7 @@ interface Meta {}
                 phone: data.phone,
                 age: formatToISODate(data.age.toString()),
                 //carRent: data.carRent ? Number(data.carRent) : null,
-                userId: data.userId ? Number(data.userId) : null,
+                user: data.userId ? Number(data.userId) : null,
                 picture: data.picture ? Number(data.picture) : null
             }
         }
@@ -150,12 +150,18 @@ interface Meta {}
             return this.getOne(d);
         })};
     }
-    getOne(data: Data | CustomerRaw): Customer {
-        const isCustomerRaw = (data: Data | CustomerRaw): data is CustomerRaw => 'meta' in data;
+    getOne(data: any): Customer {
+        const isCustomerRaw = (data: any): data is CustomerRaw => 'meta' in data;
 
+        let toReturn: Customer
         const attributes = isCustomerRaw(data) ? data.data.attributes : data.attributes;
         const id = isCustomerRaw(data) ? data.data.id : data.id;
-        
+        if(data.data){
+            console.log("Es data.data")
+        } else{
+            console.log("Es data")
+        }
+        console.log("Este es mi data", data)
         return {
             id: id.toString(),
             name: attributes.name,

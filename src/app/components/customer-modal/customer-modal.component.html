@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>{{ 'CUSTOMERS.TITLE' | translate }}</ion-title>
+    <ion-title>{{ 'TITLE' | translate }}</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="dismiss()">
         <ion-icon name="close"></ion-icon>
@@ -13,23 +13,23 @@
   <form [formGroup]="formGroup">
     <ion-list>
       <ion-item>
-        <ion-label position="stacked">{{ 'CUSTOMERS.NAME' | translate }}</ion-label>
+        <ion-label position="stacked">{{ 'NAME' | translate }}</ion-label>
         <ion-input type="text" formControlName="name"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label position="stacked">{{ 'CUSTOMERS.SURNAME' | translate }}</ion-label>
+        <ion-label position="stacked">{{ 'SURNAME' | translate }}</ion-label>
         <ion-input type="text" formControlName="surname"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label position="stacked">{{ 'CUSTOMERS.DNI' | translate }}</ion-label>
+        <ion-label position="stacked">{{ 'DNI' | translate }}</ion-label>
         <ion-input type="text" formControlName="dni"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label position="stacked">{{ 'CUSTOMERS.PHONE' | translate }}</ion-label>
+        <ion-label position="stacked">{{ 'PHONE' | translate }}</ion-label>
         <ion-input type="text" formControlName="phone"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label position="stacked">{{ 'CUSTOMERS.AGE' | translate }}</ion-label>
+        <ion-label position="stacked">{{ 'AGE' | translate }}</ion-label>
         <ion-input type="number" formControlName="age"></ion-input>
       </ion-item>
     </ion-list>

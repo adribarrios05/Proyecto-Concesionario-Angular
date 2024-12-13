@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { User } from 'src/app/core/models/auth.model';
 import { Customer } from 'src/app/core/models/customer.model';
+import { CustomerStrapiRepositoryService } from 'src/app/core/repositories/impl/customer-strapi-repository.service';
 import { BaseAuthenticationService } from 'src/app/core/services/impl/base-authentication.service';
 import { CustomerService } from 'src/app/core/services/impl/customer.service';
 import { dniValidator, passwordsMatchValidator, passwordValidator } from 'src/app/core/utils/validators';
@@ -24,6 +25,7 @@ export class RegisterPage {
     private route:ActivatedRoute,
     private authSvc:BaseAuthenticationService,
     private customerSvc: CustomerService,
+    private customerStrapiSvc: CustomerStrapiRepositoryService
   ) {
     this.registerForm = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(2)]],
@@ -53,7 +55,7 @@ export class RegisterPage {
 
           console.log('Datos del cliente después de formatear la fecha:', userData);
 
-          this.customerSvc.add(userData).subscribe({
+          this.customerStrapiSvc.add(userData).subscribe({
             next: resp => {
               console.log('Customer registrado: ', resp)
               const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/home';

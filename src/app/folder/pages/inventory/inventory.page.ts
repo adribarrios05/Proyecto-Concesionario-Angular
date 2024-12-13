@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { ModalController, Platform, RangeCustomEvent } from '@ionic/angular';
+import { AlertController, ModalController, Platform, RangeCustomEvent } from '@ionic/angular';
 import { BehaviorSubject, Observable, timer } from 'rxjs';
 import { Car } from 'src/app/core/models/car.model';
 import { Paginated } from 'src/app/core/models/paginated.model';
@@ -33,6 +33,7 @@ export class InventoryPage implements OnInit {
     private carSvc: CarService,
     private authSvc: BaseAuthenticationService,
     private customerSvc: CustomerService,
+    private alertController: AlertController
   ) { }
 
   ngOnInit() {
@@ -187,40 +188,108 @@ export class InventoryPage implements OnInit {
 
   onBuy(car: Car) {
     if (this.isLoggedIn) {
-      this.authSvc.me().subscribe({
-        next: (user) => {
-          if (user) {
-            this.customerSvc.getByUserId(user.id).subscribe({
-              next: (customer) => {
-                if (customer) {
-                  const updatedCar = { ...car, customerId: customer.id };
-                  this.carSvc.update(updatedCar.id, updatedCar).subscribe({
-                    next: () => {
-                      console.log(`Coche ${car.brand} ${car.model} comprado con éxito por el cliente ${customer.name}. Id: ${car.customerSell}`);
-                    },
-                    error: (err) => {
-                      console.error('Error al comprar el coche:', err);
-                    },
-                  });
-                } else {
-                  console.error('No se encontró un cliente asociado al usuario');
-                }
-              },
-              error: (err) => {
-                console.error('Error al obtener el cliente:', err);
-              },
-            });
-          } else {
-            console.error('Usuario no encontrado en la sesión activa');
-          }
-        },
-        error: (err) => {
-          console.error('Error al verificar la sesión:', err);
-        },
-      });
+      this.presentConfirmAlert(car);
     } else {
       console.error('El usuario no está autenticado');
     }
+  }
+  
+  async presentConfirmAlert(car: Car) {
+    const alert = await this.alertController.create({
+      header: 'Confirmar Compra',
+      message: `¿Está seguro de que desea comprar el ${car.brand} ${car.model}?`,
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel',
+          handler: () => {
+            console.log('Compra cancelada');
+          },
+        },
+        {
+          text: 'Sí',
+          handler: () => {
+            this.processPurchase(car);
+          },
+        },
+      ],
+    });
+  
+    await alert.present();
+  }
+  
+  processPurchase(car: Car) {
+    this.authSvc.me().subscribe({
+      next: (user) => {
+        if (user) {
+          this.customerSvc.getByUserId(user.id).subscribe({
+            next: (customer) => {
+              if (customer) {
+                const updatedCar = { ...car, customerId: customer.id };
+                this.carSvc.update(updatedCar.id, updatedCar).subscribe({
+                  next: () => {
+                    console.log(`Coche ${car.brand} ${car.model} comprado con éxito por el cliente ${customer.name}. Id: ${car.customer}`);
+                  },
+                  error: (err) => {
+                    console.error('Error al comprar el coche:', err);
+                  },
+                });
+              } else {
+                console.error('No se encontró un cliente asociado al usuario');
+              }
+            },
+            error: (err) => {
+              console.error('Error al obtener el cliente:', err);
+            },
+          });
+        } else {
+          console.error('Usuario no encontrado en la sesión activa');
+        }
+      },
+      error: (err) => {
+        console.error('Error al verificar la sesión:', err);
+      },
+    });
+  }
+
+  onDelete(car: Car) {
+    this.presentDeleteConfirmAlert(car);
+  }
+  
+  async presentDeleteConfirmAlert(car: Car) {
+    const alert = await this.alertController.create({
+      header: 'Confirmar Eliminación',
+      message: `¿Está seguro de que desea eliminar el coche ${car.brand} ${car.model}?`,
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel',
+          handler: () => {
+            console.log('Eliminación cancelada');
+          },
+        },
+        {
+          text: 'Sí',
+          handler: () => {
+            this.deleteCar(car);
+          },
+        },
+      ],
+    });
+  
+    await alert.present();
+  }
+  
+  deleteCar(car: Car) {
+    this.carSvc.delete(car.id).subscribe({
+      next: () => {
+        console.log(`Coche ${car.brand} ${car.model} eliminado con éxito.`);
+        this.loadCars(); 
+      },
+      error: (err) => {
+        console.error('Error al eliminar el coche:', err);
+      },
+    });
   }
 
 }

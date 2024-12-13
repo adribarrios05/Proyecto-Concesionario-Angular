@@ -48,7 +48,7 @@ interface CarAttributes {
     type: string,
     price: number,
     plate: string,
-    customerSell: CustomerRaw | number | null,
+    customer: CustomerRaw | number | null,
     createdAt?: string
     updatedAt?: string
     publishedAt?: string,
@@ -91,7 +91,7 @@ interface Meta {}
   })
   export class CarMappingStrapi implements IBaseMapping<Car> {
 
-    setAdd(data: Car):CarData {
+    setAdd(data: Car) {
         return {
             data:{
                 brand: data.brand,
@@ -103,7 +103,7 @@ interface Meta {}
                 type: data.type,
                 price: data.price,
                 plate: data.plate,
-                customerSell: data.customerSell ? Number(data.customerSell) : null,
+                customer: {id: data.customer},
                 picture: data.picture?Number(data.picture):null
             }
         };
@@ -131,7 +131,7 @@ interface Meta {}
                 break;
                 case 'plate': mappedData.plate = data[key];
                 break;
-                case 'customerSell': mappedData.customerSell = data[key] ? Number(data[key]) : null;
+                case 'customer': mappedData.customer = data[key] ? Number(data[key]) : null;
                 break;
                 case 'picture': mappedData.picture = data[key] ? Number(data[key]) : null;
                 break;
@@ -165,7 +165,7 @@ interface Meta {}
             type: attributes.type,
             price: attributes.price,
             plate: attributes.plate,
-            customerSell: typeof attributes.customerSell === 'object' ? attributes.customerSell?.data?.id/*.toString()*/ : undefined,
+            customer: typeof attributes.customer === 'object' ? attributes.customer?.data?.id : undefined,
             picture: typeof attributes.picture === 'object' ? {
                 url: attributes.picture?.data?.attributes?.url,
                 large: attributes.picture?.data?.attributes?.formats?.large?.url || attributes.picture?.data?.attributes?.url,

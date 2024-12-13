@@ -48,5 +48,13 @@ export class CustomerStrapiRepositoryService extends StrapiRepositoryService<Cus
           })
         );
       }
+
+      override add(entity: any): Observable<any> {
+        return this.http.post<any>(
+          `${this.apiUrl}/${this.resource}?populate=user`, this.mapping.setAdd(entity), 
+          this.getHeaders()).pipe(map(res=>{
+            return this.mapping.getAdded(res);
+          }));
+      }
       
 }

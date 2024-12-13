@@ -25,7 +25,7 @@
   "PLATE": "Plate",
   "PRICE": "Price",
   "RESET-FILTERS": "Reset filters",
-  "SAVE": "Safe",
+  "SAVE": "Save",
   "SAVE-CHANGES": "Save changes",
   "SALES_HISTORY": "Sales History",
   "SURNAME": "Surname",
@@ -33,5 +33,35 @@
   "TYPE": "Type",
   "UNDO-CHANGES": "Undo changes",
   "USER-INFO": "User info",
-  "USERNAME": "Username"
+  "USERNAME": "Username",
+  "REGISTER": {
+    "CREATE_ACCOUNT": "Create an account",
+    "EMAIL": "Email",
+    "USERNAME": "Username",
+    "PASSWORD": "Password",
+    "CONFIRM_PASSWORD": "Confirm password",
+    "NAME": "Name",
+    "SURNAME": "Surname",
+    "DNI": "DNI",
+    "PHONE": "Phone",
+    "AGE": "Age",
+    "ERRORS": {
+      "NAME_REQUIRED": "*You must enter your name",
+      "NAME_MINLENGTH": "*The name must have at least two characters",
+      "SURNAME_REQUIRED": "*You must enter your surname(s)",
+      "SURNAME_MINLENGTH": "*The surname(s) must have at least two characters",
+      "DNI_REQUIRED": "*You must enter your DNI",
+      "DNI_PATTERN": "*The DNI format is not valid",
+      "PHONE_REQUIRED": "*You must enter your phone number",
+      "PHONE_PATTERN": "*The phone format is not valid",
+      "EMAIL_REQUIRED": "*You must enter an email",
+      "EMAIL_INVALID": "*You must enter a valid email",
+      "PASSWORD_REQUIRED": "*You must enter a password",
+      "PASSWORD_STRENGTH": "*The password must have at least 8 characters, including uppercase, lowercase, a number, and a special character",
+      "PASSWORDS_MISMATCH": "*Passwords do not match"
+    },
+    "CREATE_BUTTON": "Create account",
+    "ALREADY_HAVE_ACCOUNT": "Already have an account?",
+    "LOGIN_LINK": "Log in"
+  }
 }
