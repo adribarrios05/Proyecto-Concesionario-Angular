@@ -46,6 +46,7 @@ export class LoginPage implements OnInit{
           const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/home';
           this.router.navigateByUrl(returnUrl);
           console.log("Usuario logueado correctamente: ", resp.username) 
+          location.reload()
         },
         error: err=>{
           console.log(err);

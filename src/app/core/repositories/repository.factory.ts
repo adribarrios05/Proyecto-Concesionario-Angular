@@ -20,13 +20,14 @@ import { Car } from '../models/car.model';
 import { Customer } from '../models/customer.model';
 import { CarMappingStrapi } from './impl/car-mapping-strapi.service';
 import { CustomerMappingStrapi } from './impl/customer-mapping-strapi.service';
+import { BaseRepositoryFirebaseService } from './impl/base-repository-firebase.service';
 
 export function createBaseRepositoryFactory<T extends Model>(
   token: InjectionToken<IBaseRepository<T>>,
   dependencies:any[]): FactoryProvider {
   return {
     provide: token,
-    useFactory: (backend: string, http: HttpClient, auth:IStrapiAuthentication, apiURL: string, resource: string, mapping: IBaseMapping<T>) => {
+    useFactory: (backend: string, http: HttpClient, auth:IStrapiAuthentication, apiURL: string, resource: string, mapping: IBaseMapping<T>, firebaseConfig?: any) => {
       switch (backend) {
         case 'http':
           return new BaseRepositoryHttpService<T>(http, auth, apiURL, resource, mapping);
@@ -36,7 +37,10 @@ export function createBaseRepositoryFactory<T extends Model>(
           return new JsonServerRepositoryService<T>(http, auth,apiURL, resource, mapping);
         case 'strapi':
           return new StrapiRepositoryService<T>(http, auth, apiURL, resource, mapping);
+        case 'firebase':
+          return new BaseRepositoryFirebaseService<T>(firebaseConfig, resource, mapping)
         default:
+       
           throw new Error("BACKEND NOT IMPLEMENTED");
       }
     },
