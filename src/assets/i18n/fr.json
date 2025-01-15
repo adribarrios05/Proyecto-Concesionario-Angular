@@ -33,5 +33,35 @@
   "TYPE": "Type",
   "UNDO-CHANGES": "Annuler les modifications",
   "USER-INFO": "Informations utilisateur",
-  "USERNAME": "Nom d'utilisateur"
+  "USERNAME": "Nom d'utilisateur",
+  "REGISTER": {
+    "CREATE_ACCOUNT": "Créer un compte",
+    "EMAIL": "E-mail",
+    "USERNAME": "Nom d'utilisateur",
+    "PASSWORD": "Mot de passe",
+    "CONFIRM_PASSWORD": "Confirmer le mot de passe",
+    "NAME": "Prénom",
+    "SURNAME": "Nom",
+    "DNI": "DNI",
+    "PHONE": "Téléphone",
+    "AGE": "Âge",
+    "ERRORS": {
+      "NAME_REQUIRED": "*Vous devez entrer votre prénom",
+      "NAME_MINLENGTH": "*Le prénom doit avoir au moins deux caractères",
+      "SURNAME_REQUIRED": "*Vous devez entrer votre nom",
+      "SURNAME_MINLENGTH": "*Le nom doit avoir au moins deux caractères",
+      "DNI_REQUIRED": "*Vous devez entrer votre DNI",
+      "DNI_PATTERN": "*Le format du DNI n'est pas valide",
+      "PHONE_REQUIRED": "*Vous devez entrer votre numéro de téléphone",
+      "PHONE_PATTERN": "*Le format du téléphone n'est pas valide",
+      "EMAIL_REQUIRED": "*Vous devez entrer un e-mail",
+      "EMAIL_INVALID": "*Vous devez entrer un e-mail valide",
+      "PASSWORD_REQUIRED": "*Vous devez entrer un mot de passe",
+      "PASSWORD_STRENGTH": "*Le mot de passe doit comporter au moins 8 caractères, y compris des majuscules, des minuscules, un chiffre et un caractère spécial",
+      "PASSWORDS_MISMATCH": "*Les mots de passe ne correspondent pas"
+    },
+    "CREATE_BUTTON": "Créer un compte",
+    "ALREADY_HAVE_ACCOUNT": "Vous avez déjà un compte?",
+    "LOGIN_LINK": "Se connecter"
+  }
 }

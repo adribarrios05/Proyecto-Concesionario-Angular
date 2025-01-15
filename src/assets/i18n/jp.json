@@ -33,6 +33,36 @@
     "TYPE": "タイプ",
     "UNDO-CHANGES": "変更を元に戻す",
     "USER-INFO": "ユーザー情報",
-    "USERNAME": "ユーザー名"
+    "USERNAME": "ユーザー名",
+    "REGISTER": {
+    "CREATE_ACCOUNT": "アカウントを作成",
+    "EMAIL": "メールアドレス",
+    "USERNAME": "ユーザー名",
+    "PASSWORD": "パスワード",
+    "CONFIRM_PASSWORD": "パスワードを確認",
+    "NAME": "名前",
+    "SURNAME": "姓",
+    "DNI": "DNI",
+    "PHONE": "電話番号",
+    "AGE": "年齢",
+    "ERRORS": {
+      "NAME_REQUIRED": "*名前を入力してください",
+      "NAME_MINLENGTH": "*名前は2文字以上である必要があります",
+      "SURNAME_REQUIRED": "*姓を入力してください",
+      "SURNAME_MINLENGTH": "*姓は2文字以上である必要があります",
+      "DNI_REQUIRED": "*DNIを入力してください",
+      "DNI_PATTERN": "*DNIの形式が正しくありません",
+      "PHONE_REQUIRED": "*電話番号を入力してください",
+      "PHONE_PATTERN": "*電話番号の形式が正しくありません",
+      "EMAIL_REQUIRED": "*メールアドレスを入力してください",
+      "EMAIL_INVALID": "*有効なメールアドレスを入力してください",
+      "PASSWORD_REQUIRED": "*パスワードを入力してください",
+      "PASSWORD_STRENGTH": "*パスワードは8文字以上で、大文字、小文字、数字、特殊文字を含む必要があります",
+      "PASSWORDS_MISMATCH": "*パスワードが一致しません"
+    },
+    "CREATE_BUTTON": "アカウントを作成",
+    "ALREADY_HAVE_ACCOUNT": "すでにアカウントをお持ちですか？",
+    "LOGIN_LINK": "ログイン"
+  }
   }
   

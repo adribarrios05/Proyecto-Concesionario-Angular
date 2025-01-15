@@ -92,8 +92,11 @@
                 <p><strong>{{ 'PLATE' | translate}}:</strong> {{ car.plate }}</p>
                 <p>{{ car.description }}</p>
               </ion-card-content>
-              <ion-button *ngIf="isLoggedIn" expand="block" color="primary" (click)="onBuy(car)">
+              <ion-button *ngIf="isLoggedIn" color="primary" expand="block" color="primary" (click)="onBuy(car)">
                 {{ 'BUY' | translate }}
+              </ion-button>
+              <ion-button *ngIf="isLoggedIn" color="danger" expand="block" (click)="onDelete(car)">
+                {{ 'DELETE' | translate }}
               </ion-button>
 
             </ion-card>

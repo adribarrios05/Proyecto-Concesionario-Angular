@@ -33,5 +33,35 @@
   "TYPE": "Tipo",
   "UNDO-CHANGES": "Deshacer cambios",
   "USER-INFO": "Información del usuario",
-  "USERNAME": "Nombre de usuario"
+  "USERNAME": "Nombre de usuario",
+  "REGISTER": {
+    "CREATE_ACCOUNT": "Crear una cuenta",
+    "EMAIL": "Email",
+    "USERNAME": "Usuario",
+    "PASSWORD": "Contraseña",
+    "CONFIRM_PASSWORD": "Repita contraseña",
+    "NAME": "Nombre",
+    "SURNAME": "Apellidos",
+    "DNI": "DNI",
+    "PHONE": "Teléfono",
+    "AGE": "Edad",
+    "ERRORS": {
+      "NAME_REQUIRED": "*Debe introducir su nombre",
+      "NAME_MINLENGTH": "*El nombre debe tener al menos dos caracteres",
+      "SURNAME_REQUIRED": "*Debe introducir su/s apellido/s",
+      "SURNAME_MINLENGTH": "*Su/s apellido/s debe/n tener al menos dos caracteres",
+      "DNI_REQUIRED": "*Debe introducir su DNI",
+      "DNI_PATTERN": "*El formato de DNI no es válido",
+      "PHONE_REQUIRED": "*Debe introducir su teléfono",
+      "PHONE_PATTERN": "*El formato del teléfono no es válido",
+      "EMAIL_REQUIRED": "*Debe introducir un email",
+      "EMAIL_INVALID": "*Debe introducir un email correcto",
+      "PASSWORD_REQUIRED": "*Debe introducir una contraseña",
+      "PASSWORD_STRENGTH": "*La contraseña debe tener al menos 8 caracteres, incluyendo mayúsculas, minúsculas, un número y un caracter especial",
+      "PASSWORDS_MISMATCH": "*Las contraseñas no coinciden"
+    },
+    "CREATE_BUTTON": "Crear cuenta",
+    "ALREADY_HAVE_ACCOUNT": "¿Ya tienes cuenta?",
+    "LOGIN_LINK": "Inicia sesión"
+  }
 }

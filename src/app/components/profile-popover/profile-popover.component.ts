@@ -29,7 +29,7 @@ export class ProfilePopoverComponent implements OnInit{
   async ngOnInit() {
     try {
       const user = await this.authSvc.getCurrentUser();
-      if(user){
+      if(user && user!=null){
         this.customer = await lastValueFrom(this.customerSvc.getByUserId(user.id))
         console.log("Hay un cliente logueado: ", this.customer)
         this.isLoggedIn = true

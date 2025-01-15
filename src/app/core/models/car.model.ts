@@ -10,7 +10,7 @@ export interface Car extends Model{
     color: string,
     type: string,
     plate: string,
-    customerSell?: number
+    customer?: number
     picture?:{
         url:string | undefined,
         large:string | undefined,

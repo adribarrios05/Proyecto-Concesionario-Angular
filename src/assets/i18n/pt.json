@@ -33,6 +33,36 @@
     "TYPE": "Tipo",
     "UNDO-CHANGES": "Desfazer alterações",
     "USER-INFO": "Informações do usuário",
-    "USERNAME": "Nome de usuário"
+    "USERNAME": "Nome de usuário",
+    "REGISTER": {
+    "CREATE_ACCOUNT": "Criar uma conta",
+    "EMAIL": "Email",
+    "USERNAME": "Nome de usuário",
+    "PASSWORD": "Senha",
+    "CONFIRM_PASSWORD": "Confirmar senha",
+    "NAME": "Nome",
+    "SURNAME": "Sobrenome",
+    "DNI": "DNI",
+    "PHONE": "Telefone",
+    "AGE": "Idade",
+    "ERRORS": {
+      "NAME_REQUIRED": "*Você deve inserir seu nome",
+      "NAME_MINLENGTH": "*O nome deve ter pelo menos dois caracteres",
+      "SURNAME_REQUIRED": "*Você deve inserir seu sobrenome(s)",
+      "SURNAME_MINLENGTH": "*O(s) sobrenome(s) deve(m) ter pelo menos dois caracteres",
+      "DNI_REQUIRED": "*Você deve inserir seu DNI",
+      "DNI_PATTERN": "*O formato do DNI não é válido",
+      "PHONE_REQUIRED": "*Você deve inserir seu número de telefone",
+      "PHONE_PATTERN": "*O formato do telefone não é válido",
+      "EMAIL_REQUIRED": "*Você deve inserir um email",
+      "EMAIL_INVALID": "*Você deve inserir um email válido",
+      "PASSWORD_REQUIRED": "*Você deve inserir uma senha",
+      "PASSWORD_STRENGTH": "*A senha deve ter pelo menos 8 caracteres, incluindo letras maiúsculas, minúsculas, um número e um caractere especial",
+      "PASSWORDS_MISMATCH": "*As senhas não coincidem"
+    },
+    "CREATE_BUTTON": "Criar conta",
+    "ALREADY_HAVE_ACCOUNT": "Já tem uma conta?",
+    "LOGIN_LINK": "Entrar"
+  }
   }
   

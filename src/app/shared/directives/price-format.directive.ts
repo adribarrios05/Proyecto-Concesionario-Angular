@@ -49,6 +49,8 @@ export class PriceFormatDirective implements OnChanges, OnDestroy {
     const currencyMap: { [key: string]: string } = {
       en: 'USD',
       es: 'EUR',
+      fr: 'EUR',
+      pt: 'EUR',
       jp: 'JPY', 
     };
     return currencyMap[locale] || 'USD';
