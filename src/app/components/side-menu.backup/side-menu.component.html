@@ -11,7 +11,7 @@
         <ion-item>
           <ion-label>Caballos</ion-label>
           <ion-range [(ngModel)]="caballos" [min]=200 [max]=800 step="10" [dualKnobs]="true" pin="true" (ionChange)="onCaballosChange($event)" >
-            <ion-label slot="start">{{ caballos.lower }}</ion-label>
+            <!--<ion-label slot="start">{{ caballos.lower }}</ion-label>
             <ion-label slot="end">{{ caballos.upper }}</ion-label>
           </ion-range>
         </ion-item>
@@ -20,7 +20,7 @@
           <ion-label>Precio</ion-label>
           <ion-range [(ngModel)]="precio" [min]=50000 [max]=2000000 step="1000" [dualKnobs]="true" pin="true" (ionChange)="onPrecioChange($event)" >
             <ion-label slot="start">{{ precio.lower }}</ion-label>
-            <ion-label slot="end">{{ precio.upper }}</ion-label>
+            <ion-label slot="end">{{ precio.upper }}</ion-label>-->
           </ion-range>
         </ion-item>
 

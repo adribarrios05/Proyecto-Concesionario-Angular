@@ -32,7 +32,6 @@ export class CustomersPage implements OnInit {
 
   ngOnInit() {
     this.loadCustomers()
-    
   }
 
   page: number = 1
@@ -42,7 +41,6 @@ export class CustomersPage implements OnInit {
   loadCustomers(){
     this._customers.subscribe(data => {
       console.log("Datos de los clientes:", data); // Verifica los datos que devuelve el servicio
-      
     });
     this.page = 1
     this.customerService.getAll(this.page, this.pageSize).subscribe({
@@ -55,6 +53,9 @@ export class CustomersPage implements OnInit {
         this._customers.next([...response.data])
         this.page++
         this.pages = response.pages
+      },
+      error: err=>{
+        console.log(err);
       }
     })
   }

@@ -54,6 +54,9 @@ export class InventoryPage implements OnInit {
   isLoading: boolean = true
 
   loadCars(filters: SearchParams = {}){
+    this._cars.subscribe(data => {
+      console.log("Datos de los coches:", data); // Verifica los datos que devuelve el servicio
+    });
     this.page=1;
     this.carSvc.getAll(this.page, this.pageSize, filters).subscribe({
       next:(response:Paginated<Car>)=>{
@@ -79,23 +82,46 @@ export class InventoryPage implements OnInit {
     }
   }
 
+  isRangeValue(value: RangeValue): value is { lower: number; upper: number } {
+    return typeof value === 'object' && 'lower' in value && 'upper' in value;
+  }
+  
+
   applyFilters() {
     const filters: any = {};
   
     // Filtrar por rango de caballos
-    if (this.caballos.lower !== 200 || this.caballos.upper !== 800) {
-      filters.horsePower = {
-        $gte: this.caballos.lower,
-        $lte: this.caballos.upper,
-      };
+    if (
+      typeof this.caballos === 'object' && 
+      'lower' in this.caballos && 
+      'upper' in this.caballos
+    ) {
+      if (this.caballos.lower !== 200 || this.caballos.upper !== 800) {
+        filters.horsePower = {
+          $gte: this.caballos.lower,
+          $lte: this.caballos.upper,
+        };
+      }
+    } else {
+      // Maneja el caso en el que `caballos` es un número o no tiene las propiedades necesarias
+      console.error("La variable 'caballos' no tiene el formato esperado.");
     }
   
     // Filtrar por rango de precio
-    if (this.precio.lower !== 50000 || this.precio.upper !== 2000000) {
-      filters.price = {
-        $gte: this.precio.lower,
-        $lte: this.precio.upper,
-      };
+    if (
+      typeof this.precio === 'object' && 
+      'lower' in this.precio && 
+      'upper' in this.precio
+    ) {
+      if (this.precio.lower !== 200 || this.precio.upper !== 800) {
+        filters.horsePower = {
+          $gte: this.precio.lower,
+          $lte: this.precio.upper,
+        };
+      }
+    } else {
+      // Maneja el caso en el que `precio` es un número o no tiene las propiedades necesarias
+      console.error("La variable 'precio' no tiene el formato esperado.");
     }
   
     // Filtrar por marcas seleccionadas
