@@ -1,6 +1,6 @@
 // src/app/services/impl/base-service.service.ts
 import { Injectable, Inject } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, tap } from 'rxjs';
 import { IBaseService } from '../interfaces/base-service.interface';
 import { IBaseRepository, SearchParams } from '../../repositories/intefaces/base-repository.interface';
 import { Model } from '../../models/base.model';
@@ -21,8 +21,10 @@ export class BaseService<T extends Model> implements IBaseService<T> {
   getAll(page?: number, pageSize?: number, filters?: SearchParams): Observable<T[] | Paginated<T>> {    
     if (page === undefined || pageSize === undefined)
         return this.repository.getAll(1, 25, {});
-    else
-    return this.repository.getAll(page, pageSize, filters??{});
+    else{
+      return this.repository.getAll(page, pageSize, filters??{}).pipe(tap(response => console.log("Datos recibidos en el servicio base: ", response)));
+    }
+    
   }
 
   getById(id: string): Observable<T | null> {

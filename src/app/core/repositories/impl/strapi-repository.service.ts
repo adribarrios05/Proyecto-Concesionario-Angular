@@ -64,7 +64,10 @@ export class StrapiRepositoryService<T extends Model> extends BaseRepositoryHttp
       return this.http.get<PaginatedRaw<T>>(
         `${this.apiUrl}/${this.resource}?pagination[page]=${page}&pagination[pageSize]=${pageSize}&${search}&populate=user,customer,picture`, 
         this.getHeaders()).pipe(map(res=>{
-          return this.mapping.getPaginated(page, pageSize, res.meta.pagination.total, res.data);
+          console.log("Datos de strapi: ", res)
+          let resul = this.mapping.getPaginated(page, pageSize, res.meta.pagination.total, res.data)
+          console.log("Respuesta de strapi", resul)
+          return resul;
         }));
     }
     else{

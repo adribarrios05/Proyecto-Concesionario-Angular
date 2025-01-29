@@ -145,41 +145,64 @@ interface Meta {}
         };
     }
 
-    getPaginated(page:number, pageSize: number, pages:number, data:Data[]): Paginated<Customer> {
-        return {page:page, pageSize:pageSize, pages:pages, data:data.map<Customer>((d:Data|CustomerRaw)=>{
-            return this.getOne(d);
-        })};
+    getPaginated(page: number, pageSize: number, pages: number, data: Data[]): Paginated<Customer> {
+        console.log("📌 Data recibida en getPaginated:", data);
+    
+        if (!Array.isArray(data) || data.length === 0) {
+            console.error("⚠️ Error: data no es un array o está vacía:", data);
+            return { page, pageSize, pages, data: [] };
+        }
+    
+        const mappedData = data.map<Customer>((d: Data | CustomerRaw) => {
+            const transformed = this.getOne(d);
+            console.log("🔄 Transformación de item en getOne:", transformed);
+            return transformed;
+        });
+    
+        console.log("✅ Datos después de mapeo en getPaginated:", mappedData);
+    
+        return {
+            page,
+            pageSize,
+            pages,
+            data: mappedData
+        };
     }
+    
+    
     getOne(data: any): Customer {
+        console.log("📌 Data recibida en getOne:", data);
+    
+        if (!data) {
+            console.error("❌ Error: data en getOne es undefined o null", data);
+        }
+    
         const isCustomerRaw = (data: any): data is CustomerRaw => 'meta' in data;
-
-        let toReturn: Customer
+    
         const attributes = isCustomerRaw(data) ? data.data.attributes : data.attributes;
         const id = isCustomerRaw(data) ? data.data.id : data.id;
-        if(data.data){
-            console.log("Es data.data")
-        } else{
-            console.log("Es data")
-        }
-        console.log("Este es mi data", data)
+    
+        console.log("📌 Atributos obtenidos:", attributes);
+        console.log("📌 ID obtenido:", id);
+    
         return {
-            id: id.toString(),
-            name: attributes.name,
-            surname: attributes.surname,
-            dni: attributes.dni,
-            phone: attributes.phone,
-            age: attributes.age,
-            //carRent: typeof attributes.carRent === 'object' ? attributes.carRent?.data?.id/*.toString()*/ : undefined,
-            userId: typeof attributes.userId === 'object' ? attributes.userId?.data?.id : undefined,
-            picture: typeof attributes.picture === 'object' ? {
-                url: attributes.picture?.data?.attributes?.url,
-                large: attributes.picture?.data?.attributes?.formats?.large?.url || attributes.picture?.data?.attributes?.url,
-                medium: attributes.picture?.data?.attributes?.formats?.medium?.url || attributes.picture?.data?.attributes?.url,
-                small: attributes.picture?.data?.attributes?.formats?.small?.url || attributes.picture?.data?.attributes?.url,
-                thumbnail: attributes.picture?.data?.attributes?.formats?.thumbnail?.url || attributes.picture?.data?.attributes?.url,
+            id: id ? id.toString() : "0",
+            name: attributes?.name || "Sin nombre",
+            surname: attributes?.surname || "Sin apellido",
+            dni: attributes?.dni || "Sin DNI",
+            phone: attributes?.phone || "Sin teléfono",
+            age: attributes?.age || 0,
+            userId: attributes?.userId?.data?.id || undefined,
+            picture: attributes?.picture?.data ? {
+                url: attributes.picture.data.attributes.url,
+                large: attributes.picture.data.attributes.formats?.large?.url || attributes.picture.data.attributes.url,
+                medium: attributes.picture.data.attributes.formats?.medium?.url || attributes.picture.data.attributes.url,
+                small: attributes.picture.data.attributes.formats?.small?.url || attributes.picture.data.attributes.url,
+                thumbnail: attributes.picture.data.attributes.formats?.thumbnail?.url || attributes.picture.data.attributes.url,
             } : undefined
         };
     }
+    
     getAdded(data: CustomerRaw):Customer {
         return this.getOne(data.data);
     }

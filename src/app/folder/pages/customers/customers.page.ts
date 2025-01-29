@@ -39,20 +39,23 @@ export class CustomersPage implements OnInit {
   pages: number = 0
 
   loadCustomers(){
-    this._customers.subscribe(data => {
-      console.log("Datos de los clientes:", data); // Verifica los datos que devuelve el servicio
-    });
     this.page = 1
-    this.customerService.getAll(this.page, this.pageSize).subscribe({
+    this.customerService.getAll(this.page, this.pageSize, {}).subscribe({
       next: (response: Paginated<Customer>) => {
+        console.log("Datos obtenidos de la API:", response.data);
 
-        const userData = response.data.map((customer) => {
+        /*const userData = response.data.map((customer) => {
           const userId = customer.userId
-        })
+        })*/
 
-        this._customers.next([...response.data])
+        this._customers.next(response.data)
         this.page++
         this.pages = response.pages
+
+        this._customers.subscribe(data =>{
+          console.log("Datos actualizados en _customers:", data); 
+        })
+
       },
       error: err=>{
         console.log(err);
