@@ -45,7 +45,7 @@ interface CustomerAttributes {
     surname: string,
     dni: string,
     phone: string,
-    age: Date,
+    birthDate: Date,
     /*createdAt?: string
     updatedAt?: string
     publishedAt?: string
@@ -93,10 +93,10 @@ interface Meta {}
   export class CustomerMappingStrapi implements IBaseMapping<Customer> {
 
     setAdd(data: any):any {
-        const formatToISODate = (date: string): Date => {
-            const [day, month, year] = date.split('-');
-            return new Date(Number(month) - 1, Number(day) , Number(year));; 
-          };
+        const formatToISODate = (date: string): string => {
+            const [day, month, year] = date.split('-').map(num => Number(num));  
+            return new Date(year, month - 1, day).toISOString();
+        };
         console.log('Datos recibidos en setAdd:', data);
 
         const miCustomer = {
@@ -105,7 +105,7 @@ interface Meta {}
                 surname: data.surname,
                 dni: data.dni,
                 phone: data.phone,
-                age: formatToISODate(data.age.toString()),
+                birthDate: data.birthDate,
                 //carRent: data.carRent ? Number(data.carRent) : null,
                 user: data.userId ? Number(data.userId) : null,
                 picture: data.picture ? Number(data.picture) : null
@@ -113,7 +113,6 @@ interface Meta {}
         }
         console.log("Pongo un texto cualquiera: ", miCustomer)
         return miCustomer
-            
         };
 
     setUpdate(data: Partial<Customer>): CustomerData {
@@ -129,7 +128,7 @@ interface Meta {}
                 break;
                 case 'phone': mappedData.phone = data[key];
                 break;
-                case 'age': mappedData.age = data[key];
+                case 'birthDate': mappedData.birthDate = data[key];
                 break;
                 //case 'carRent': mappedData.carRent = data[key] ? Number(data[key]) : null;
                 //break;
@@ -191,7 +190,7 @@ interface Meta {}
             surname: attributes?.surname || "Sin apellido",
             dni: attributes?.dni || "Sin DNI",
             phone: attributes?.phone || "Sin teléfono",
-            age: attributes?.age || 0,
+            birthDate: attributes?.birthDate || 0,
             userId: attributes?.userId?.data?.id || undefined,
             picture: attributes?.picture?.data ? {
                 url: attributes.picture.data.attributes.url,

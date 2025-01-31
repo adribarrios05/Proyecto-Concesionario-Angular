@@ -5,7 +5,7 @@ export interface Customer extends Model{
     surname: string,
     dni: string,
     phone: string,
-    age: Date,
+    birthDate: Date,
     //carRent?: number,
     userId?: number,
     picture?:{

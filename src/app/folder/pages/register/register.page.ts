@@ -36,7 +36,7 @@ export class RegisterPage {
       surname: ['', [Validators.required, Validators.minLength(2)]],
       dni: ['', [Validators.required, dniValidator]],
       phone: ['', [Validators.required, Validators.minLength(9)]],
-      age: ['', [Validators.required]],
+      birthDate: ['', [Validators.required]],
     },
     { validators: passwordsMatchValidator, dniValidator });
   }

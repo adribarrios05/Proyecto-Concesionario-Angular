@@ -74,7 +74,7 @@ interface CustomerAttributes {
     surname: string,
     DNI: string,
     phone: string,
-    age: Date,
+    birthDate: Date,
     gender: string
     createdAt?: string
     updatedAt?: string
