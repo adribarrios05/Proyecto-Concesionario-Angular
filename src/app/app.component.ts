@@ -38,6 +38,8 @@ export class AppComponent {
     this.translateSvc.use(savedLanguage);
 
     this.checkUserAuthentication()
+    console.log("Eliminando token antiguo...")
+    localStorage.removeItem('token')
   }
 
   ngOnInit(){
