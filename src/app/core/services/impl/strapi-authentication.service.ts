@@ -78,6 +78,7 @@ export class StrapiAuthenticationService extends BaseAuthenticationService imple
 
   signOut(): Observable<any> {
     return of(true).pipe(tap(_=>{
+      console.log("Borrando token: ", localStorage.getItem('customer-jwt-token'))
       localStorage.removeItem('customers-jwt-token');
       this._authenticated.next(false);
       this._user.next(undefined);
