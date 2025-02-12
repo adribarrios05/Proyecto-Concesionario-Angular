@@ -7,6 +7,5 @@ export interface FirebaseCustomer {
     phone: string,
     birthDate: Date,
     user?: string;
-    customerId?: DocumentReference;
     picture?: string;
 } 

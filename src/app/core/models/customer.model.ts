@@ -7,7 +7,7 @@ export interface Customer extends Model{
     phone: string,
     birthDate: Date,
     //carRent?: number,
-    userId?: number,
+    userId?: number | string,
     picture?:{
         url:string | undefined,
         large:string | undefined,

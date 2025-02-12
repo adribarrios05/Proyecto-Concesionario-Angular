@@ -10,7 +10,7 @@ import { FirebaseCar } from '../../models/firebase/firebase-car.model';
 @Injectable({
   providedIn: 'root'
 })
-export class CarsMappingFirebaseService implements IBaseMapping<Car> {
+export class CarMappingFirebaseService implements IBaseMapping<Car> {
   
 
   private db: Firestore;
@@ -63,16 +63,28 @@ export class CarsMappingFirebaseService implements IBaseMapping<Car> {
         plate: data.plate,
         picture: data.picture ? data.picture.url : ""
     };
-    if(dataMapping.customerId){
-      dataMapping.customerId = doc(this.db, 'customers', data.customer || '');
+    if(dataMapping.customerId){ 
+      dataMapping.customerId = doc(this.db, 'customers', data.customer?.toString() || '');
     }
     return dataMapping;
   }
 
   setUpdate(data: Car): FirebaseCar {
-    return {
-      name: data.name
-    };
+    const result: any = {};
+    
+    if (data.brand) result.brand = data.brand;
+    if (data.model) result.model = data.model;
+    if (data.price) result.price = data.price;
+    if (data.doors) result.doors = data.doors;
+    if (data.description) result.description = data.description;
+    if (data.horsePower) result.horsePower = data.horsePower;
+    if (data.color) result.color = data.color;
+    if (data.type) result.type = data.type;
+    if (data.plate) result.plate = data.plate;
+    if (data.customer) result.customer = doc(this.db, 'customers', data.customer.toString() || '');
+    if (data.picture) result.picture = data.picture;
+
+    return result;
   }
 
   getAdded(data:{id:string} & FirebaseCar): Car {

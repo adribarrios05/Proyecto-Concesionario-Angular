@@ -47,7 +47,7 @@ export function createTranslateLoader(http: HttpClient) {
   providers: [{ provide: RouteReuseStrategy, 
     useClass: IonicRouteStrategy },
   provideHttpClient(),
-  { provide: BACKEND_TOKEN, useValue: 'strapi' },
+  { provide: BACKEND_TOKEN, useValue: 'firebase' },
   { provide: CAR_RESOURCE_NAME_TOKEN, useValue: 'cars' },
   { provide: CUSTOMER_RESOURCE_NAME_TOKEN, useValue: 'customers' },
   { provide: CAR_API_URL_TOKEN, useValue: `${environment.apiUrl}/api` },

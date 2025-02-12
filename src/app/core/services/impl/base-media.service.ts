@@ -4,6 +4,6 @@ import { Observable } from "rxjs";
 @Injectable({
     providedIn: 'root'
   })
-  export abstract class BaseMediaService {  
-    public abstract upload(blob:Blob):Observable<number[]>;
+  export abstract class BaseMediaService<T = number> {  
+    public abstract upload(blob:Blob):Observable<T[]>;
   }

@@ -9,6 +9,7 @@ import { ICustomerRepository } from './intefaces/customer-repository.interface';
 import { Car } from '../models/car.model';
 import { Customer } from '../models/customer.model';
 import { User } from '../models/auth.model';
+import { ICollectionSubscription } from '../services/interfaces/collection-subscription.interface';
 
 export const RESOURCE_NAME_TOKEN = new InjectionToken<string>('ResourceName');
 export const CAR_RESOURCE_NAME_TOKEN = new InjectionToken<string>('CarResourceName');
@@ -36,3 +37,5 @@ export const AUTH_MAPPING_TOKEN = new InjectionToken<IBaseMapping<User>>('IAuthM
 export const BACKEND_TOKEN = new InjectionToken<string>('Backend');
 export const FIREBASE_CONFIG_TOKEN = new InjectionToken<any>('FIREBASE_CONFIG_TOKEN');
 export const FIREBASE_COLLECTION_TOKEN = new InjectionToken<string>('FIREBASE_COLLECTION_TOKEN');
+export const CAR_COLLECTION_SUBSCRIPTION_TOKEN = new InjectionToken<ICollectionSubscription<Car>>('CarCollectionSubscriptionToken');
+export const CUSTOMER_COLLECTION_SUBSCRIPTION_TOKEN = new InjectionToken<ICollectionSubscription<Customer>>('CustomerCollectionSubscriptionToken');
