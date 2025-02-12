@@ -4,7 +4,16 @@
 
 export const environment = {
   apiUrl: "http://localhost:1337",
-  production: false
+  production: false,
+  firebaseConfig: {
+    apiKey: "AIzaSyDXjHUKnlhNBpIpfdxOZlAKb1vykp8ElPo",
+    authDomain: "concesionarios-baca.firebaseapp.com",
+    projectId: "concesionarios-baca",
+    storageBucket: "concesionarios-baca.firebasestorage.app",
+    messagingSenderId: "1098140390614",
+    appId: "1:1098140390614:web:f468fba37feeba8ddea577",
+    measurementId: "G-FWC8EPFFQG"
+  }
 };
 
 /*

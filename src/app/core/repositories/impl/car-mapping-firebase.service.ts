@@ -12,7 +12,6 @@ import { FirebaseCar } from '../../models/firebase/firebase-car.model';
 })
 export class CarMappingFirebaseService implements IBaseMapping<Car> {
   
-
   private db: Firestore;
 
   constructor(@Inject(FIREBASE_CONFIG_TOKEN) protected firebaseConfig: any){
