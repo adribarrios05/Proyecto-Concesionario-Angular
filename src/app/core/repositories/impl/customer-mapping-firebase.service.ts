@@ -12,10 +12,10 @@ import { FirebaseCustomer } from "../../models/firebase/firebase-customer.model"
 })
 export class CustomerMappingFirebaseService implements IBaseMapping<Customer> {
 
-  private db: Firestore;
+  //private db: Firestore;
 
   constructor(@Inject(FIREBASE_CONFIG_TOKEN) protected firebaseConfig: any){
-        this.db = getFirestore(initializeApp(firebaseConfig));
+        //this.db = getFirestore(initializeApp(firebaseConfig));
   }
 
   setAdd(data: Customer): FirebaseCustomer {

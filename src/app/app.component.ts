@@ -36,10 +36,6 @@ export class AppComponent {
     const savedLanguage = localStorage.getItem('selectedLanguage') || 'en';
     this.translateSvc.setDefaultLang(savedLanguage);
     this.translateSvc.use(savedLanguage);
-
-    this.checkUserAuthentication()
-    console.log("Eliminando token antiguo...")
-    localStorage.removeItem('token')
   }
 
   ngOnInit(){

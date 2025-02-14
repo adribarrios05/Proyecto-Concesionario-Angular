@@ -12,10 +12,11 @@ import { FirebaseCar } from '../../models/firebase/firebase-car.model';
 })
 export class CarMappingFirebaseService implements IBaseMapping<Car> {
   
-  private db: Firestore;
+  //private db: Firestore;
 
   constructor(@Inject(FIREBASE_CONFIG_TOKEN) protected firebaseConfig: any){
-        this.db = getFirestore(initializeApp(firebaseConfig));
+    console.log("Configuracion de Firebase", firebaseConfig)
+        //this.db = getFirestore(initializeApp(firebaseConfig));
   }
   getOne(data: { id: string } & FirebaseCar): Car {
     return {
@@ -63,7 +64,7 @@ export class CarMappingFirebaseService implements IBaseMapping<Car> {
         picture: data.picture ? data.picture.url : ""
     };
     if(dataMapping.customerId){ 
-      dataMapping.customerId = doc(this.db, 'customers', data.customer?.toString() || '');
+      //dataMapping.customerId = doc(this.db, 'customers', data.customer?.toString() || '');
     }
     return dataMapping;
   }
@@ -80,7 +81,7 @@ export class CarMappingFirebaseService implements IBaseMapping<Car> {
     if (data.color) result.color = data.color;
     if (data.type) result.type = data.type;
     if (data.plate) result.plate = data.plate;
-    if (data.customer) result.customer = doc(this.db, 'customers', data.customer.toString() || '');
+    //if (data.customer) result.customer = doc(this.db, 'customers', data.customer.toString() || '');
     if (data.picture) result.picture = data.picture;
 
     return result;

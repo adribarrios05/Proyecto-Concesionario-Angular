@@ -102,5 +102,4 @@ export class StrapiRepositoryService<T extends Model> extends BaseRepositoryHttp
     return this.http.delete<T>(`${this.apiUrl}/${this.resource}/${id}`, 
       this.getHeaders()).pipe(map(res=>this.mapping.getDeleted(res)));
   }
-  
 }

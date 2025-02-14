@@ -25,7 +25,6 @@ export class RegisterPage {
     private route:ActivatedRoute,
     private authSvc:BaseAuthenticationService,
     private customerSvc: CustomerService,
-    private customerStrapiSvc: CustomerStrapiRepositoryService
   ) {
     this.registerForm = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(2)]],
@@ -55,7 +54,7 @@ export class RegisterPage {
 
           console.log('Datos del cliente después de formatear la fecha:', userData);
 
-          this.customerStrapiSvc.add(userData).subscribe({
+          this.customerSvc.add(userData).subscribe({
             next: resp => {
               console.log('Customer registrado: ', resp)
               const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/home';

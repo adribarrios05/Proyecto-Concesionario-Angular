@@ -27,7 +27,7 @@ export const AUTH_SIGN_IN_API_URL_TOKEN = new InjectionToken<string>('AuthSignIn
 export const AUTH_SIGN_UP_API_URL_TOKEN = new InjectionToken<string>('AuthSignUpApiUrl');
 export const AUTH_ME_API_URL_TOKEN = new InjectionToken<string>('AuthMeApiUrl');
 export const UPLOAD_API_URL_TOKEN = new InjectionToken<string>('UploadApiUrl');
-    
+
 export const REPOSITORY_MAPPING_TOKEN = new InjectionToken<IBaseMapping<any>>('IBaseRepositoryMapping');
 export const CAR_REPOSITORY_MAPPING_TOKEN = new InjectionToken<IBaseMapping<Car>>('ICarRepositoryMapping');
 export const CUSTOMER_REPOSITORY_MAPPING_TOKEN = new InjectionToken<IBaseMapping<Customer>>('ICustomerRepositoryMapping');
