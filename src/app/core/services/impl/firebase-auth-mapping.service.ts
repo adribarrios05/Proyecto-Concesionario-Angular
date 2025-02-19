@@ -23,6 +23,7 @@ export class FirebaseAuthMappingService implements IAuthMapping {
   }
 
   signIn(response: FirebaseUser): User {
+    console.log("Response del mapping", response);
     return {
       id: response.uid,
       username: response.displayName || response.email || '',

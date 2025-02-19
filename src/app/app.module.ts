@@ -60,13 +60,13 @@ export function createTranslateLoader(http: HttpClient) {
   { provide: UPLOAD_API_URL_TOKEN, useValue: `${environment.apiUrl}/api/upload` },
   { provide: FIREBASE_CONFIG_TOKEN, useValue: 
     {
-      apiKey: "AIzaSyDXjHUKnlhNBpIpfdxOZlAKb1vykp8ElPo",
-      authDomain: "concesionarios-baca.firebaseapp.com",
-      projectId: "concesionarios-baca",
-      storageBucket: "concesionarios-baca.firebasestorage.app",
-      messagingSenderId: "1098140390614",
-      appId: "1:1098140390614:web:f468fba37feeba8ddea577",
-      measurementId: "G-FWC8EPFFQG"
+        apiKey: "AIzaSyDXjHUKnlhNBpIpfdxOZlAKb1vykp8ElPo",
+        authDomain: "concesionarios-baca.firebaseapp.com",
+        projectId: "concesionarios-baca",
+        storageBucket: "concesionarios-baca.firebasestorage.app",
+        messagingSenderId: "1098140390614",
+        appId: "1:1098140390614:web:f468fba37feeba8ddea577",
+        measurementId: "G-FWC8EPFFQG"
     }
   },
   CarMappingFactory,

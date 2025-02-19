@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { filter, map, Observable, of, tap, firstValueFrom, from } from 'rxjs';
+import { filter, map, Observable, of, tap, firstValueFrom, from, throwError } from 'rxjs';
 import { BaseAuthenticationService } from './base-authentication.service';
 import { AUTH_MAPPING_TOKEN, FIREBASE_CONFIG_TOKEN } from '../../repositories/repository.tokens';
 import { IAuthMapping } from '../interfaces/auth-mapping.interface';
@@ -58,6 +58,7 @@ export class FirebaseAuthenticationService extends BaseAuthenticationService {
 
   signIn(authPayload: any): Observable<User> {
     const { email, password } = this.authMapping.signInPayload(authPayload);
+    console.log("Email: ", email, " Password: ", password);
     
     return from(signInWithEmailAndPassword(this.auth, email, password)).pipe(
       map(userCredential => {
@@ -77,6 +78,12 @@ export class FirebaseAuthenticationService extends BaseAuthenticationService {
   }
 
   signOut(): Observable<any> {
+    console.log("Configuracion Firebase: ", this.firebaseConfig);
+    console.log(this.auth)
+    if(!this.auth){
+      console.error("FirebaseAuthentication no está bien definido")
+      return throwError(() => new Error("Firebase Auth no está inicializado."));
+    }
     return from(firebaseSignOut(this.auth)).pipe(
       tap(() => {
         this._authenticated.next(false);

@@ -35,7 +35,6 @@ import { CustomerModalComponent } from '../components/customer-modal/customer-mo
     TranslateModule,
   ],
   providers: [
-    { provide: BaseAuthenticationService, useClass: StrapiAuthenticationService }
   ],
   exports: [
     CommonModule,
