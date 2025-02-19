@@ -1,4 +1,3 @@
-// src/app/services/impl/people.service.ts
 import { Injectable, Inject } from '@angular/core';
 import { BaseService } from './base-service.service';
 import { Customer } from '../../models/customer.model';
@@ -12,14 +11,18 @@ import { map, Observable } from 'rxjs';
 })
 export class CustomerService extends BaseService<Customer> implements ICustomerService {
   constructor(
-    @Inject(CUSTOMER_REPOSITORY_TOKEN) repository: ICustomerRepository
+    @Inject(CUSTOMER_REPOSITORY_TOKEN) protected override repository: ICustomerRepository // 🔹 Se asegura de que usa ICustomerRepository
   ) {
     super(repository);
   }
 
   getByUserId(userId: string): Observable<Customer | null> {
-    return this.repository.getAll(1, 1, {user: userId}).pipe(
+    return this.repository.getAll(1, 1, { user: userId }).pipe(
       map(res => Array.isArray(res) ? res[0] || null : res.data[0] || null)
     );
+  }
+
+  getCustomerWithUser(customerId: number): Observable<Customer> {
+    return this.repository.getCustomerWithUser(customerId);
   }
 }

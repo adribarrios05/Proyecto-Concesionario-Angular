@@ -14,7 +14,19 @@ export class CustomerMappingFirebaseService implements IBaseMapping<Customer> {
 
   private db: Firestore;
 
-  constructor(@Inject(FIREBASE_CONFIG_TOKEN) protected firebaseConfig: any){
+  constructor(
+    //@Inject(FIREBASE_CONFIG_TOKEN) protected firebaseConfig: any
+    @Inject(FIREBASE_CONFIG_TOKEN) protected firebaseConfig = {
+      apiKey: "AIzaSyDXjHUKnlhNBpIpfdxOZlAKb1vykp8ElPo",
+      authDomain: "concesionarios-baca.firebaseapp.com",
+      projectId: "concesionarios-baca",
+      storageBucket: "concesionarios-baca.firebasestorage.app",
+      messagingSenderId: "1098140390614",
+      appId: "1:1098140390614:web:f468fba37feeba8ddea577",
+      measurementId: "G-FWC8EPFFQG"
+    },
+  ){
+    console.log("Configuracion Firebase: ", firebaseConfig)
         this.db = getFirestore(initializeApp(firebaseConfig));
   }
 

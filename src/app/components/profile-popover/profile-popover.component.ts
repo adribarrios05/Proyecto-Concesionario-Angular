@@ -1,3 +1,4 @@
+import { NgIf } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import { LoadingController, NavController, PopoverController } from '@ionic/angular';
 import { lastValueFrom } from 'rxjs';
@@ -22,9 +23,11 @@ export class ProfilePopoverComponent implements OnInit{
     private navCtrl: NavController,
     private popoverController: PopoverController,  
     private authSvc: BaseAuthenticationService,
-    private customerRepository: CustomerStrapiRepositoryService,
     private customerSvc: CustomerService
-  ) {}
+  ) {
+    console.log("AuthSvc", authSvc)
+    this.ngOnInit()
+  }
 
   async ngOnInit() {
     try {
@@ -40,7 +43,7 @@ export class ProfilePopoverComponent implements OnInit{
   }
 
   loadCustomerData(customerId: number) {
-    this.customerRepository.getCustomerWithUser(customerId).subscribe({
+    this.customerSvc.getCustomerWithUser(customerId).subscribe({
       next: (customer) => {
         this.customer = customer;
         this.profileImage = customer.picture?.url || 'https://ionicframework.com/docs/img/demos/avatar.svg'

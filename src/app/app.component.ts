@@ -21,7 +21,6 @@ export class AppComponent {
     { title: 'HOME', url: '/home', icon: 'home' },
     { title: 'INVENTORY', url: '/inventory', icon: 'file-tray-full' },
     { title: 'SALES_HISTORY', url: '/sales', icon: 'cash' },
-    //{ title: 'Rent history', url: '/rents', icon: 'calendar' },
     { title: 'CUSTOMERS-PAGE', url: '/customers', icon: 'people' },
   ];
   
@@ -38,8 +37,6 @@ export class AppComponent {
     this.translateSvc.use(savedLanguage);
 
     this.checkUserAuthentication()
-    console.log("Eliminando token antiguo...")
-    localStorage.removeItem('token')
   }
 
   ngOnInit(){
@@ -74,6 +71,7 @@ export class AppComponent {
   }
 
   private checkUserAuthentication() {
+    console.log("AuthSvc: ", this.authSvc)
     this.authSvc.me().subscribe({
       next: (user) => {
         if (user?.id) {

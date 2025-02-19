@@ -69,6 +69,7 @@ export function createBaseMappingFactory<T extends Model>(
             ? new CarMappingStrapi()
             : new CustomerMappingStrapi();
         case 'firebase':
+          console.log("Configuracion Firebase factory: ", firebaseConfig)
           return modelType === 'car'
             ? new CarMappingFirebaseService(firebaseConfig)
             : new CustomerMappingFirebaseService(firebaseConfig)
@@ -121,6 +122,7 @@ export const AuthMappingFactory: FactoryProvider = createBaseAuthMappingFactory(
 export const AuthenticationServiceFactory:FactoryProvider = {
   provide: BaseAuthenticationService,
   useFactory: (backend:string, firebaseConfig: any, signIn:string, signUp:string, meUrl:string, mapping:IAuthMapping, http:HttpClient) => {
+    console.log("📌 Valor de BACKEND_TOKEN en AuthenticationServiceFactory:", backend);
     switch(backend){
       case 'http':
         throw new Error("BACKEND NOT IMPLEMENTED");
@@ -129,8 +131,10 @@ export const AuthenticationServiceFactory:FactoryProvider = {
       case 'json-server':
         throw new Error("BACKEND NOT IMPLEMENTED");
       case 'strapi':
+        console.log("Esta usando el authService de Strapi")
         return new StrapiAuthenticationService(signIn, signUp, meUrl, mapping, http);
       case 'firebase':
+        console.log("Esta usando el authServie de Firebase")
         return new FirebaseAuthenticationService(firebaseConfig, mapping)
       default:
         throw new Error("BACKEND NOT IMPLEMENTED");

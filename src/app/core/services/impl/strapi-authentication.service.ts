@@ -22,6 +22,7 @@ export class StrapiAuthenticationService extends BaseAuthenticationService imple
     @Inject(AUTH_MAPPING_TOKEN) authMapping: IAuthMapping,
     private httpClient:HttpClient
   ) {
+    console.log("El servicio de auth de Strapi se ha iniciado")
     super(authMapping);
     this.jwt_token = localStorage.getItem('customers-jwt-token');
     if (this.jwt_token) {

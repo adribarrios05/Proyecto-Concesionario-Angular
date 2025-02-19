@@ -28,11 +28,19 @@ import { Paginated } from '../../models/paginated.model';
   providedIn: 'root'
 })
 export class BaseRepositoryFirebaseService<T extends Model> implements IBaseRepository<T> {
-  private db;
+  protected db;
   private collectionRef;
 
   constructor(
-    @Inject(FIREBASE_CONFIG_TOKEN) protected firebaseConfig: any,
+    @Inject(FIREBASE_CONFIG_TOKEN) protected firebaseConfig = {
+      apiKey: "AIzaSyDXjHUKnlhNBpIpfdxOZlAKb1vykp8ElPo",
+      authDomain: "concesionarios-baca.firebaseapp.com",
+      projectId: "concesionarios-baca",
+      storageBucket: "concesionarios-baca.firebasestorage.app",
+      messagingSenderId: "1098140390614",
+      appId: "1:1098140390614:web:f468fba37feeba8ddea577",
+      measurementId: "G-FWC8EPFFQG"
+    },
     @Inject(FIREBASE_COLLECTION_TOKEN) protected collectionName: string,
     @Inject(REPOSITORY_MAPPING_TOKEN) protected mapping: IBaseMapping<T>
   ) {

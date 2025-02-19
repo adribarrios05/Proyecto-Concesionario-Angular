@@ -21,6 +21,7 @@ import { StrapiAuthenticationService } from './core/services/impl/strapi-authent
 import { IStrapiAuthentication } from './core/services/interfaces/strapi-authentication.interface';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { FirebaseAuthenticationService } from './core/services/impl/firebase-authentication.service';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json')
@@ -57,7 +58,17 @@ export function createTranslateLoader(http: HttpClient) {
   { provide: AUTH_SIGN_UP_API_URL_TOKEN, useValue: `${environment.apiUrl}/api/auth/local/register` },
   { provide: AUTH_ME_API_URL_TOKEN, useValue: `${environment.apiUrl}/api/users/me` },
   { provide: UPLOAD_API_URL_TOKEN, useValue: `${environment.apiUrl}/api/upload` },
-  { provide: FIREBASE_CONFIG_TOKEN, useValue: environment.firebaseConfig},
+  { provide: FIREBASE_CONFIG_TOKEN, useValue: 
+    {
+      apiKey: "AIzaSyDXjHUKnlhNBpIpfdxOZlAKb1vykp8ElPo",
+      authDomain: "concesionarios-baca.firebaseapp.com",
+      projectId: "concesionarios-baca",
+      storageBucket: "concesionarios-baca.firebasestorage.app",
+      messagingSenderId: "1098140390614",
+      appId: "1:1098140390614:web:f468fba37feeba8ddea577",
+      measurementId: "G-FWC8EPFFQG"
+    }
+  },
   CarMappingFactory,
   CustomerMappingFactory,
   AuthMappingFactory,
@@ -82,4 +93,8 @@ export function createTranslateLoader(http: HttpClient) {
     
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+  constructor() {
+    console.log("📌 BACKEND_TOKEN cargado:", 'firebase'); // Debug
+  }
+}
