@@ -11,7 +11,6 @@ import { FirebaseCustomer } from "../../models/firebase/firebase-customer.model"
   providedIn: 'root'
 })
 export class CustomerMappingFirebaseService implements IBaseMapping<Customer> {
-
   private db: Firestore;
 
   constructor(
