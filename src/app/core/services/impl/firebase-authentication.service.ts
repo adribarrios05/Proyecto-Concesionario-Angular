@@ -36,6 +36,7 @@ export class FirebaseAuthenticationService extends BaseAuthenticationService {
     super(authMapping);
     const app = initializeApp(firebaseConfig);
     this.auth = getAuth(app);
+    console.log("Auth: ", this.auth.currentUser);
 
     onAuthStateChanged(this.auth, async (user) => {
       if (user) {
@@ -62,6 +63,7 @@ export class FirebaseAuthenticationService extends BaseAuthenticationService {
     
     return from(signInWithEmailAndPassword(this.auth, email, password)).pipe(
       map(userCredential => {
+        console.log("Map")
         return this.authMapping.signIn(userCredential.user);
       })
     );

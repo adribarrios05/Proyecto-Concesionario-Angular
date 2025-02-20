@@ -26,33 +26,24 @@ export class ProfilePopoverComponent implements OnInit{
     private customerSvc: CustomerService
   ) {
     console.log("AuthSvc", authSvc)
-    this.ngOnInit()
   }
 
   async ngOnInit() {
     try {
       const user = await this.authSvc.getCurrentUser();
-      if(user && user!=null){
+      console.log("User: ", user)
+      if(user){
         this.customer = await lastValueFrom(this.customerSvc.getByUserId(user.id))
+        console.log("Customer: ", this.customer)
+        
         console.log("Hay un cliente logueado: ", this.customer)
         this.isLoggedIn = true
+        this.profileImage = user.picture?.url || 'https://ionicframework.com/docs/img/demos/avatar.svg';
       }
     } catch {
       console.log("No hay un cliente logueado")
+      this.profileImage = 'https://ionicframework.com/docs/img/demos/avatar.svg';
     }
-  }
-
-  loadCustomerData(customerId: number) {
-    this.customerSvc.getCustomerWithUser(customerId).subscribe({
-      next: (customer) => {
-        this.customer = customer;
-        this.profileImage = customer.picture?.url || 'https://ionicframework.com/docs/img/demos/avatar.svg'
-      },
-      error: (err) => {
-        console.error("Error al cargar el cliente: ", err)
-        this.profileImage = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxRWPsrqnTimFNyfNHYDME6x-V9hT1foBnMlg2JANOAMUQj1fqpI7e6xhP_Uh9j90t-yU&usqp=CAU'
-      }
-    })
   }
 
   async onItemClick() {

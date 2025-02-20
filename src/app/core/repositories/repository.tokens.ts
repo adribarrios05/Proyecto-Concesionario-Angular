@@ -4,7 +4,7 @@ import { IBaseRepository } from './intefaces/base-repository.interface';
 import { IBaseMapping } from './intefaces/base-mapping.interface';
 import { IStrapiAuthentication } from '../services/interfaces/strapi-authentication.interface';
 import { IAuthentication } from '../services/interfaces/authentication.interface';
-import { ICarRepository } from './intefaces/car-repository.interface';
+import { ICarRepository } from '../../../../car-repository.interface';
 import { ICustomerRepository } from './intefaces/customer-repository.interface';
 import { Car } from '../models/car.model';
 import { Customer } from '../models/customer.model';

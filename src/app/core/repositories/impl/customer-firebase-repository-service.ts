@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { doc, getDoc } from 'firebase/firestore';
+import { collection, doc, getDoc, getDocs, query, where } from 'firebase/firestore';
 import { Observable, from, map } from 'rxjs';
 import { BaseRepositoryFirebaseService } from './base-repository-firebase.service';
 import { Customer } from '../../models/customer.model';
@@ -10,9 +10,7 @@ import { ICustomerRepository } from '../intefaces/customer-repository.interface'
 @Injectable({
   providedIn: 'root'
 })
-export class CustomerFirebaseRepositoryService 
-  extends BaseRepositoryFirebaseService<Customer> 
-  implements ICustomerRepository { 
+export class CustomerFirebaseRepositoryService extends BaseRepositoryFirebaseService<Customer> implements ICustomerRepository { 
 
   constructor(
     @Inject(FIREBASE_CONFIG_TOKEN) firebaseConfig: any,
@@ -23,8 +21,7 @@ export class CustomerFirebaseRepositoryService
   }
 
   getCustomerWithUser(customerId: number): Observable<Customer> {
-    const customerDocRef = doc(this.db, this.collectionName, customerId.toString()); // 🔹 Usa `db` de la clase base
-
+    const customerDocRef = doc(this.db, this.collectionName, customerId.toString());
     return from(getDoc(customerDocRef)).pipe(
       map(docSnapshot => {
         if (!docSnapshot.exists()) {
@@ -34,4 +31,25 @@ export class CustomerFirebaseRepositoryService
       })
     );
   }
+
+  getByUserId(userId: string): Observable<Customer | null> {
+    console.log("📌 getByUserId() en CustomerFirebaseRepositoryService - Buscando usuario con ID:", userId);
+    
+    const customersCollectionRef = collection(this.db, this.collectionName);
+    const q = query(customersCollectionRef, where("user", "==", userId));
+  
+    return from(getDocs(q)).pipe(
+      map(querySnapshot => {
+        console.log("📌 Número de clientes encontrados:", querySnapshot.size);
+        if (querySnapshot.empty) {
+          console.warn("⚠️ No se encontró ningún cliente con ese userId.");
+          return null; 
+        }
+        const customerDoc = querySnapshot.docs[0];
+        console.log("📌 Cliente encontrado:", customerDoc.data());
+        return this.mapping.getOne({ id: customerDoc.id, ...customerDoc.data() } as Customer);
+      })
+    );
+  }
+  
 }

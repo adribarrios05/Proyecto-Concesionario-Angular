@@ -47,7 +47,18 @@ export class AppComponent {
         this.showNavbar = true;
       }
     }
-  });
+  })
+  
+  this.authSvc.me().subscribe({
+    next: (user) => {
+      if(user)
+        console.log("Usuario logueado: ", user);
+    },
+    error: (err) => {
+      console.log("No hay un usuario logueado: ", err);
+    }
+  })
+  ;
   }
 
   async presentPopover(event: Event) {

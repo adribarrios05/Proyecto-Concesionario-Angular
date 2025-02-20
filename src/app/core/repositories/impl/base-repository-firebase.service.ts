@@ -15,7 +15,8 @@ import {
   startAfter,
   QueryConstraint,
   orderBy,
-  or
+  or,
+  where
 } from 'firebase/firestore';
 import { from, map, Observable, mergeMap } from 'rxjs';
 import { IBaseRepository, SearchParams } from '../intefaces/base-repository.interface';
@@ -68,6 +69,12 @@ export class BaseRepositoryFirebaseService<T extends Model> implements IBaseRepo
         const constraints: QueryConstraint[] = [
           limit(pageSize)
         ];
+
+        Object.entries(filters).forEach(([key, value]) => {
+          constraints.push(where(key, "==", value));
+        });
+
+        console.log("Filtros aplicados en getAll(): ", filters)
         
         if (lastDoc) {
           constraints.push(startAfter(lastDoc));

@@ -19,7 +19,6 @@ export class LoginPage implements OnInit{
     private route:ActivatedRoute,
     private authSvc:BaseAuthenticationService
   ) {
-    console.log("AuthSvc: ", authSvc)
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
@@ -30,6 +29,7 @@ export class LoginPage implements OnInit{
     this.authSvc.me().subscribe({
       next: (user) => {
         if (user) {
+          console.log("Hay una sesión activa: ", user)
           const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/home';
           this.router.navigateByUrl(returnUrl);
         }
