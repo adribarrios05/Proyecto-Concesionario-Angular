@@ -106,10 +106,17 @@ export class BaseRepositoryFirebaseService<T extends Model> implements IBaseRepo
   }
 
   add(entity: T): Observable<T> {
-    return from(addDoc(this.collectionRef, this.mapping.setAdd(entity))).pipe(
+    const entityData = { ...this.mapping.setAdd(entity) };
+    if (entityData.picture === undefined) {
+      console.log("Picture es undefined")
+      delete entityData.picture;
+    }
+  
+    return from(addDoc(this.collectionRef, entityData)).pipe(
       map(docRef => this.mapping.getAdded({ ...entity, id: docRef.id } as T))
     );
   }
+  
 
   update(id: string, entity: T): Observable<T> {
     const docRef = doc(this.db, this.collectionName, id);

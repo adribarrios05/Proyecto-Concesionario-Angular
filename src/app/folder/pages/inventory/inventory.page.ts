@@ -181,7 +181,7 @@ export class InventoryPage implements OnInit {
       if (result.data) {
         const { carData, file } = result.data; 
   
-        /*if (file) {
+        if (file) {
           // Subir la imagen primero
           this.carSvc.uploadImage(file).subscribe({
             next: (response) => {
@@ -200,9 +200,10 @@ export class InventoryPage implements OnInit {
               console.error('Error al subir la imagen:', err);
             },
           });
-        } else*/ {
+        } else {
           // Crea el coche sin imagen
           this.carSvc.add(carData).subscribe(() => {
+            console.log("Picture: ", carData.picture)
             this.cars$ = this.carSvc.getAll(); 
           });
         }

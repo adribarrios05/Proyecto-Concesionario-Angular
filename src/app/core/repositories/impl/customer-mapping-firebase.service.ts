@@ -25,8 +25,7 @@ export class CustomerMappingFirebaseService implements IBaseMapping<Customer> {
       measurementId: "G-FWC8EPFFQG"
     },
   ){
-    console.log("Configuracion Firebase: ", firebaseConfig)
-        this.db = getFirestore(initializeApp(firebaseConfig));
+      this.db = getFirestore(initializeApp(firebaseConfig));
   }
 
   setAdd(data: Customer): FirebaseCustomer {
@@ -37,7 +36,8 @@ export class CustomerMappingFirebaseService implements IBaseMapping<Customer> {
       phone: data.phone,
       birthDate: data.birthDate,
       user: data.userId?.toString() || '',
-      picture: data.picture ? data.picture.url : ''
+      picture: data.picture ? data.picture.url : '',
+      username: data.username ? data.username : ''
     };
     return dataMapping;
   }
@@ -52,6 +52,7 @@ export class CustomerMappingFirebaseService implements IBaseMapping<Customer> {
     if (data.birthDate) result.birthDate = data.birthDate;
     if (data.userId) result.user = data.userId || '';
     if (data.picture) result.picture = data.picture;
+    if (data.username) result.username = data.username;
 
     return result;
   }
@@ -71,7 +72,8 @@ export class CustomerMappingFirebaseService implements IBaseMapping<Customer> {
         medium: data.picture,
         small: data.picture,
         thumbnail: data.picture
-      } : undefined
+      } : undefined,
+      username: data.username,
     };
   }
 

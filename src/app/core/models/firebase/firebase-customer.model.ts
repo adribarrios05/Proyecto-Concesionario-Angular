@@ -8,4 +8,5 @@ export interface FirebaseCustomer {
     birthDate: Date,
     user?: string;
     picture?: string;
+    username: string;
 } 
