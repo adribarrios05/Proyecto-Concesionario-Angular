@@ -180,32 +180,10 @@ export class InventoryPage implements OnInit {
     modal.onDidDismiss().then((result) => {
       if (result.data) {
         const { carData, file } = result.data; 
-  
-        /*if (file) {
-          // Subir la imagen primero
-          this.carSvc.uploadImage(file).subscribe({
-            next: (response) => {
-              const imageUrl = response[0]?.url; 
-  
-              if (imageUrl) {
-                carData.picture = { url: imageUrl }; 
-  
-                // Crea el coche con la imagen
-                this.carSvc.addCar(carData).subscribe(() => {
-                  this.cars$ = this.carSvc.getCars(); 
-                });
-              }
-            },
-            error: (err) => {
-              console.error('Error al subir la imagen:', err);
-            },
-          });
-        } else*/ {
-          // Crea el coche sin imagen
+
           this.carSvc.add(carData).subscribe(() => {
             this.cars$ = this.carSvc.getAll(); 
           });
-        }
       }
     });
   
