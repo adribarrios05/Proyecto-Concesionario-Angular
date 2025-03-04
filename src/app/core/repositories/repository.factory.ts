@@ -28,6 +28,7 @@ import { CustomerMappingFirebaseService } from './impl/customer-mapping-firebase
 import { FirebaseMediaService } from '../services/impl/firebase-media.service';
 import { FirebaseCollectionSubscriptionService } from '../services/impl/firebase-collection-subscription.service';
 import { ICollectionSubscription } from '../services/interfaces/collection-subscription.interface';
+import { IAuthentication } from '../services/interfaces/authentication.interface';
 
 export function createBaseRepositoryFactory<T extends Model>(
   token: InjectionToken<IBaseRepository<T>>,
@@ -69,7 +70,6 @@ export function createBaseMappingFactory<T extends Model>(
             ? new CarMappingStrapi()
             : new CustomerMappingStrapi();
         case 'firebase':
-          console.log("Configuracion Firebase factory: ", firebaseConfig)
           return modelType === 'car'
             ? new CarMappingFirebaseService(firebaseConfig)
             : new CustomerMappingFirebaseService(firebaseConfig)
@@ -146,7 +146,7 @@ export const AuthenticationServiceFactory:FactoryProvider = {
 
 export const MediaServiceFactory:FactoryProvider = {
   provide: BaseMediaService,
-  useFactory: (backend:string, firebaseConfig: any, upload:string, auth:IStrapiAuthentication, http:HttpClient) => {
+  useFactory: (backend:string, firebaseConfig: any, upload:string, auth:IAuthentication, http:HttpClient) => {
     switch(backend){
       case 'http':
         throw new Error("BACKEND NOT IMPLEMENTED");
@@ -155,7 +155,7 @@ export const MediaServiceFactory:FactoryProvider = {
       case 'json-server':
         throw new Error("BACKEND NOT IMPLEMENTED");
       case 'strapi':
-        return new StrapiMediaService(upload, auth, http);
+        return new StrapiMediaService(upload, auth as IStrapiAuthentication, http);
       case 'firebase':
         return new FirebaseMediaService(firebaseConfig, auth)
       default:

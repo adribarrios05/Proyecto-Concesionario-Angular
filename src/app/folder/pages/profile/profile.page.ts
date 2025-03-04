@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
 import { CustomerService } from 'src/app/core/services/impl/customer.service';
 import { User } from 'src/app/core/models/auth.model';
 import { LoadingController, ToastController } from '@ionic/angular';
+import { lastValueFrom } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-profile',
@@ -18,12 +20,15 @@ export class ProfilePage implements OnInit {
   originalValues: any = {};
   profileImage: string = 'https://ionicframework.com/docs/img/demos/avatar.svg'; 
   isLoggedIn: boolean = false;
-  customerId!: string
+  customer?: Customer | null
 
   constructor(
     private fb: FormBuilder,
     private authSvc: BaseAuthenticationService,
     private customerSvc: CustomerService,
+    private loadingController: LoadingController,
+    private toastController: ToastController,
+    private translateService: TranslateService,
     private router: Router,
   ) {
     this.profileForm = this.fb.group({
@@ -38,46 +43,38 @@ export class ProfilePage implements OnInit {
     });
   }
 
-  ngOnInit() {
-    this.loadProfile();
-  }
+  async ngOnInit() {
+    const loading = await this.loadingController.create();
+    await loading.present();
 
-  loadProfile() {
-    this.authSvc.me().subscribe({
-      next: (user) => {
-        this.isLoggedIn = true;
-  
-        this.profileForm.patchValue({
-          username: user.username,
-          email: user.email,
-        });
-  
-        this.customerSvc.getByUserId(user.id).subscribe({
-          next: (customer) => {
-            if (customer) {
-              this.customerId = customer.id;
-              this.profileForm.patchValue({
-                name: customer.name,
-                surname: customer.surname,
-                phone: customer.phone,
-                dni: customer.dni,
-              });
-              this.profileImage = customer.picture?.url || 'https://ionicframework.com/docs/img/demos/avatar.svg';
-            } else {
-              console.log('El usuario no tiene un cliente vinculado.');
-            }
-          },
-          error: (err) => {
-            console.error('Error al cargar los datos del cliente:', err);
-            this.profileImage = 'https://ionicframework.com/docs/img/demos/avatar.svg';
+    try {
+      const user = await this.authSvc.getCurrentUser();
+      if(user){
+          this.customer = await lastValueFrom(this.customerSvc.getByUserId(user.id));
+          console.log(this.customer);
+          if (this.customer) {
+            const updatedCustomer: any = {
+              ...this.customer,
+              email:user.email,
+              userId:user.id,
+              picture: typeof this.customer.picture === 'object' ? 
+                           this.customer.picture.url : 
+                           undefined
+            };
+            this.profileForm.patchValue(updatedCustomer);
           }
-        });
-      },
-      error: (err) => {
-        this.isLoggedIn = false;
-        console.error('Error al verificar la autenticación:', err);
       }
-    });
+    } catch (error) {
+      console.error(error);
+      const toast = await this.toastController.create({
+        message: await lastValueFrom(this.translateService.get('COMMON.ERROR.LOAD')),
+        duration: 3000,
+        position: 'bottom'
+      });
+      await toast.present();
+    } finally {
+      await loading.dismiss();
+    }
   }
 
   saveChanges() {
@@ -86,16 +83,17 @@ export class ProfilePage implements OnInit {
 
       console.log('Datos actualizados que se enviarán:', updatedData);
   
-      this.customerSvc.update(this.customerId, updatedData).subscribe({
-        next: () => {
-          console.log('Cambios guardados correctamente');
-  
-          this.originalValues = { ...updatedData };
+      if(this.customer)
+        this.customerSvc.update(this.customer?.id, updatedData).subscribe({
+          next: () => {
+            console.log('Cambios guardados correctamente');
+    
+            this.originalValues = { ...updatedData };
 
-        },
-        error: (err) => {
-          console.error('Error al guardar los cambios:', err);
-        }
+          },
+          error: (err) => {
+            console.error('Error al guardar los cambios:', err);
+          }
       });
     } else {
       console.warn('El formulario no es válido.');

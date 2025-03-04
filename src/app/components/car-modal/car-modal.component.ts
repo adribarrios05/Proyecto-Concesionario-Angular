@@ -30,18 +30,21 @@ export class CarModalComponent implements OnInit{
     });
   }
 
-  /*onFileSelected(event: Event) {
+  onFileSelected(event: Event) {
     const file = (event.target as HTMLInputElement).files?.[0];
     if (file) {
       this.selectedFile = file;
-
+  
       const reader = new FileReader();
       reader.onload = () => {
         this.imagePreview = reader.result as string;
       };
       reader.readAsDataURL(file);
+  
+      this.formGroup.patchValue({ picture: this.imagePreview });
     }
-  }*/
+  }
+  
 
   /*getDirtyValues(formGroup: FormGroup): any {
     const dirtyValues: any = {};
@@ -62,15 +65,22 @@ export class CarModalComponent implements OnInit{
     if (this.formGroup.valid) {
       const carData = { ...this.formGroup.value };
   
-      if (!carData.brand) {
-        console.error('Error: No se encuentra el campo brand', carData);
+      console.log("📌 Datos del coche antes de procesar la imagen:", carData);
+  
+      let imageFile: File | null = null;
+      if (carData.picture && carData.picture.startsWith("data:image")) {
+        imageFile = this.getFileFromBase64(carData.picture);
       }
   
-      this.modalCtrl.dismiss({ carData });
+      console.log("📌 Archivo de imagen convertido:", imageFile);
+  
+      this.modalCtrl.dismiss({ carData, imageFile });
     } else {
-      console.error('Formulario no válido:', this.formGroup.value);
+      console.error('❌ Formulario no válido:', this.formGroup.value);
     }
   }
+  
+  
 
   dismiss() {
     this.modalCtrl.dismiss();

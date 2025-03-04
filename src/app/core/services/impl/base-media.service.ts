@@ -5,5 +5,5 @@ import { Observable } from "rxjs";
     providedIn: 'root'
   })
   export abstract class BaseMediaService<T = number> {  
-    public abstract upload(blob:Blob):Observable<T[]>;
+    abstract upload(blob:Blob):Observable<T[]>;
   }

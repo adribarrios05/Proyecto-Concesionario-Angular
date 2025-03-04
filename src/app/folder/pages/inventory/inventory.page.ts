@@ -182,6 +182,7 @@ export class InventoryPage implements OnInit {
         const { carData, file } = result.data; 
 
           this.carSvc.add(carData).subscribe(() => {
+            console.log("Picture: ", carData.picture)
             this.cars$ = this.carSvc.getAll(); 
           });
       }
