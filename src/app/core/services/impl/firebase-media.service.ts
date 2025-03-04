@@ -44,7 +44,11 @@ export class FirebaseMediaService extends BaseMediaService<string> {
 
         return from(uploadBytes(storageRef, blob, metadata)).pipe(
           switchMap(snapshot => getDownloadURL(snapshot.ref)),
-          map(url => [url])
+          map(url => {
+            if (!url) throw new Error("Firebase no devolvió una URL.");
+            console.log("📌 URL de imagen subida a Firebase:", url);
+            return [url]; 
+          })
         );
       })
     );

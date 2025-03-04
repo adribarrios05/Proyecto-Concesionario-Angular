@@ -179,17 +179,34 @@ export class InventoryPage implements OnInit {
   
     modal.onDidDismiss().then((result) => {
       if (result.data) {
-        const { carData, file } = result.data; 
-
-          this.carSvc.add(carData).subscribe(() => {
-            console.log("Picture: ", carData.picture)
-            this.cars$ = this.carSvc.getAll(); 
-          });
+        let { carData } = result.data;
+  
+        if (carData.picture) {
+          if (typeof carData.picture === 'string') {
+            console.log("✅ Imagen en string:", carData.picture);
+          } else if (typeof carData.picture === 'object' && carData.picture.url) {
+            console.log("✅ Imagen en objeto, extrayendo URL:", carData.picture.url);
+            carData.picture = carData.picture.url;
+          } else {
+            console.warn("⚠️ Imagen en formato desconocido:", carData.picture);
+            carData.picture = ''; 
+          }
+        } else {
+          console.warn("⚠️ No se ha asignado imagen al coche antes de enviarlo.");
+        }
+  
+        console.log("✅ Guardando coche con imagen final:", carData.picture);
+  
+        this.carSvc.add(carData).subscribe(() => {
+          console.log("✅ Imagen vinculada correctamente:", carData.picture);
+          this.loadCars(); 
+        });
       }
     });
   
     await modal.present();
   }
+  
 
   onBuy(car: Car) {
     if (this.isLoggedIn) {

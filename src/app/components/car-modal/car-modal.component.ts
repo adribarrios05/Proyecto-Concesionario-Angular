@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ModalController } from '@ionic/angular';
+import { LoadingController, ModalController, ToastController } from '@ionic/angular';
+import { firstValueFrom } from 'rxjs';
+import { BaseMediaService } from 'src/app/core/services/impl/base-media.service';
+import { FirebaseMediaService } from 'src/app/core/services/impl/firebase-media.service';
 
 @Component({
   selector: 'app-car-modal',
@@ -9,12 +12,15 @@ import { ModalController } from '@ionic/angular';
 })
 export class CarModalComponent implements OnInit{
   formGroup: FormGroup;
-  selectedFile: File | null = null; // Archivo seleccionado
-  imagePreview: string | null = null; // Vista previa de la imagen
+  isUploading = false;
 
   constructor(
     private modalCtrl: ModalController, 
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private mediaService: BaseMediaService,
+    private toastController: ToastController,
+    private loadingController: LoadingController,
+
   ) {
     this.formGroup = this.fb.group({
       brand: ['', Validators.required],
@@ -30,74 +36,82 @@ export class CarModalComponent implements OnInit{
     });
   }
 
-  onFileSelected(event: Event) {
-    const file = (event.target as HTMLInputElement).files?.[0];
-    if (file) {
-      this.selectedFile = file;
-  
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.imagePreview = reader.result as string;
-      };
-      reader.readAsDataURL(file);
-  
-      this.formGroup.patchValue({ picture: this.imagePreview });
-    }
-  }
-  
-
-  /*getDirtyValues(formGroup: FormGroup): any {
-    const dirtyValues: any = {};
-  
-    Object.keys(formGroup.controls).forEach(key => {
-      const control = formGroup.get(key);
-      if (control?.dirty) {
-        dirtyValues[key] = control.value;
-      }
-    });
-  
-    return dirtyValues;
-  }*/
-
   ngOnInit() {}
 
-  addCar() {
-    if (this.formGroup.valid) {
-      const carData = { ...this.formGroup.value };
-  
-      console.log("📌 Datos del coche antes de procesar la imagen:", carData);
-  
-      let imageFile: File | null = null;
-      if (carData.picture && carData.picture.startsWith("data:image")) {
-        imageFile = this.getFileFromBase64(carData.picture);
-      }
-  
-      console.log("📌 Archivo de imagen convertido:", imageFile);
-  
-      this.modalCtrl.dismiss({ carData, imageFile });
-    } else {
-      console.error('❌ Formulario no válido:', this.formGroup.value);
+  async base64ToBlob(base64: string): Promise<Blob> {
+    try {
+      const response = await fetch(base64);
+      return await response.blob();
+    } catch (error) {
+      console.error('❌ Error convirtiendo base64 a Blob:', error);
+      throw error;
     }
   }
-  
-  
+
+  async addCar() {
+    if (this.formGroup.invalid) {
+      console.error('❌ Formulario no válido:', this.formGroup.value);
+      return;
+    }
+
+    const loading = await this.loadingController.create({ message: 'Subiendo imagen...' });
+    await loading.present();
+
+    const carData = { ...this.formGroup.value };
+
+    try {
+      if (carData.picture && typeof carData.picture === 'string' && carData.picture.startsWith('data:image')) {
+        console.log("📌 Imagen en base64 obtenida del formulario:", carData.picture);
+
+        // Convertimos la imagen base64 en Blob
+        const imageBlob = await this.base64ToBlob(carData.picture);
+        console.log("📌 Imagen convertida a Blob:", imageBlob);
+
+        // Subimos la imagen
+        const uploadResult = await firstValueFrom(this.mediaService.upload(imageBlob));
+        console.log("📌 Respuesta del servicio de subida:", uploadResult);
+
+        if (uploadResult.length > 0) {
+          carData.picture = uploadResult[0]; // Guardamos la URL de la imagen subida
+          console.log("✅ Imagen subida correctamente. URL:", carData.picture);
+        } else {
+          throw new Error("No se recibió URL de imagen después de la subida.");
+        } 
+      } else {
+        console.warn("⚠️ No se detectó una imagen en base64, se mantiene la imagen existente:", carData.picture);
+      }
+
+      if (!carData.picture) {
+        console.warn("⚠️ No se ha encontrado la imagen, verificando antes de cerrar el modal.");
+      } else {
+        console.log("✅ Imagen final que se enviará a Firebase:", carData.picture);
+      }
+      this.modalCtrl.dismiss({ carData });
+
+      const toast = await this.toastController.create({
+        message: 'Coche guardado correctamente.',
+        duration: 3000,
+        position: 'bottom'
+      });
+      await toast.present();
+
+    } catch (error) {
+      console.error('❌ Error al subir la imagen:', error);
+
+      const toast = await this.toastController.create({
+        message: 'Error al guardar el coche.',
+        duration: 3000,
+        position: 'bottom'
+      });
+      await toast.present();
+      
+    } finally {
+      await loading.dismiss();
+    }
+  }
 
   dismiss() {
     this.modalCtrl.dismiss();
-  }
-
-  getFileFromBase64(base64String: string): File | null {
-    if (!base64String) return null;
-  
-    const arr = base64String.split(',');
-    const mime = arr[0].match(/:(.*?);/)?.[1];
-    const bstr = atob(arr[1]);
-    let n = bstr.length;
-    const u8arr = new Uint8Array(n);
-    while (n--) {
-      u8arr[n] = bstr.charCodeAt(n);
-    }
-    return new File([u8arr], 'image.png', { type: mime });
   }
 
   get brand(){
