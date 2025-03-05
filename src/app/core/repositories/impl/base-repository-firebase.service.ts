@@ -106,7 +106,9 @@ export class BaseRepositoryFirebaseService<T extends Model> implements IBaseRepo
   }
 
   add(entity: T): Observable<T> {
+
     const entityData = { ...this.mapping.setAdd(entity) };
+
 
     if (!entityData.picture || entityData.picture === undefined) {
       console.warn("⚠️ No se ha encontrado la imagen antes de guardar el coche en Firestore.");
@@ -115,11 +117,8 @@ export class BaseRepositoryFirebaseService<T extends Model> implements IBaseRepo
     }
     
   
-    return from(addDoc(this.collectionRef, entityData)).pipe(
-      map(docRef => {
-      console.log("✅ Coche guardado en Firestore con imagen:", entityData.picture);
-      return this.mapping.getAdded({ ...entity, id: docRef.id } as T);
-    })
+    return from(addDoc(this.collectionRef, this.mapping.setAdd(entity))).pipe(
+      map(docRef => this.mapping.getAdded({ ...entity, id: docRef.id } as T))
     );
   }
   

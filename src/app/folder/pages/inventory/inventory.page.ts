@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, Directive, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { AlertController, ModalController, Platform, RangeCustomEvent } from '@ionic/angular';
 import { BehaviorSubject, Observable, timer } from 'rxjs';
 import { Car } from 'src/app/core/models/car.model';
@@ -9,6 +9,11 @@ import { CarModalComponent } from 'src/app/components/car-modal/car-modal.compon
 import { SearchParams } from 'src/app/core/repositories/intefaces/base-repository.interface';
 import { BaseAuthenticationService } from 'src/app/core/services/impl/base-authentication.service';
 import { CustomerService } from 'src/app/core/services/impl/customer.service';
+import { CollectionChange, ICollectionSubscription } from 'src/app/core/services/interfaces/collection-subscription.interface';
+import { CAR_COLLECTION_SUBSCRIPTION_TOKEN } from 'src/app/core/repositories/repository.tokens';
+import { Customer } from 'src/app/core/models/customer.model';
+import jsPDF from 'jspdf';
+import { Directory, Encoding } from '@capacitor/filesystem';
 
 
 @Component({
@@ -27,13 +32,15 @@ export class InventoryPage implements OnInit {
   _cars: BehaviorSubject<Car[]> = new BehaviorSubject<Car[]>([]);
   cars$: Observable<Car[]> = this._cars.asObservable();
   isLoggedIn: boolean = false;
+  private loadedIds: Set<string> = new Set(); 
 
   constructor(
     private modalCtrl: ModalController,
     private carSvc: CarService,
     private authSvc: BaseAuthenticationService,
     private customerSvc: CustomerService,
-    private alertController: AlertController
+    private alertController: AlertController,
+    @Inject(CAR_COLLECTION_SUBSCRIPTION_TOKEN) private carSubscription: ICollectionSubscription<Car>
   ) { }
 
   ngOnInit() {
@@ -46,6 +53,33 @@ export class InventoryPage implements OnInit {
       },
     });
     this.loadCars()
+    this.carSubscription.subscribe('cars').subscribe((change: CollectionChange<Car>) => {
+      const currentCars = [...this._cars.value]
+
+      // Solo procesar cambios de documentos que ya tenemos cargados
+      if (!this.loadedIds.has(change.id) && change.type !== 'added') {
+        return;
+      }
+
+      switch(change.type) {
+        case 'added':
+        case 'modified':
+          const index = currentCars.findIndex(p => p.id === change.id);
+          if (index >= 0) {
+            currentCars[index] = change.data!;
+          }
+          break;
+        case 'removed':
+          const removeIndex = currentCars.findIndex(p => p.id === change.id);
+          if (removeIndex >= 0) {
+            currentCars.splice(removeIndex, 1);
+            this.loadedIds.delete(change.id);
+          }
+          break;
+      }
+      this._cars.next(currentCars);
+
+    })
   }
 
   page:number = 1;
@@ -60,6 +94,7 @@ export class InventoryPage implements OnInit {
     this.page=1;
     this.carSvc.getAll(this.page, this.pageSize, filters).subscribe({
       next:(response:Paginated<Car>)=>{
+        response.data.forEach(car => this.loadedIds.add(car.id));
         this._cars.next([...response.data]);
         this.page++;
         this.pages = response.pages;
@@ -72,6 +107,7 @@ export class InventoryPage implements OnInit {
     if(this.page<=this.pages){
       this.carSvc.getAll(this.page, this.pageSize, filters).subscribe({
         next:(response:Paginated<Car>)=>{
+          response.data.forEach(car => this.loadedIds.add(car.id));
           this._cars.next([...this._cars.value, ...response.data])
           this.page++
           notify?.complete()
@@ -180,7 +216,6 @@ export class InventoryPage implements OnInit {
     modal.onDidDismiss().then((result) => {
       if (result.data) {
         let { carData } = result.data;
-  
         if (carData.picture) {
           if (typeof carData.picture === 'string') {
             console.log("✅ Imagen en string:", carData.picture);
@@ -251,6 +286,7 @@ export class InventoryPage implements OnInit {
                 this.carSvc.update(updatedCar.id, updatedCar).subscribe({
                   next: () => {
                     console.log(`Coche ${car.brand} ${car.model} comprado con éxito por el cliente ${customer.name}. Id: ${car.customer}`);
+                    //this.generateContract(car, customer);
                   },
                   error: (err) => {
                     console.error('Error al comprar el coche:', err);
@@ -313,5 +349,50 @@ export class InventoryPage implements OnInit {
       },
     });
   }
+
+  /*async generateContract(car: Car, customer: Customer){
+    const doc = new jsPDF()
+
+    //Título del contrato
+    doc.setFontSize(18)
+    doc.text("CONTRATO DE COMPRA DE VEHÍCULO", 20, 20)
+
+    //Datos del cliente
+    doc.setFontSize(12)
+    doc.text(`Datos del Cliente:`, 20, 40);
+    doc.text(`Nombre: ${customer.name} ${customer.surname}`, 20, 50);
+    doc.text(`DNI: ${customer.dni}`, 20, 60);
+    doc.text(`Teléfono: ${customer.phone}`, 20, 70);
+    //doc.text(`Email: ${customer.email}`, 20, 80);
+
+    //Datos del coche
+    doc.text(`Datos del Vehículo:`, 20, 100);
+    doc.text(`Marca: ${car.brand}`, 20, 110);
+    doc.text(`Modelo: ${car.model}`, 20, 120);
+    doc.text(`Precio: ${car.price} €`, 20, 130);
+    doc.text(`Matrícula: ${car.plate}`, 20, 140);
+    doc.text(`Color: ${car.color}`, 20, 150);
+    doc.text(`Caballos de potencia: ${car.horsePower} HP`, 20, 160);
+
+    //Firma del cliente
+    doc.text("Firma del Cliente:", 20, 180);
+    doc.line(20, 185, 100, 185); // Línea para la firma
+
+    const pdfBase64 = doc.output('datauristring').split(',')[1];
+
+    try{
+      await FileSystem.writeFile({
+        path: `contrato_${car.plate}.pdf`,
+        data: pdfBase64,
+        directory: Directory.Documents,
+        encoding: Encoding.Base64,
+      })
+
+
+      console.log(`✅ Contrato generado y guardado como contrato_${car.plate}.pdf`);   
+     } catch {
+      console.error('❌ Error al guardar el contrato:', error);
+     }
+  } */
 
 }

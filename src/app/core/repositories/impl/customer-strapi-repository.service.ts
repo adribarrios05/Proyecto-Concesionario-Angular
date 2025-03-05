@@ -5,7 +5,7 @@ import { IStrapiAuthentication } from "../../services/interfaces/strapi-authenti
 import { IBaseMapping } from "../intefaces/base-mapping.interface";
 import { STRAPI_AUTH_TOKEN, API_URL_TOKEN, RESOURCE_NAME_TOKEN, REPOSITORY_MAPPING_TOKEN, CAR_API_URL_TOKEN, CAR_REPOSITORY_MAPPING_TOKEN, CAR_RESOURCE_NAME_TOKEN, CUSTOMER_API_URL_TOKEN, CUSTOMER_REPOSITORY_MAPPING_TOKEN, CUSTOMER_RESOURCE_NAME_TOKEN } from "../repository.tokens";
 import { Car } from "../../models/car.model";
-import { ICarRepository } from "../../../../../car-repository.interface";
+import { ICarRepository } from "../intefaces/car-repository.interface";
 import { map, Observable } from "rxjs";
 import { Customer } from "../../models/customer.model";
 import { ICustomerRepository } from "../intefaces/customer-repository.interface";

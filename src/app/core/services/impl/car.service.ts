@@ -4,7 +4,7 @@ import { BaseService } from './base-service.service';
 import { map, Observable } from 'rxjs';
 import { Car } from '../../models/car.model';
 import { ICarService } from '../interfaces/car-service.interface';
-import { ICarRepository } from '../../../../../car-repository.interface';
+import { ICarRepository } from '../../repositories/intefaces/car-repository.interface';
 import { CAR_REPOSITORY_TOKEN } from '../../repositories/repository.tokens';
 
 @Injectable({

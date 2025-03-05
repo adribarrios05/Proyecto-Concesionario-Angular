@@ -32,6 +32,7 @@ export class BaseService<T extends Model> implements IBaseService<T> {
   }
 
   add(entity: T): Observable<T> {
+    console.log("Objeto que llega al servicio: ", entity);
     return this.repository.add(entity);
   }
 

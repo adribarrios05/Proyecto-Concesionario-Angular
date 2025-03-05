@@ -61,6 +61,20 @@ export class CarMappingFirebaseService implements IBaseMapping<Car> {
   }
 
   setAdd(data: Car): FirebaseCar {
+    console.log("Data del mapping: ", data);
+    console.log("Imagen del mapping: ", data.picture) 
+    console.log("Tipo de la imagen: ", typeof data.picture)
+
+    let imageUrl: string = ""
+
+    if (typeof data.picture === "string") {
+      imageUrl = data.picture;
+  } else if (typeof data.picture === "object" && data.picture.url) {
+      imageUrl = data.picture.url;
+  } else {
+      console.warn("⚠️ No se encontró imagen válida en `data.picture`. Se guardará vacío.");
+  }
+
     let dataMapping:FirebaseCar = {
         brand: data.brand,
         model: data.model,
@@ -71,11 +85,9 @@ export class CarMappingFirebaseService implements IBaseMapping<Car> {
         color: data.color,
         type: data.type,
         plate: data.plate,
-        picture: data.picture ? data.picture.url : ""
+        picture: imageUrl
     };
-    if(dataMapping.customerId){ 
-      //dataMapping.customerId = doc(this.db, 'customers', data.customer?.toString() || '');
-    }
+    console.log("Data despues de mapear: ", dataMapping)
     return dataMapping;
   }
 
@@ -92,7 +104,7 @@ export class CarMappingFirebaseService implements IBaseMapping<Car> {
     if (data.type) result.type = data.type;
     if (data.plate) result.plate = data.plate;
     //if (data.customer) result.customer = doc(this.db, 'customers', data.customer.toString() || '');
-    if (data.picture) result.picture = data.picture;
+    if (data.picture) result.picture = data.picture?.url || ' ';
 
     return result;
   }
