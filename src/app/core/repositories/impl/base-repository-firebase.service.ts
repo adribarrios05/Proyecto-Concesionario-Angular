@@ -124,12 +124,24 @@ export class BaseRepositoryFirebaseService<T extends Model> implements IBaseRepo
   
 
   update(id: string, entity: T): Observable<T> {
+    const updatedData = this.mapping.setUpdate(entity); // Obtener datos actualizados
+  
+    console.log("🔄 Actualizando coche en Firebase con datos:", updatedData);
+  
+    if (!updatedData.customerId) {
+      console.warn("⚠️ customerId está vacío o undefined. Verifica si se está pasando correctamente.");
+    }
+  
     const docRef = doc(this.db, this.collectionName, id);
-    
-    return from(updateDoc(docRef, this.mapping.setUpdate(entity))).pipe(
-      map(() => this.mapping.getUpdated({ ...entity, id } as T))
+  
+    return from(updateDoc(docRef, updatedData)).pipe(
+      map(() => {
+        console.log(`✅ Coche actualizado correctamente en Firebase con customerId: ${updatedData.customerId}`);
+        return this.mapping.getUpdated({ ...entity, id } as T);
+      })
     );
   }
+  
 
   delete(id: string): Observable<T> {
     const docRef = doc(this.db, this.collectionName, id);

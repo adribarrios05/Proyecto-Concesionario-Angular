@@ -18,11 +18,23 @@ export class CustomerService extends BaseService<Customer> implements ICustomerS
   }
 
   getByUserId(userId: string): Observable<Customer | null> {
-    return this.repository.getAll(1, 1, {user: userId}).pipe(
+    console.log("🔎 Buscando cliente en Firebase con userId:", userId);
+  
+    return this.repository.getAll(1, 1, { user: userId }).pipe( // 🔹 Cambiado de "userId" a "user"
       map(res => {
-        console.log("Resultado del getUserById: ", res)
-        return Array.isArray(res) ? res[0] || null : res.data[0] || null
+        console.log("📌 Resultado del getByUserId:", res);
+  
+        if (!res || (Array.isArray(res) && res.length === 0) || (!Array.isArray(res) && res.data.length === 0)) {
+          console.warn("⚠️ No se encontró cliente con este userId:", userId);
+          return null;
+        }
+  
+        const customer = Array.isArray(res) ? res[0] : res.data[0];
+        console.log("✅ Cliente encontrado en Firebase:", customer);
+        return customer as Customer;
       })
     );
   }
+  
+  
   }

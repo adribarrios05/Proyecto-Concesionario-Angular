@@ -14,6 +14,10 @@ import { CAR_COLLECTION_SUBSCRIPTION_TOKEN } from 'src/app/core/repositories/rep
 import { Customer } from 'src/app/core/models/customer.model';
 import jsPDF from 'jspdf';
 import { Directory, Encoding } from '@capacitor/filesystem';
+import { Filesystem } from '@capacitor/filesystem';
+import { FirebaseCustomer } from 'src/app/core/models/firebase/firebase-customer.model';
+import { FirebaseCar } from 'src/app/core/models/firebase/firebase-car.model';
+import { FilePicker } from '@capawesome/capacitor-file-picker';
 
 
 @Component({
@@ -278,31 +282,43 @@ export class InventoryPage implements OnInit {
   processPurchase(car: Car) {
     this.authSvc.me().subscribe({
       next: (user) => {
-        if (user) {
-          this.customerSvc.getByUserId(user.id).subscribe({
-            next: (customer) => {
-              if (customer) {
-                const updatedCar = { ...car, customerId: customer.id };
-                this.carSvc.update(updatedCar.id, updatedCar).subscribe({
-                  next: () => {
-                    console.log(`Coche ${car.brand} ${car.model} comprado con éxito por el cliente ${customer.name}. Id: ${car.customer}`);
-                    //this.generateContract(car, customer);
-                  },
-                  error: (err) => {
-                    console.error('Error al comprar el coche:', err);
-                  },
-                });
-              } else {
-                console.error('No se encontró un cliente asociado al usuario');
-              }
-            },
-            error: (err) => {
-              console.error('Error al obtener el cliente:', err);
-            },
-          });
-        } else {
-          console.error('Usuario no encontrado en la sesión activa');
+        if (!user || (!user.id && !user.uid)) { 
+          console.error('Error: Usuario no encontrado o sin id: ', [user, user.id, user.uid])
+          return
         }
+
+        let _userId = user.id || user.uid
+        console.log("Usuario autenticado: ", [user, user.id, user.uid, user.email]);
+        console.log("🔎 Buscando cliente con userId:", user.id? user.id : user.uid? user.uid : null);
+
+
+        this.customerSvc.getByUserId(user.id? user.id : user.uid).subscribe({
+          next: (customer) => {
+            console.log("Customer: ", customer);
+            if (!customer || !customer.id) {
+              console.error(`❌ No se encontró un cliente asociado al usuario con UID: ${user.uid}`);
+              return
+            }
+
+            console.log("✅ Cliente encontrado:", customer);
+
+            const updatedCar = { ...car, customerId: customer.id };
+            console.log("Cosas: ", [car.customer, customer.id])
+              
+            this.carSvc.update(updatedCar.id, updatedCar).subscribe({
+              next: () => {
+                console.log(`Coche ${car.brand} ${car.model} comprado con éxito por el cliente ${customer.name}. Id: ${car.customer}`);
+                this.generateContract(car, customer);
+              },
+              error: (err) => {
+                console.error('Error al comprar el coche:', err);
+              },
+            });
+          },
+          error: (err) => {
+            console.error('Error al obtener el cliente:', err);
+          },
+        });
       },
       error: (err) => {
         console.error('Error al verificar la sesión:', err);
@@ -350,22 +366,31 @@ export class InventoryPage implements OnInit {
     });
   }
 
-  /*async generateContract(car: Car, customer: Customer){
-    const doc = new jsPDF()
-
-    //Título del contrato
-    doc.setFontSize(18)
-    doc.text("CONTRATO DE COMPRA DE VEHÍCULO", 20, 20)
-
-    //Datos del cliente
-    doc.setFontSize(12)
+  async generateContract(car: Car | FirebaseCar, customer: Customer | FirebaseCustomer) {
+    const doc = new jsPDF();
+  
+    let customerEmail = 'No disponible';
+  
+    if ('userId' in customer && typeof customer.userId === 'string') {
+      const currentUser = await this.authSvc.getCurrentUser();
+      customerEmail = currentUser ? currentUser.email : 'No disponible';
+    } else if ('user' in customer && typeof customer.user === 'string') {
+      customerEmail = customer.user;
+    }
+  
+    // Título del contrato
+    doc.setFontSize(18);
+    doc.text("CONTRATO DE COMPRA DE VEHÍCULO", 20, 20);
+  
+    // Datos del cliente
+    doc.setFontSize(12);
     doc.text(`Datos del Cliente:`, 20, 40);
     doc.text(`Nombre: ${customer.name} ${customer.surname}`, 20, 50);
     doc.text(`DNI: ${customer.dni}`, 20, 60);
     doc.text(`Teléfono: ${customer.phone}`, 20, 70);
-    //doc.text(`Email: ${customer.email}`, 20, 80);
-
-    //Datos del coche
+    doc.text(`Email: ${customerEmail}`, 20, 80);
+  
+    // Datos del coche
     doc.text(`Datos del Vehículo:`, 20, 100);
     doc.text(`Marca: ${car.brand}`, 20, 110);
     doc.text(`Modelo: ${car.model}`, 20, 120);
@@ -373,26 +398,32 @@ export class InventoryPage implements OnInit {
     doc.text(`Matrícula: ${car.plate}`, 20, 140);
     doc.text(`Color: ${car.color}`, 20, 150);
     doc.text(`Caballos de potencia: ${car.horsePower} HP`, 20, 160);
-
-    //Firma del cliente
+  
+    // Firma del cliente
     doc.text("Firma del Cliente:", 20, 180);
     doc.line(20, 185, 100, 185); // Línea para la firma
-
+  
     const pdfBase64 = doc.output('datauristring').split(',')[1];
-
-    try{
-      await FileSystem.writeFile({
-        path: `contrato_${car.plate}.pdf`,
+  
+    try {
+      // 📌 Guardamos en una ubicación predeterminada del dispositivo
+      const filePath = `contrato_${car.plate}.pdf`;
+      const directory = Directory.Documents;
+  
+      const fileUri = await Filesystem.getUri({ directory, path: filePath });
+  
+      console.log("📌 Ruta de guardado:", fileUri.uri);
+  
+      await Filesystem.writeFile({
+        path: filePath,
         data: pdfBase64,
         directory: Directory.Documents,
-        encoding: Encoding.Base64,
-      })
-
-
-      console.log(`✅ Contrato generado y guardado como contrato_${car.plate}.pdf`);   
-     } catch {
+      });
+  
+      console.log(`✅ Contrato guardado correctamente en: ${fileUri.uri}`);
+    } catch (error) {
       console.error('❌ Error al guardar el contrato:', error);
-     }
-  } */
-
+    }
+  }
+  
 }

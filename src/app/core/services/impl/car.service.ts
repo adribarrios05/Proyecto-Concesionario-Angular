@@ -22,6 +22,9 @@ export class CarService extends BaseService<Car> implements ICarService {
     /*uploadImage(file: File): Observable<any>{
         return this.repository.uploadImage(file);
     }*/
-
+        override update(id: string, car: Car): Observable<Car> {
+          console.log("🔄 Actualizando coche en Firebase con customerId:", car.customer);
+          return this.repository.update(id, car);
+        }
   
 }
