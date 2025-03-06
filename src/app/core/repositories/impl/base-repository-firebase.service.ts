@@ -65,33 +65,47 @@ export class BaseRepositoryFirebaseService<T extends Model> implements IBaseRepo
 
   getAll(page: number, pageSize: number, filters: SearchParams): Observable<T[] | Paginated<T>> {
     return from(this.getLastDocumentOfPreviousPage(page, pageSize)).pipe(
-      map(lastDoc => {
-        const constraints: QueryConstraint[] = [
-          limit(pageSize)
-        ];
+        map(lastDoc => {
+            let constraints: QueryConstraint[] = [
+                limit(pageSize)
+            ];
 
-        Object.entries(filters).forEach(([key, value]) => {
-          constraints.push(where(key, "==", value));
-        });
+            if (lastDoc) {
+                constraints.push(startAfter(lastDoc));
+            }
+            
+            // ✅ Aplicar filtros
+            Object.entries(filters).forEach(([key, value]) => {
+              if (typeof value === 'object' && value !== null) {
+                  if ('$gte' in value && '$lte' in value) {
+                      constraints.push(where(key, ">=", value.$gte as number));
+                      constraints.push(where(key, "<=", value.$lte as number));
+                  } else if ('$gte' in value) {
+                      constraints.push(where(key, ">=", value.$gte as number));
+                  } else if ('$lte' in value) {
+                      constraints.push(where(key, "<=", value.$lte as number));
+                  } else if ('$in' in value) {
+                      constraints.push(where(key, 'in', value.$in as string[]));
+                  }
+              } else {
+                  constraints.push(where(key, "==", value));
+              }
+          });
 
-        console.log("Filtros aplicados en getAll(): ", filters)
-        
-        if (lastDoc) {
-          constraints.push(startAfter(lastDoc));
-        }
-        
-        return query(this.collectionRef, ...constraints);
-      }),
-      mergeMap(q => getDocs(q)),
-      map(snapshot => {
-        const items = snapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        }));
-        return this.mapping.getPaginated(page, pageSize, snapshot.size, items as T[]);
-      })
+            console.log("🚀 Aplicando filtros:", filters);
+            return query(this.collectionRef, ...constraints);
+        }),
+        mergeMap(q => getDocs(q)),
+        map(snapshot => {
+            const items = snapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            }));
+            return this.mapping.getPaginated(page, pageSize, snapshot.size, items as T[]);
+        })
     );
-  }
+}
+
 
   getById(id: string): Observable<T | null> {
     const docRef = doc(this.db, this.collectionName, id);
@@ -128,7 +142,7 @@ export class BaseRepositoryFirebaseService<T extends Model> implements IBaseRepo
   
     console.log("🔄 Actualizando coche en Firebase con datos:", updatedData);
   
-    if (!updatedData.customerId) {
+    if (!updatedData.customer) {
       console.warn("⚠️ customerId está vacío o undefined. Verifica si se está pasando correctamente.");
     }
   

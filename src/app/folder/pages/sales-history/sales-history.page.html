@@ -1,26 +1,42 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>{{ 'SALES_HISTORY' | translate }}</ion-title>
+    <ion-title>Historial de Ventas</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content>
   <ion-grid>
-    <ion-row>
-      <ion-col size="12">
-        <ion-card *ngFor="let car of cars">
-          <ion-item>
-            <ion-avatar slot="start">
-              <ion-img [src]="car.picture?.url || 'https://ionicframework.com/docs/img/demos/avatar.svg'" alt="Car image"></ion-img>
-            </ion-avatar>
-            <ion-label>
-              <h2>{{ car.brand }} {{ car.model }}</h2>
-              <p><strong>{{ 'PLATE' | translate }}:</strong> {{ car.plate }}</p>
-              <!--<p><strong>{{ 'NAME' | translate }}:</strong> {{ car.customer?.name }}</p>
-              <p><strong>{{ 'DNI' | translate }}:</strong> {{ car.customer?.dni }}</p>-->
-            </ion-label>
-          </ion-item>
-        </ion-card>
+    <ion-row class="header-row">
+      <ion-col size="2" class="header-cell">Marca</ion-col>
+      <ion-col size="2" class="header-cell">Modelo</ion-col>
+      <ion-col size="2" class="header-cell">Matrícula</ion-col>
+      <ion-col size="2" class="header-cell">Cliente</ion-col>
+      <ion-col size="2" class="header-cell">DNI</ion-col>
+      <ion-col size="1" class="header-cell">Contrato</ion-col>
+    </ion-row>
+
+    <ion-row *ngFor="let car of soldCars$ | async" class="data-row">
+      <ion-col size="2" class="data-cell">{{ car.brand }}</ion-col>
+      <ion-col size="2" class="data-cell">{{ car.model }}</ion-col>
+      <ion-col size="2" class="data-cell">{{ car.plate }}</ion-col>
+
+      <ion-col size="2" class="data-cell">
+        <ng-container *ngIf="(customers$ | async)?.[car.id] as customer; else loading">
+          {{ customer?.name || 'Desconocido' }} {{ customer?.surname || '' }}
+        </ng-container>
+        <ng-template #loading>Cargando...</ng-template>
+      </ion-col>
+
+      <ion-col size="2" class="data-cell">
+        <ng-container *ngIf="(customers$ | async)?.[car.id] as customer; else loading">
+          {{ customer?.dni || 'N/A' }}
+        </ng-container>
+      </ion-col>
+
+      <ion-col size="1" class="data-cell">
+        <ion-button fill="clear" color="primary" [href]="getContractDownloadLink(car)" download>
+          <ion-icon name="download-outline"></ion-icon>
+        </ion-button>
       </ion-col>
     </ion-row>
   </ion-grid>

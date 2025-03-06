@@ -22,7 +22,7 @@
 
           <ion-item>
             <ion-label>{{ 'HORSEPOWER' | translate }}</ion-label>
-            <ion-range [(ngModel)]="caballos" [min]=200 [max]=800 step="10" [dualKnobs]="true" pin="true" (ionChange)="onCaballosChange($event)" >
+            <ion-range [(ngModel)]="caballos" [min]=200 [max]=1200 step="10" [dualKnobs]="true" pin="true" (ionChange)="onCaballosChange($event)" >
               <ion-label slot="start">{{ isRangeValue(caballos) ? caballos.lower : 'N/A' }}</ion-label>
               <ion-label slot="start">{{ isRangeValue(caballos) ? caballos.upper : 'N/A' }}</ion-label>
             </ion-range>

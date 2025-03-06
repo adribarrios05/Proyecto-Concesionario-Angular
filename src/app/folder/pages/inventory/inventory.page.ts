@@ -1,10 +1,10 @@
 import { Component, Directive, EventEmitter, Inject, OnInit, Output } from '@angular/core';
-import { AlertController, ModalController, Platform, RangeCustomEvent } from '@ionic/angular';
+import { AlertController, ModalController, Platform, RangeCustomEvent, ToastController } from '@ionic/angular';
 import { BehaviorSubject, Observable, timer } from 'rxjs';
 import { Car } from 'src/app/core/models/car.model';
 import { Paginated } from 'src/app/core/models/paginated.model';
 import { CarService } from 'src/app/core/services/impl/car.service';
-import { InfiniteScrollCustomEvent, RangeValue } from '@ionic/core';
+import { InfiniteScrollCustomEvent, RangeValue, toastController } from '@ionic/core';
 import { CarModalComponent } from 'src/app/components/car-modal/car-modal.component';
 import { SearchParams } from 'src/app/core/repositories/intefaces/base-repository.interface';
 import { BaseAuthenticationService } from 'src/app/core/services/impl/base-authentication.service';
@@ -92,17 +92,22 @@ export class InventoryPage implements OnInit {
   isLoading: boolean = true
 
   loadCars(filters: SearchParams = {}){
-    this._cars.subscribe(data => {
-      console.log("Datos de los coches:", data); // Verifica los datos que devuelve el servicio
-    });
-    this.page=1;
+    console.log("🔎 Cargando coches con filtros:", filters);
+
+    this.page = 1
     this.carSvc.getAll(this.page, this.pageSize, filters).subscribe({
       next:(response:Paginated<Car>)=>{
+        if (response.data.length === 0) {
+          console.warn("⚠️ No se encontraron coches con los filtros aplicados.");
+        } else {
+            console.log("✅ Coches obtenidos:", response.data);
+        }
+
         response.data.forEach(car => this.loadedIds.add(car.id));
         this._cars.next([...response.data]);
         this.page++;
         this.pages = response.pages;
-      },
+        },
       error: (err) => console.error("Error al cargar los datos del coche", err),
     });
   }
@@ -128,53 +133,51 @@ export class InventoryPage implements OnInit {
   
 
   applyFilters() {
-    const filters: any = {};
-  
-    // Filtrar por rango de caballos
-    if (
-      typeof this.caballos === 'object' && 
-      'lower' in this.caballos && 
-      'upper' in this.caballos
-    ) {
-      if (this.caballos.lower !== 200 || this.caballos.upper !== 800) {
-        filters.horsePower = {
-          $gte: this.caballos.lower,
-          $lte: this.caballos.upper,
-        };
-      }
+    const filters: any = { customer: null};
+
+    console.log("📌 Aplicando filtros...");
+
+    // 📌 Filtrar por rango de caballos
+    if (this.isRangeValue(this.caballos)) {
+        if (this.caballos.lower !== 200 || this.caballos.upper !== 1200) { // Ajuste de valores por defecto
+            filters.horsePower = {
+                $gte: this.caballos.lower,
+                $lte: this.caballos.upper,
+            };
+            console.log("✅ Filtro de caballos aplicado:", filters.horsePower);
+        }
     } else {
-      // Maneja el caso en el que `caballos` es un número o no tiene las propiedades necesarias
-      console.error("La variable 'caballos' no tiene el formato esperado.");
+        console.error("❌ Error en el filtro de caballos: valor inesperado.");
     }
-  
-    // Filtrar por rango de precio
-    if (
-      typeof this.precio === 'object' && 
-      'lower' in this.precio && 
-      'upper' in this.precio
-    ) {
-      if (this.precio.lower !== 200 || this.precio.upper !== 800) {
-        filters.horsePower = {
-          $gte: this.precio.lower,
-          $lte: this.precio.upper,
-        };
-      }
+
+    // 📌 Filtrar por rango de precio
+    if (this.isRangeValue(this.precio)) {
+        if (this.precio.lower !== 50000 || this.precio.upper !== 2000000) { // Ajuste de valores por defecto
+            filters.price = {
+                $gte: this.precio.lower,
+                $lte: this.precio.upper,
+            };
+            console.log("✅ Filtro de precio aplicado:", filters.price);
+        }
     } else {
-      // Maneja el caso en el que `precio` es un número o no tiene las propiedades necesarias
-      console.error("La variable 'precio' no tiene el formato esperado.");
+        console.error("❌ Error en el filtro de precio: valor inesperado.");
     }
-  
-    // Filtrar por marcas seleccionadas
+
+    // 📌 Filtrar por marcas seleccionadas
     if (this.marcasSeleccionadas.length > 0) {
-      filters.brand = {
-        $in: this.marcasSeleccionadas,
-      };
+        filters.brand = {
+            $in: this.marcasSeleccionadas,
+        };
+        console.log("✅ Filtro de marcas aplicado:", filters.brand);
     }
+
+    console.log("📌 Filtros finales enviados a la consulta:", filters);
     this.loadCars(filters);
-  }
+}
+
 
   resetFilters() {
-    this.caballos = { lower: 200, upper: 800 };
+    this.caballos = { lower: 200, upper: 1200 };
     this.precio = { lower: 50000, upper: 2000000 };
     this.marcasSeleccionadas = [];
     this.applyFilters();
@@ -300,10 +303,11 @@ export class InventoryPage implements OnInit {
               return
             }
 
-            console.log("✅ Cliente encontrado:", customer);
+            console.log("✅ Cliente encontrado:", [customer, customer.id]);
 
-            const updatedCar = { ...car, customerId: customer.id };
-            console.log("Cosas: ", [car.customer, customer.id])
+            console.log("Car antes de updatearlo: ", car)
+            const updatedCar = { ...car, customer: customer.id };
+            console.log("🚀 Actualizando coche con:", [updatedCar, updatedCar.customer]);  
               
             this.carSvc.update(updatedCar.id, updatedCar).subscribe({
               next: () => {

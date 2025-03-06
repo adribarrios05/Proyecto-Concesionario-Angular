@@ -40,7 +40,7 @@ export class CarMappingFirebaseService implements IBaseMapping<Car> {
       color: data.color,
       type: data.type,
       plate: data.plate,
-      customer: data.customerId?.id,
+      customer: data.customer?.id,
       picture: data.picture ? {
         url: data.picture,
         large: data.picture,
@@ -85,7 +85,7 @@ export class CarMappingFirebaseService implements IBaseMapping<Car> {
         color: data.color,
         type: data.type,
         plate: data.plate,
-        picture: imageUrl
+        picture: imageUrl,
     };
     console.log("Data despues de mapear: ", dataMapping)
     return dataMapping;
@@ -103,7 +103,7 @@ export class CarMappingFirebaseService implements IBaseMapping<Car> {
     if (data.color) result.color = data.color;
     if (data.type) result.type = data.type;
     if (data.plate) result.plate = data.plate;
-    //if (data.customer) result.customer = doc(this.db, 'customers', data.customer.toString() || '');
+    if (data.customer) result.customer = doc(this.db, 'customers', data.customer.toString() || '');
     if (data.picture) result.picture = data.picture?.url || ' ';
 
     return result;

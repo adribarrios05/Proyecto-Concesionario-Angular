@@ -1,3 +1,4 @@
+import { DocumentReference } from "firebase/firestore";
 import { Model } from "./base.model";
 
 export interface Car extends Model{
@@ -10,7 +11,7 @@ export interface Car extends Model{
     color: string,
     type: string,
     plate: string,
-    customer?: number | string
+    customer?: number | string | DocumentReference
     picture?:{
         url:string | undefined,
         large:string | undefined,
