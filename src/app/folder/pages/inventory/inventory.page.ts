@@ -114,11 +114,13 @@ export class InventoryPage implements OnInit {
             console.log("✅ Coches obtenidos:", response.data);
         }
 
+      response.data.forEach(car => this.loadedIds.add(car.id));
+
       const availableCars = response.data.filter(car => !car.customer);
       console.log("🚀 Coches filtrados (solo disponibles):", availableCars);
 
-      this._cars.next([...availableCars]);
-      this.page = 2; // 🔥 La siguiente página a cargar será la 2
+      this._cars.next(availableCars);
+      this.page = 2; 
       this.pages = response.pages;
         },
       error: (err) => console.error("Error al cargar los datos del coche", err),
@@ -145,10 +147,12 @@ export class InventoryPage implements OnInit {
         }
   
         console.log("✅ Coches nuevos cargados:", response.data);
-  
+
+        response.data.forEach(car => this.loadedIds.add(car.id));
+
         // 🔥 Agregar los nuevos coches a la lista sin sobrescribir los existentes
         const updatedCars = [...this._cars.value, ...response.data];
-        this._cars.next(updatedCars);
+        this._cars.next(updatedCars)
   
         // ⬆️ Incrementar la página después de cargar datos correctamente
         this.page++;

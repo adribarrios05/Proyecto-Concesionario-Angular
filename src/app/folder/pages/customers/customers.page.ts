@@ -82,6 +82,8 @@ export class CustomersPage implements OnInit {
           const userId = customer.userId
         })
 
+        response.data.forEach(customer => this.loadedIds.add(customer.id));
+
         this._customers.next(response.data)
         this.page++
         this.pages = response.pages
@@ -101,6 +103,7 @@ export class CustomersPage implements OnInit {
     if(this.page<=this.pages){
       this.customerService.getAll(this.page, this.pageSize).subscribe({
         next:(response:Paginated<Customer>)=>{
+          response.data.forEach(customer => this.loadedIds.add(customer.id));
           this._customers.next([...this._customers.value, ...response.data]);
           this.page++;
           notify?.complete();
