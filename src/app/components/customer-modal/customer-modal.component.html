@@ -30,8 +30,12 @@
       </ion-item>
       <ion-item>
         <ion-label position="stacked">{{ 'AGE' | translate }}</ion-label>
-        <ion-input type="number" formControlName="age"></ion-input>
+        <ion-input type="date" formControlName="birthDate"></ion-input>
       </ion-item>
+      <ion-item>
+        <app-picture-selectable formControlName="picture"></app-picture-selectable>
+      </ion-item>
+           
     </ion-list>
     <ion-footer>
       <ion-toolbar>

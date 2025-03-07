@@ -9,11 +9,11 @@ export class LanguageService {
   private defaultLang = 'es';
 
   constructor(private translate: TranslateService) {
-    translate.addLangs(['es', 'en']);
+    translate.addLangs(['es', 'en', 'fr', 'it', 'pt', 'de', 'jp', 'ar']);
     translate.setDefaultLang('es');
     
     const browserLang = translate.getBrowserLang();
-    translate.use(browserLang?.match(/es|en/) ? browserLang : 'es');
+    translate.use(browserLang?.match(/es|en|fr|it|pt|jp|de|ar/) ? browserLang : 'es');
 
     const storedLang = this.getStoredLanguage();
     this.changeLanguage(storedLang);

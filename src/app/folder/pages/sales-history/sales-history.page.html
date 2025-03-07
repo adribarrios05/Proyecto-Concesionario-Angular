@@ -11,7 +11,7 @@
       <ion-col size="2" class="header-cell">Modelo</ion-col>
       <ion-col size="2" class="header-cell">Matrícula</ion-col>
       <ion-col size="2" class="header-cell">Cliente</ion-col>
-      <ion-col size="2" class="header-cell">DNI</ion-col>
+      <ion-col size="2" class="header-cel">DNI</ion-col>
       <ion-col size="1" class="header-cell">Contrato</ion-col>
     </ion-row>
 
@@ -20,21 +20,26 @@
       <ion-col size="2" class="data-cell">{{ car.model }}</ion-col>
       <ion-col size="2" class="data-cell">{{ car.plate }}</ion-col>
 
+      <!-- Cliente -->
       <ion-col size="2" class="data-cell">
-        <ng-container *ngIf="(customers$ | async)?.[car.id] as customer; else loading">
-          {{ customer?.name || 'Desconocido' }} {{ customer?.surname || '' }}
+        <ng-container *ngIf="(customers$ | async)?.[car.plate] as customer">
+          {{ customer.nombre }} {{ customer.apellidos }}
         </ng-container>
-        <ng-template #loading>Cargando...</ng-template>
-      </ion-col>
-
-      <ion-col size="2" class="data-cell">
-        <ng-container *ngIf="(customers$ | async)?.[car.id] as customer; else loading">
-          {{ customer?.dni || 'N/A' }}
+        <ng-container *ngIf="!(customers$ | async)?.[car.plate]">
+          <em>Cliente no encontrado</em>
         </ng-container>
       </ion-col>
 
+      <!-- DNI -->
+       <ion-col size="2" class="data-cell">
+        <ng-container *ngIf="(customers$ | async)?.[car.plate] as customer">
+          {{ customer.dni }}
+        </ng-container>
+       </ion-col>
+
+      <!-- Contrato -->
       <ion-col size="1" class="data-cell">
-        <ion-button fill="clear" color="primary" [href]="getContractDownloadLink(car)" download>
+        <ion-button *ngIf="getContractDownloadLink(car)" fill="clear" color="primary" [href]="getContractDownloadLink(car)" download>
           <ion-icon name="download-outline"></ion-icon>
         </ion-button>
       </ion-col>

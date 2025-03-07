@@ -86,6 +86,7 @@ export class CarMappingFirebaseService implements IBaseMapping<Car> {
         type: data.type,
         plate: data.plate,
         picture: imageUrl,
+        customer: null
     };
     console.log("Data despues de mapear: ", dataMapping)
     return dataMapping;

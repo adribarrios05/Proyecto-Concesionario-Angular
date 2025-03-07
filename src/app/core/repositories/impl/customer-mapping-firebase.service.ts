@@ -37,7 +37,7 @@ export class CustomerMappingFirebaseService implements IBaseMapping<Customer> {
       birthDate: data.birthDate,
       user: data.userId?.toString() || '',
       picture: data.picture ? data.picture.url : '',
-      username: data.username ? data.username : ''
+      username: data.username ? data.username : '',
     };
     return dataMapping;
   }

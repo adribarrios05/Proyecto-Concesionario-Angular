@@ -1,36 +1,59 @@
-<ion-app>
-    <ion-header *ngIf="showNavbar">
-        <ion-toolbar class="dark-red">
-          <ion-buttons slot="start">
-            <ion-button [routerLink]="'/home'" class="logo-button" [routerDirection]="'root'">
-              <ion-avatar class="logo">
-                <img alt="Silhouette of a person's head" src="../../../assets/icon/favicon.png" />
-              </ion-avatar>
-              <ion-text>Concesionarios BaCa</ion-text>
-            </ion-button>
-          </ion-buttons>
-          <ion-buttons slot="end">
-            <ion-button (click)="presentLanguagePopover($event)">
-              <ion-label class="language-btn">{{ 'LANGUAGE' | translate }}</ion-label>
-              <ion-icon name="language"></ion-icon>
-            </ion-button>
-            <ion-button *ngFor="let p of appPages; let i = index" 
-            [routerLink]="[p.url]" 
-            routerLinkActive="active-page"
-            [routerDirection]="'root'">
-              <ion-icon [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'" slot="start"></ion-icon>
-              <ion-text class="nav-text">{{ p.title | translate}}</ion-text>
-            </ion-button>
-          </ion-buttons>
-          <ion-buttons slot="end">
-            <ion-button class="profile-button" (click)="presentPopover($event)">
-            <ion-avatar> 
-              <img alt="Silhouette of a person's head" [src]="isLoggedIn ? profileImageUrl : 'https://ionicframework.com/docs/img/demos/avatar.svg'" />
-            </ion-avatar>
-          </ion-button>
-          </ion-buttons>
-          
-        </ion-toolbar>
-      </ion-header>
-    <ion-router-outlet></ion-router-outlet>
-</ion-app>
+<ion-menu contentId="main-content" side="start">
+  <ion-header>
+    <ion-toolbar color="dark-red">
+      <ion-title>Menú</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <ion-item *ngFor="let p of appPages" [routerLink]="[p.url]" routerLinkActive="active-page">
+        <ion-icon [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'" slot="start"></ion-icon>
+        <ion-label>{{ p.title | translate }}</ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<ion-page id="main-content">
+  <ion-header *ngIf="showNavbar">
+    <ion-toolbar class="dark-red">
+      <!-- 📌 Menú hamburguesa -->
+      <ion-buttons slot="start" class="mobile-menu">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+
+      <!-- 📌 Logo -->
+      <ion-buttons slot="start" class="logo-container">
+        <ion-button [routerLink]="'/home'" class="logo-button" [routerDirection]="'root'">
+          <ion-avatar class="logo">
+            <img alt="Logo" src="../../../assets/icon/favicon.png" />
+          </ion-avatar>
+          <ion-text class="logo-text">Concesionarios BaCa</ion-text>
+        </ion-button>
+      </ion-buttons>
+
+      <!-- 📌 Menú en escritorio -->
+      <ion-buttons slot="end" class="desktop-menu">
+        <ion-button *ngFor="let p of appPages" [routerLink]="[p.url]" routerLinkActive="active-page">
+          <ion-icon [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'" slot="start"></ion-icon>
+          <ion-text class="nav-text">{{ p.title | translate }}</ion-text>
+        </ion-button>
+      </ion-buttons>
+
+      <!-- 📌 Botón de idioma y perfil -->
+      <ion-buttons slot="end">
+        <ion-button (click)="presentLanguagePopover($event)">
+          <ion-label class="language-btn">{{ 'LANGUAGE' | translate }}</ion-label>
+          <ion-icon name="language"></ion-icon>
+        </ion-button>
+        <ion-button class="profile-button" (click)="presentPopover($event)">
+          <ion-avatar> 
+            <img alt="Perfil" [src]="isLoggedIn ? profileImageUrl : 'https://ionicframework.com/docs/img/demos/avatar.svg'" />
+          </ion-avatar>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-router-outlet></ion-router-outlet>
+</ion-page>

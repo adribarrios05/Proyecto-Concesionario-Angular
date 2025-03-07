@@ -5,6 +5,7 @@ ion-grid {
   ion-avatar {
     :hover {
       cursor: pointer;
+      color: white;
     }
   }
   
@@ -36,5 +37,6 @@ ion-grid {
     width: 50px;
     height: 50px;
     border-radius: 50%;
+    color: var(--ion-color-secondary);
   }
   

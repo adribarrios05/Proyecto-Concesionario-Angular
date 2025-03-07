@@ -1,27 +1,97 @@
-ion-button{
-    --color: #ffffff;
-  }
-  
-  ion-avatar{
-    padding: 7px;
-  }
-  
-  ion-button.active-page {
-      --background: #660000; 
-      --color: #ffffff;      
-      border-radius: 8px;    
-    }
-  
-  .dark-red{
-      --background: #550000;
-  }
-  
-  ion-text{
-    padding-left: 5px;
-  }
+/* Estilos generales */
+ion-button {
+  --color: #ffffff;
+}
 
-  .language-btn{
-    margin-right: 5px;
+ion-avatar {
+  padding: 7px;
+}
+
+/* Navbar de color oscuro */
+.dark-red {
+  --background: #550000;
+}
+
+/* Logo */
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo-button {
+  display: flex;
+  align-items: center;
+}
+
+.logo-text {
+  padding-left: 5px;
+  font-weight: bold;
+}
+
+/* Botón de cambio de idioma */
+.language-btn {
+  margin-right: 5px;
+}
+
+/* Botón activo */
+ion-button.active-page {
+  --background: #660000;
+  --color: #ffffff;
+  border-radius: 8px;
+}
+
+/* Menú de escritorio */
+.desktop-menu {
+  display: flex;
+}
+
+ion-menu {
+  --background: var(--ion-color-primary);
+  --ion-toolbar-background: var(--ion-color-primary);
+  --ion-toolbar-color: var(--ion-color-background);
+  --ion-item-background: var(--ion-color-background);
+  --ion-item-color: var(--ion-color-dark);
+}
+
+/* 🔹 Botón hamburguesa */
+ion-menu-button {
+  color: var(--ion-color-light);
+}
+
+/* 🔹 Header del menú */
+ion-menu ion-header ion-toolbar {
+  --background: var(--ion-color-primary);
+  --color: var(--ion-color-light);
+}
+
+/* 🔹 Ítems del menú */
+ion-menu ion-item {
+  --background: var(--ion-color-background);
+  --color: var(--ion-color-secondary);
+}
+
+/* 🔹 Ícono del menú */
+ion-menu ion-icon {
+  color: var(--ion-color-secondary);
+}
+
+/* 🔹 Botón activo en el menú */
+ion-menu ion-item.router-link-active {
+  --background: var(--ion-color-primary);
+  --color: var(--ion-color-light);
+}
+
+/* 🔹 Botón hamburguesa en pantallas pequeñas */
+.mobile-menu {
+  display: none;
+}
+
+/* 🔹 Responsive: En pantallas menores a 991px */
+@media screen and (max-width: 991px) {
+  .mobile-menu {
+    display: flex;
   }
-  
-  
+  .desktop-menu {
+    display: none;
+  }
+}

@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { filter, map, Observable, of, tap, firstValueFrom, from, throwError } from 'rxjs';
+import { filter, map, Observable, of, tap, firstValueFrom, from, throwError, catchError } from 'rxjs';
 import { BaseAuthenticationService } from './base-authentication.service';
 import { AUTH_MAPPING_TOKEN, FIREBASE_CONFIG_TOKEN } from '../../repositories/repository.tokens';
 import { IAuthMapping } from '../interfaces/auth-mapping.interface';
@@ -12,6 +12,7 @@ import {
   signOut as firebaseSignOut,
   onAuthStateChanged
 } from 'firebase/auth';
+import { Firestore, getFirestore, doc, getDoc } from 'firebase/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -32,11 +33,9 @@ export class FirebaseAuthenticationService extends BaseAuthenticationService {
     },
     @Inject(AUTH_MAPPING_TOKEN) authMapping: IAuthMapping
   ) {
-    console.log("El servicio de autenticacion de firebase se ha iniciado")
     super(authMapping);
     const app = initializeApp(firebaseConfig);
     this.auth = getAuth(app);
-    console.log("Auth: ", this.auth.currentUser);
 
     onAuthStateChanged(this.auth, async (user) => {
       if (user) {
@@ -95,16 +94,19 @@ export class FirebaseAuthenticationService extends BaseAuthenticationService {
   }
 
   me(): Observable<any> {
-    return of(this.auth.currentUser).pipe(
-      map(user => {
-        if (!user) {
-          throw new Error('No authenticated user');
+    return new Observable((observer) => {
+      onAuthStateChanged(this.auth, (user) => {
+        if (user) {
+          observer.next(user);
+        } else {
+          observer.error(new Error('No authenticated user'));
         }
-        return user;
-      })
-    );
+      }, (error) => {
+        observer.error(error);
+      });
+    });
   }
-
+  
   getToken(): string | null {
     return this._token;
   }

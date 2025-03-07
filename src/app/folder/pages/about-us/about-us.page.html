@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ 'ABOUT-US.TITLE' | translate }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="text-center">
+    <img src="../../../../assets/icon/favicon.png" alt="Concesionarios BaCa" class="company-logo">
+  </div>
+
+  <h2 class="text-center text-xl font-bold mt-4">{{ 'ABOUT-US.WELCOME' | translate }}</h2>
+  <p class="text-center mt-2 text-gray-600">
+    {{ 'ABOUT-US.DESCRIPTION' | translate }}
+  </p>
+
+  <h3 class="mt-6 text-lg font-semibold">{{ 'ABOUT-US.LOCATION' | translate }}</h3>
+  <div id="map"></div> <!-- 📌 Contenedor del mapa -->
+
+  <div *ngIf="selectedLocation" class="location-info">
+    📍 {{ selectedLocation }}
+  </div>
+
+  <h3 class="mt-6 text-lg font-semibold">{{ 'ABOUT-US.CONTACT' | translate }}</h3>
+  <p class="mt-2 text-gray-700">
+    📍 <strong>{{ 'ABOUT-US.LOCATION_LABEL' | translate }}:</strong> {{ 'ABOUT-US.LOCATION' | translate }}<br>
+    📞 <strong>{{ 'ABOUT-US.PHONE_LABEL' | translate }}:</strong> +34 910 123 456<br>
+    📧 <strong>{{ 'ABOUT-US.EMAIL_LABEL' | translate }}:</strong>
+    <a href="mailto:contacto&#64;concesionariosbaca.com">contacto&#64;concesionariosbaca.com</a>
+  </p>
+</ion-content>

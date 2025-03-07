@@ -3,7 +3,7 @@
 
 <ion-content [fullscreen]="true">
   
-  <ion-split-pane  contentId="main-content">
+  <ion-split-pane contentId="main-content">
     <ion-menu side="start" menuId="menu">
       <ion-header>
         <ion-toolbar class="dark-red">
@@ -64,7 +64,7 @@
               <ion-checkbox slot="start" value="Porsche" (ionChange)="onMarcaChange($event, 'Porsche')"></ion-checkbox>
               <ion-label>Porsche</ion-label>
             </ion-item> 
-            <ion-button (click)="resetFilters()">{{ 'RESET-FILTERS' | translate }}</ion-button>
+            <ion-button class="reset-filters" (click)="resetFilters()">{{ 'RESET-FILTERS' | translate }}</ion-button>
 
           </ion-list>
   
@@ -76,7 +76,7 @@
     <ion-content id="main-content">
       <ion-grid>
         <ion-row>
-          <ion-col size="20" size-md="10" size-lg="6"  *ngFor="let car of cars$ | async">
+          <ion-col size="12" size-md="6" size-lg="6"  *ngFor="let car of cars$ | async">
             <ion-card >
               <ion-img *ngIf="car.picture?.url" [src]="car.picture?.url" alt="Car image" />
               <ion-img *ngIf="!car.picture?.url" src="../../../../assets/img/car-img-placeholder.png" alt="Car image"/>
@@ -92,7 +92,7 @@
                 <p><strong>{{ 'PLATE' | translate}}:</strong> {{ car.plate }}</p>
                 <p>{{ car.description }}</p>
               </ion-card-content>
-              <ion-button *ngIf="isLoggedIn" color="primary" expand="block" color="primary" (click)="onBuy(car)">
+              <ion-button class="buyBtn" *ngIf="isLoggedIn" expand="block" (click)="onBuy(car)">
                 {{ 'BUY' | translate }}
               </ion-button>
               <ion-button *ngIf="isLoggedIn" color="danger" expand="block" (click)="onDelete(car)">
@@ -102,7 +102,7 @@
             </ion-card>
           </ion-col>
 
-          <ion-col size="20" size-md="10" size-lg="6" >
+          <ion-col size="12" size-md="6" size-lg="6">
             <ion-card (click)="openCarModal()" class="add-card">
               <ion-card-content>
                 <ion-icon name="add-circle" style="font-size: 3rem; color: gray;"></ion-icon>

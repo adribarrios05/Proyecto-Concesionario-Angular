@@ -12,8 +12,11 @@ export class LanguagePopoverComponent {
     { code: 'en', label: 'English' },
     { code: 'es', label: 'Español' },
     { code: 'fr', label: 'Français' },
-    { code: 'jp', label: '日本語' },
+    { code: 'de', label: 'Deutsch' },
+    { code: 'it', label: 'Italiano'},
     { code: 'pt', label: 'Português' },
+    { code: 'jp', label: '日本語' },
+    { code: 'zh', label: '中文' },
     { code: 'ar', label: 'عربي' },
   ];
   currentLang = this.translateService.currentLang

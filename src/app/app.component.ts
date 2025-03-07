@@ -22,6 +22,7 @@ export class AppComponent {
     { title: 'INVENTORY', url: '/inventory', icon: 'file-tray-full' },
     { title: 'SALES_HISTORY', url: '/sales', icon: 'cash' },
     { title: 'CUSTOMERS-PAGE', url: '/customers', icon: 'people' },
+    { title: 'ABOUT-US-PAGE', url: '/about-us', icon: 'information-circle' },
   ];
   
   constructor(
@@ -29,7 +30,6 @@ export class AppComponent {
     private popoverController: PopoverController,
     private translateSvc: TranslateService,
     private authSvc: BaseAuthenticationService,
-    private customerSvc: CustomerService,
 
   ) {
     const savedLanguage = localStorage.getItem('selectedLanguage') || 'en';
@@ -41,11 +41,7 @@ export class AppComponent {
     this.router.events.subscribe((event) => {
     if (event instanceof NavigationEnd) {
       const currentRoute = this.router.url;
-      if (currentRoute.includes('/login') || currentRoute.includes('/register')) {
-        this.showNavbar = false;
-      } else {
-        this.showNavbar = true;
-      }
+      this.showNavbar = !currentRoute.includes('/login') && !currentRoute.includes('/register');
     }
   })
   
@@ -77,35 +73,5 @@ export class AppComponent {
       translucent: true
     });
     await popover.present();
-  }
-
-  private checkUserAuthentication() {
-    console.log("AuthSvc: ", this.authSvc)
-    this.authSvc.me().subscribe({
-      next: (user) => {
-        if (user?.id) {
-          this.customerSvc.getByUserId(user.id).subscribe({
-            next: (customer) => {
-              this.isLoggedIn = true;
-              this.profileImageUrl = customer?.picture?.url || 'https://ionicframework.com/docs/img/demos/avatar.svg';
-            },
-            error: () => {
-              console.error('Error al obtener el cliente');
-              this.isLoggedIn = false;
-              this.profileImageUrl = 'https://ionicframework.com/docs/img/demos/avatar.svg';
-            },
-          });
-        } else {
-          console.error('El usuario autenticado no tiene un ID');
-          this.isLoggedIn = false;
-          this.profileImageUrl = 'https://ionicframework.com/docs/img/demos/avatar.svg';
-        }
-      },
-      error: () => {
-        console.error('Error al obtener el usuario autenticado');
-        this.isLoggedIn = false;
-        this.profileImageUrl = 'https://ionicframework.com/docs/img/demos/avatar.svg';
-      },
-    });
   }
 }

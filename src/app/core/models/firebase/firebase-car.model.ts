@@ -10,6 +10,6 @@ export interface FirebaseCar {
     color: string,
     type: string,
     plate: string,
-    customer?: DocumentReference;
+    customer?: DocumentReference | null;
     picture?: string;
 } 

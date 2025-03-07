@@ -38,11 +38,6 @@ ion-content{
     border-radius: 10px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   }
-  
-  /*ion-img {
-    width: 100%;
-    height: 200%;
-  }*/
 
   ion-card img {
     width: 100%;
@@ -94,6 +89,10 @@ ion-content{
   }
 }
 
+.buyBtn{
+  color: var(--ion-color-secondary);
+}
+
 ion-button {
   color: --ion-color-light;
   font-weight: bold;
@@ -105,4 +104,57 @@ ion-button {
     --border-radius: 8px;
   }
 }
+
+.reset-filters{
+  --color: var(--ion-color-secondary);
+}
+
+/* 🔥 Personalizar la alerta */
+.custom-alert {
+  --background: #ffffff; /* Fondo de la alerta */
+  --color: #333; /* Color del texto */
+}
+
+/* 🔴 Botón "No" */
+.alert-cancel-btn {
+  color: red !important; /* Cambia el color del texto */
+  font-weight: bold;
+}
+
+/* 🟢 Botón "Sí" */
+.alert-confirm-btn {
+  color: green !important; /* Cambia el color del texto */
+  font-weight: bold;
+}
   
+/* 📌 Filtros */
+.desktop-menu {
+  display: block;
+}
+
+.mobile-filter-toggle {
+  display: none;
+  text-align: center;
+  margin: 10px;
+}
+
+.mobile-filters {
+  display: none;
+}
+
+/* 📌 Responsive: En móviles */
+@media screen and (max-width: 768px) {
+  .desktop-menu {
+    display: none; /* Ocultar filtros laterales */
+  }
+  .mobile-filter-toggle {
+    display: block; /* Mostrar botón de filtros */
+  }
+  .mobile-filters {
+    display: block;
+  }
+  ion-col {
+    width: 100%;
+    max-width: 100%;
+  }
+}

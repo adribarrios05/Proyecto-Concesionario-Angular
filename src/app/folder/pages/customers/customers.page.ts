@@ -44,9 +44,9 @@ export class CustomersPage implements OnInit {
       next: (response: Paginated<Customer>) => {
         console.log("Datos obtenidos de la API:", response.data);
 
-        /*const userData = response.data.map((customer) => {
+        const userData = response.data.map((customer) => {
           const userId = customer.userId
-        })*/
+        })
 
         this._customers.next(response.data)
         this.page++
