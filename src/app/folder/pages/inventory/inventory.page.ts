@@ -30,8 +30,8 @@ export class InventoryPage implements OnInit {
 
   @Output() filterChange = new EventEmitter<any>();
 
-  caballos: RangeValue = { lower: 200, upper: 1200 };
-  precio: RangeValue = { lower: 50000, upper: 2000000 }
+  caballos: RangeValue = { lower: 200, upper: 1600 };
+  precio: RangeValue = { lower: 50000, upper: 3500000 }
   marcasSeleccionadas: string[] = [];
   _cars: BehaviorSubject<Car[]> = new BehaviorSubject<Car[]>([]);
   cars$: Observable<Car[]> = this._cars.asObservable();
@@ -114,29 +114,57 @@ export class InventoryPage implements OnInit {
             console.log("✅ Coches obtenidos:", response.data);
         }
 
-        response.data.forEach(car => this.loadedIds.add(car.id));
-        this._cars.next([...response.data]);
-        this.page++;
-        this.pages = response.pages;
+      const availableCars = response.data.filter(car => !car.customer);
+      console.log("🚀 Coches filtrados (solo disponibles):", availableCars);
+
+      this._cars.next([...availableCars]);
+      this.page = 2; // 🔥 La siguiente página a cargar será la 2
+      this.pages = response.pages;
         },
       error: (err) => console.error("Error al cargar los datos del coche", err),
     });
   }
 
-  loadMoreCars(notify: HTMLIonInfiniteScrollElement | null = null, filters: SearchParams = {}){
-    if(this.page<=this.pages){
-      this.carSvc.getAll(this.page, this.pageSize, filters).subscribe({
-        next:(response:Paginated<Car>)=>{
-          response.data.forEach(car => this.loadedIds.add(car.id));
-          this._cars.next([...this._cars.value, ...response.data])
-          this.page++
-          notify?.complete()
-        }
-      })
-    } else {
-      notify?.complete()
+  loadMoreCars(notify: HTMLIonInfiniteScrollElement | null = null, filters: SearchParams = {}) {
+    console.log(`🔄 Intentando cargar más coches... Página actual: ${this.page}, Total de páginas: ${this.pages}`);
+  
+    if (this.page > this.pages) {
+      console.warn("⚠️ No hay más coches disponibles para cargar.");
+      if (notify) notify.disabled = true; 
+
+      return;
     }
+  
+    this.carSvc.getAll(this.page, this.pageSize, filters).subscribe({
+      next: (response: Paginated<Car>) => {
+        if (response.data.length === 0) {
+          console.warn("⚠️ No se encontraron más coches.");
+          if (notify) notify.disabled = true; 
+
+          return;
+        }
+  
+        console.log("✅ Coches nuevos cargados:", response.data);
+  
+        // 🔥 Agregar los nuevos coches a la lista sin sobrescribir los existentes
+        const updatedCars = [...this._cars.value, ...response.data];
+        this._cars.next(updatedCars);
+  
+        // ⬆️ Incrementar la página después de cargar datos correctamente
+        this.page++;
+        
+        console.log(`📌 Página incrementada: ${this.page}`);
+        
+        // ✅ Completar la acción de Infinite Scroll
+        notify?.complete();
+      },
+      error: (err) => {
+        console.error("❌ Error al cargar más coches:", err);
+        notify?.complete();
+      },
+    });
   }
+  
 
   isRangeValue(value: RangeValue): value is { lower: number; upper: number } {
     return typeof value === 'object' && 'lower' in value && 'upper' in value;
@@ -217,14 +245,17 @@ export class InventoryPage implements OnInit {
     this.applyFilters();
   }
 
-  onIonInfinite(ev: InfiniteScrollCustomEvent) {
-    if(this.page<=this.pages){}
-      timer(1000).subscribe({
-        next:(value)=>{
-          this.loadMoreCars(ev.target)
-        }
-      })
+  onIonInfinite(event: InfiniteScrollCustomEvent, filters: SearchParams = {}) {
+    console.log("📌 Scrolling detectado, intentando cargar más coches...");
+    
+    if (this.page <= this.pages) {
+      this.loadMoreCars(event.target, filters);
+    } else {
+      console.log("⚠️ No hay más coches para cargar.");
+      event.target.disabled = true; // 🔥 Desactiva el Infinite Scroll si no hay más datos
+    }
   }
+  
 
   async openCarModal() {
     const modal = await this.modalCtrl.create({
