@@ -101,6 +101,9 @@ npm install
 
 ### Backend
 - Desplegado en Render con conexión a la base de datos PostgreSQL.
+- Desplegado en Firebase
 
-Enlace a netlify: (Pendiente de arreglos)
+Enlace a netlify: https://concesionarios-baca.netlify.app/home (En netlify hay cosas que no funcionan correctamente)
+
+Enlace al vídeo: https://drive.google.com/file/d/1dUnNviEwfL5N_sSDAoLPyZ0DyUExJY0h/view?usp=drive_link
 
