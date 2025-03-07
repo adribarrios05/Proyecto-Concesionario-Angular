@@ -150,7 +150,7 @@ export class InventoryPage implements OnInit {
 
     // 📌 Filtrar por rango de caballos
     if (this.isRangeValue(this.caballos)) {
-        if (this.caballos.lower !== 200 || this.caballos.upper !== 1200) { // Ajuste de valores por defecto
+        if (this.caballos.lower !== 200 || this.caballos.upper !== 1600) { // Ajuste de valores por defecto
             filters.horsePower = {
                 $gte: this.caballos.lower,
                 $lte: this.caballos.upper,
@@ -163,7 +163,7 @@ export class InventoryPage implements OnInit {
 
     // 📌 Filtrar por rango de precio
     if (this.isRangeValue(this.precio)) {
-        if (this.precio.lower !== 50000 || this.precio.upper !== 2000000) { // Ajuste de valores por defecto
+        if (this.precio.lower !== 50000 || this.precio.upper !== 3500000) { // Ajuste de valores por defecto
             filters.price = {
                 $gte: this.precio.lower,
                 $lte: this.precio.upper,

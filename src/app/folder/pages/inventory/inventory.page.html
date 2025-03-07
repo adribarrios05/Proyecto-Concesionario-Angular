@@ -22,7 +22,7 @@
 
           <ion-item>
             <ion-label>{{ 'HORSEPOWER' | translate }}</ion-label>
-            <ion-range [(ngModel)]="caballos" [min]=200 [max]=1200 step="10" [dualKnobs]="true" pin="true" (ionChange)="onCaballosChange($event)" >
+            <ion-range [(ngModel)]="caballos" [min]=200 [max]=1600 step="10" [dualKnobs]="true" pin="true" (ionChange)="onCaballosChange($event)" >
               <ion-label slot="start">{{ isRangeValue(caballos) ? caballos.lower : 'N/A' }}</ion-label>
               <ion-label slot="start">{{ isRangeValue(caballos) ? caballos.upper : 'N/A' }}</ion-label>
             </ion-range>
@@ -30,7 +30,7 @@
   
           <ion-item>
             <ion-label>{{ 'PRICE' | translate }}</ion-label>
-            <ion-range [(ngModel)]="precio" [min]=50000 [max]=2000000 step="1000" [dualKnobs]="true" pin="true" (ionChange)="onPrecioChange($event)" >
+            <ion-range [(ngModel)]="precio" [min]=50000 [max]=3500000 step="1000" [dualKnobs]="true" pin="true" (ionChange)="onPrecioChange($event)" >
               <ion-label slot="start">{{ isRangeValue(precio) ? precio.lower : 'N/A' }}</ion-label>
               <ion-label slot="start">{{ isRangeValue(precio) ? precio.upper : 'N/A' }}</ion-label>
             </ion-range>
