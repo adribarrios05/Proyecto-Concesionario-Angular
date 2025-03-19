@@ -9,4 +9,5 @@ export interface FirebaseCustomer {
     user?: string;
     picture?: string;
     username: string;
+    role: string[];
 } 

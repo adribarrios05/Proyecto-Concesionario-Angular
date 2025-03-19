@@ -39,9 +39,11 @@
 
       <!-- Contrato -->
       <ion-col size="1" class="data-cell">
-        <ion-button *ngIf="getContractDownloadLink(car)" fill="clear" color="primary" [href]="getContractDownloadLink(car)" download>
-          <ion-icon name="download-outline"></ion-icon>
-        </ion-button>
+        <ng-container *ngIf="(customers$ | async)?.[car.plate] as customer">
+          <ion-button fill="clear" color="primary" (click)="generateContract(car, customer)">
+            <ion-icon name="download-outline"></ion-icon>
+          </ion-button>
+        </ng-container>
       </ion-col>
     </ion-row>
   </ion-grid>

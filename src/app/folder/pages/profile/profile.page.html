@@ -6,9 +6,44 @@
         <ion-avatar class="profile-avatar">
           <img [src]="profileImage" alt="Imagen de perfil" />
         </ion-avatar>
-        <ion-button expand="block" color="primary" (click)="changeProfileImage()">
+
+        <input type="file" #fileInput accept="image/*" hidden (change)="onFileSelected($event)" />
+
+        <ion-button expand="block" color="primary" (click)="fileInput.click()">
           {{ 'CHANGE-IMAGE' | translate }}
         </ion-button>
+
+        <ion-modal [isOpen]="isPictureSelectorOpen" (didDismiss)="closePictureSelector()">
+          <ng-template>
+            <ion-header>
+              <ion-toolbar>
+                <ion-title>{{ 'SELECT-PICTURE' | translate }}</ion-title>
+                <ion-buttons slot="end">
+                  <ion-button (click)="closePictureSelector()">
+                    <ion-icon name="close"></ion-icon>
+                  </ion-button>
+                </ion-buttons>
+              </ion-toolbar>
+            </ion-header>
+            <ion-content>
+              <app-picture-selectable formControlName="picture" (pictureChange)="updateProfileImage($event)"></app-picture-selectable>
+            </ion-content>
+          </ng-template>
+        </ion-modal>
+
+        <!--<ion-row *ngIf="isClient()">
+          <ion-col>
+            <ion-item>
+              <ion-label position="stacked">{{ 'ADMIN PASSWORD' | translate }}</ion-label>
+              <ion-input type="password" [(ngModel)]="adminPassword"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-button expand="block" color="success" (click)="confirmAdminPassword()">
+              {{ 'CONFIRM' | translate }}
+            </ion-button>
+          </ion-col>
+        </ion-row>-->
       </ion-col>
 
       <!-- Columna de Detalles -->
@@ -81,10 +116,14 @@
           <!-- Botones de acción -->
           <ion-row class="action-buttons">
             <ion-col size="6">
-              <ion-button expand="block" color="success" (click)="saveChanges()">{{ 'SAVE-CHANGES' | translate }}</ion-button>
+              <ion-button expand="block" color="success" (click)="saveChanges()" [disabled]="isSaving">
+              <ion-spinner *ngIf="isSaving" name="crescent"></ion-spinner>
+              <span *ngIf="isSaving">{{ 'SAVING' | translate }}</span>
+              <span *ngIf="!isSaving">{{ 'SAVE-CHANGES' | translate }}</span>
+            </ion-button>
             </ion-col>
             <ion-col size="6">
-              <ion-button expand="block" color="danger" (click)="discardChanges()">{{ 'UNDO-CHANGES' | translate }}</ion-button>
+              <ion-button expand="block" color="danger" (click)="discardChanges()" [disabled]="isSaving">{{ 'UNDO-CHANGES' | translate }}</ion-button>
             </ion-col>
           </ion-row>
 
@@ -98,5 +137,6 @@
         </form>
       </ion-col>
     </ion-row>
+
   </ion-grid>
 </ion-content>

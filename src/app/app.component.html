@@ -48,9 +48,10 @@
         </ion-button>
         <ion-button class="profile-button" (click)="presentPopover($event)">
           <ion-avatar> 
-            <img alt="Perfil" [src]="isLoggedIn ? profileImageUrl : 'https://ionicframework.com/docs/img/demos/avatar.svg'" />
+            <img alt="Perfil" [src]="profileImage$ | async" />
           </ion-avatar>
         </ion-button>
+        
       </ion-buttons>
     </ion-toolbar>
   </ion-header>

@@ -15,5 +15,6 @@ export interface Customer extends Model{
         small:string | undefined,
         thumbnail:string | undefined
     },
-    username?: string
+    username?: string,
+    role: string[];
 }

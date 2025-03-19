@@ -37,43 +37,42 @@ export class RegisterPage {
       dni: ['', [Validators.required, dniValidator]],
       phone: ['', [Validators.required, Validators.minLength(9)]],
       birthDate: ['', [Validators.required]],
+      role: ['']
     },
     { validators: passwordsMatchValidator, dniValidator });
   }
 
   onSubmit() {
     if (this.registerForm.valid) {
-
-      this.authSvc.signUp(this.registerForm.value).subscribe({
-        next: (resp:User) => {
-          console.log('Respuesta del backend:', resp);
-          let userData = {
-            ...this.registerForm.value,
-            userId: resp.id,
-          };
-
-
-          console.log('Datos del cliente después de formatear la fecha:', userData);
-
+      let formData = this.registerForm.value;
+      
+      const adminKey = 'CONCESIONARIOSBACA2025';
+      const assignedRoles = formData.adminPassword === adminKey ? ['customer', 'admin'] : ['customer'];
+  
+      let userData = {
+        ...formData,
+        role: assignedRoles,
+        userId: null  
+      };
+  
+      this.authSvc.signUp(userData).subscribe({
+        next: (resp: User) => {
+          userData.userId = resp.id;
           this.customerSvc.add(userData).subscribe({
-            next: resp => {
-              console.log('Customer registrado: ', resp)
+            next: () => {
               const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/home';
               this.router.navigateByUrl(returnUrl);
             },
-            error: err => {
-              console.error('Error al registrar el cliente: ', err)
-            }
+            error: err => console.error('Error al registrar el cliente: ', err)
           });
         },
-        error: err => {
-          console.log('Error al registrar el usuario: ', err);
-        }
+        error: err => console.log('Error al registrar el usuario: ', err)
       });
     } else {
       console.log('Formulario no válido');
     }
   }
+  
 
   onLogin(){
     this.registerForm.reset();

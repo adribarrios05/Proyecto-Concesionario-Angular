@@ -51,7 +51,8 @@ interface CustomerAttributes {
     publishedAt?: string
     carRent:CarRaw | number | null,*/
     userId:UserRaw | number | null,
-    picture:MediaRaw | number | null
+    picture:MediaRaw | number | null,
+    role: string[],
 }
   
 
@@ -108,7 +109,8 @@ interface Meta {}
                 birthDate: data.birthDate,
                 //carRent: data.carRent ? Number(data.carRent) : null,
                 user: data.userId ? Number(data.userId) : null,
-                picture: data.picture ? Number(data.picture) : null
+                picture: data.picture ? Number(data.picture) : null,
+                role: data.role && data.role.length > 0 ? data.role : ['cliente']
             }
         }
         console.log("Pongo un texto cualquiera: ", miCustomer)
@@ -136,6 +138,10 @@ interface Meta {}
                 break;
                 case 'picture': mappedData.picture = data[key] ? Number(data[key]) : null;
                 break;
+                case 'role':
+                    const roleArray = Array.isArray(data[key]) ? data[key] : undefined;
+                    mappedData.role = roleArray && roleArray.length > 0 ? roleArray : ['customer'];
+                    break;
             }
         });
 
@@ -198,7 +204,8 @@ interface Meta {}
                 medium: attributes.picture.data.attributes.formats?.medium?.url || attributes.picture.data.attributes.url,
                 small: attributes.picture.data.attributes.formats?.small?.url || attributes.picture.data.attributes.url,
                 thumbnail: attributes.picture.data.attributes.formats?.thumbnail?.url || attributes.picture.data.attributes.url,
-            } : undefined
+            } : undefined,
+            role: attributes?.role
         };
     }
     

@@ -38,6 +38,7 @@ export class CustomerMappingFirebaseService implements IBaseMapping<Customer> {
       user: data.userId?.toString() || '',
       picture: data.picture ? data.picture.url : '',
       username: data.username ? data.username : '',
+      role: data.role && data.role.length > 0 ? data.role : ['cliente']
     };
     return dataMapping;
   }
@@ -53,6 +54,7 @@ export class CustomerMappingFirebaseService implements IBaseMapping<Customer> {
     if (data.userId) result.user = data.userId || '';
     if (data.picture) result.picture = data.picture;
     if (data.username) result.username = data.username;
+    if (data.role) result.role = data.role.length > 0 ? data.role : ['cliente'];
 
     return result;
   }
@@ -74,6 +76,7 @@ export class CustomerMappingFirebaseService implements IBaseMapping<Customer> {
         thumbnail: data.picture
       } : undefined,
       username: data.username,
+      role: data.role,
     };
   }
 

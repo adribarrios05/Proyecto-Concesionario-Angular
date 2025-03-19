@@ -13,6 +13,7 @@ import { LanguagePopoverComponent } from '../components/language-popover/languag
 import { TranslateModule } from '@ngx-translate/core';
 import { PriceFormatDirective } from './directives/price-format.directive';
 import { CustomerModalComponent } from '../components/customer-modal/customer-modal.component';
+import { ProfileImgModalComponent } from '../components/profile-img-modal/profile-img-modal.component';
 
 
 
@@ -24,7 +25,8 @@ import { CustomerModalComponent } from '../components/customer-modal/customer-mo
     PictureSelectableComponent,
     LanguagePopoverComponent,
     PriceFormatDirective,
-    CustomerModalComponent
+    CustomerModalComponent,
+    ProfileImgModalComponent,
   ],
   imports: [
     CommonModule,
@@ -49,7 +51,8 @@ import { CustomerModalComponent } from '../components/customer-modal/customer-mo
     RouterModule,
     ReactiveFormsModule,
     TranslateModule,
-    PriceFormatDirective
+    PriceFormatDirective,
+    ProfileImgModalComponent
   ]
 })
 export class SharedModule { }

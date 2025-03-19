@@ -49,6 +49,18 @@
                   <ion-icon style="color: white;" [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
                 </ion-button>
               </ion-item>
+              <ion-item>
+                <ion-input 
+                  labelPlacement="floating" 
+                  [label]="'REGISTER.ADMIN_PASSWORD' | translate" 
+                  [type]="showPassword ? 'text' : 'password'"  
+                  formControlName="role" 
+                  required>
+                </ion-input>
+                <ion-button slot="end" fill="clear" (click)="changePasswordVisibility()">
+                  <ion-icon style="color: white;" [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+                </ion-button>
+              </ion-item>
             </ion-col>
 
             <ion-col size="6">

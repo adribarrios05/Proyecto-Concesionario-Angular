@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { PopoverController } from '@ionic/angular';
 import { ProfilePopoverComponent } from './components/profile-popover/profile-popover.component';
 import { LanguagePopoverComponent } from './components/language-popover/language-popover.component';
 import { TranslateService } from '@ngx-translate/core';
 import { BaseAuthenticationService } from './core/services/impl/base-authentication.service';
 import { CustomerService } from './core/services/impl/customer.service';
+import { BehaviorSubject } from 'rxjs';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -16,6 +17,8 @@ export class AppComponent {
   showNavbar: boolean = true;
   isLoggedIn: boolean = false; 
   profileImageUrl: string = ''; 
+  private _profileImage = new BehaviorSubject<string>('https://ionicframework.com/docs/img/demos/avatar.svg'); 
+  profileImage$ = this._profileImage.asObservable();
 
   public appPages = [
     { title: 'HOME', url: '/home', icon: 'home' },
@@ -30,7 +33,7 @@ export class AppComponent {
     private popoverController: PopoverController,
     private translateSvc: TranslateService,
     private authSvc: BaseAuthenticationService,
-
+    private customerSvc: CustomerService
   ) {
     const savedLanguage = localStorage.getItem('selectedLanguage') || 'en';
     this.translateSvc.setDefaultLang(savedLanguage);
@@ -45,16 +48,37 @@ export class AppComponent {
     }
   })
   
-  this.authSvc.me().subscribe({
-    next: (user) => {
-      if(user)
-        console.log("Usuario logueado: ", user);
-    },
-    error: (err) => {
-      console.log("No hay un usuario logueado: ", err);
-    }
-  })
-  ;
+    this.authSvc.me().subscribe({
+      next: (user) => {
+        if(user){
+          console.log("Usuario logueado: ", user);
+          this.isLoggedIn = true;
+          this.loadUserProfileImage(user.id || user.uid);
+        }
+      },
+      error: (err) => {
+        console.log("No hay un usuario logueado: ", err);
+        this.isLoggedIn = false
+      }
+    })
+  }
+
+  loadUserProfileImage(userId: string) {
+    this.customerSvc.getByUserId(userId).subscribe({
+      next: (customer) => {
+        const imageUrl = customer?.picture?.url || 'https://ionicframework.com/docs/img/demos/avatar.svg';
+        console.log('🔄 Imagen de perfil cargada:', imageUrl);
+        this._profileImage.next(imageUrl); 
+      },
+      error: () => {
+        this._profileImage.next('https://ionicframework.com/docs/img/demos/avatar.svg');
+      }
+    });
+  }
+
+  updateNavbarProfileImage(imageUrl: string) {
+    console.log('🔄 Imagen actualizada en Navbar:', imageUrl);
+    this._profileImage.next(imageUrl); 
   }
 
   async presentPopover(event: Event) {
