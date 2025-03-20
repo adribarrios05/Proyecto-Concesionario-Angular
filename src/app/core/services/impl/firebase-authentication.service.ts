@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { filter, map, Observable, of, tap, firstValueFrom, from, throwError, catchError } from 'rxjs';
+import { filter, map, Observable, of, tap, firstValueFrom, from, throwError, catchError, BehaviorSubject } from 'rxjs';
 import { BaseAuthenticationService } from './base-authentication.service';
 import { AUTH_MAPPING_TOKEN, FIREBASE_CONFIG_TOKEN } from '../../repositories/repository.tokens';
 import { IAuthMapping } from '../interfaces/auth-mapping.interface';
@@ -41,11 +41,14 @@ export class FirebaseAuthenticationService extends BaseAuthenticationService {
       if (user) {
         this._token = await user.getIdToken();
         this._authenticated.next(true);
-        this._user.next(this.authMapping.me(user));
+        const mappedUser = this.authMapping.me(user);
+        this._user.next(mappedUser);
+        this.updateAuthState(mappedUser);
       } else {
         this._token = null;
         this._authenticated.next(false);
         this._user.next(undefined);
+        this.updateAuthState(null);
       }
       this._ready.next(true);
     });
@@ -62,8 +65,9 @@ export class FirebaseAuthenticationService extends BaseAuthenticationService {
     
     return from(signInWithEmailAndPassword(this.auth, email, password)).pipe(
       map(userCredential => {
-        console.log("Map")
-        return this.authMapping.signIn(userCredential.user);
+        const mappedUser = this.authMapping.signIn(userCredential.user);
+        this.updateAuthState(mappedUser)
+        return mappedUser;
       })
     );
   }
@@ -78,11 +82,8 @@ export class FirebaseAuthenticationService extends BaseAuthenticationService {
     );
   }
 
-  signOut(): Observable<any> {
-    console.log("Configuracion Firebase: ", this.firebaseConfig);
-    console.log(this.auth)
+  /*signOut(): Observable<any> {
     if(!this.auth){
-      console.error("FirebaseAuthentication no está bien definido")
       return throwError(() => new Error("Firebase Auth no está inicializado."));
     }
     return from(firebaseSignOut(this.auth)).pipe(
@@ -91,7 +92,15 @@ export class FirebaseAuthenticationService extends BaseAuthenticationService {
         this._user.next(undefined);
       })
     );
-  }
+  }*/
+
+    signOut(): Observable<any> {
+      return from(firebaseSignOut(this.auth)).pipe(
+        tap(() => {
+          this.updateAuthState(null); // ✅ Emitimos null al cerrar sesión
+        })
+      );
+    }
 
   me(): Observable<any> {
     return new Observable((observer) => {

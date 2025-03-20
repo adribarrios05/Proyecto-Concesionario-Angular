@@ -46,6 +46,7 @@
           <ion-label class="language-btn">{{ 'LANGUAGE' | translate }}</ion-label>
           <ion-icon name="language"></ion-icon>
         </ion-button>
+        
         <ion-button class="profile-button" (click)="presentPopover($event)">
           <ion-avatar> 
             <img alt="Perfil" [src]="profileImage$ | async" />

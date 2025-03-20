@@ -48,19 +48,23 @@ export class AppComponent {
     }
   })
   
-    this.authSvc.me().subscribe({
-      next: (user) => {
-        if(user){
-          console.log("Usuario logueado: ", user);
-          this.isLoggedIn = true;
-          this.loadUserProfileImage(user.id || user.uid);
-        }
-      },
-      error: (err) => {
-        console.log("No hay un usuario logueado: ", err);
-        this.isLoggedIn = false
+  this.authSvc.authState$.subscribe({
+    next: (user) => {
+      if (user) {
+        console.log('✅ Usuario detectado:', user);
+        this.isLoggedIn = true;
+        this.loadUserProfileImage(user.id);
+      } else {
+        console.log('⚠️ No hay usuario logueado, cargando imagen predeterminada.');
+        this.isLoggedIn = false;
+        this.resetProfileImage();
       }
-    })
+    },
+    error: (error) => {
+      console.log('❌ Error detectando usuario:', error);
+      this.resetProfileImage();
+    }
+  });
   }
 
   loadUserProfileImage(userId: string) {
@@ -71,9 +75,15 @@ export class AppComponent {
         this._profileImage.next(imageUrl); 
       },
       error: () => {
-        this._profileImage.next('https://ionicframework.com/docs/img/demos/avatar.svg');
+        this.resetProfileImage()
       }
     });
+  }
+
+  resetProfileImage() {
+    console.log('⚠️ No hay usuario logueado, usando imagen predeterminada.');
+    this.isLoggedIn = false;
+    this._profileImage.next('https://ionicframework.com/docs/img/demos/avatar.svg');
   }
 
   updateNavbarProfileImage(imageUrl: string) {

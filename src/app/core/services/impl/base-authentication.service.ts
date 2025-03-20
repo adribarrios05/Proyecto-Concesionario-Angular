@@ -16,8 +16,12 @@ export abstract class BaseAuthenticationService implements IAuthentication{
 
     protected _user:BehaviorSubject<User | undefined> = new BehaviorSubject<User | undefined>(undefined);
     public user$:Observable<User | undefined> = this._user.asObservable();
+
     protected _ready:BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     public ready$:Observable<boolean> = this._ready.asObservable();
+
+    protected _authState: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null); // ✅ Observable de cambios de usuario
+    public authState$: Observable<User | null> = this._authState.asObservable();
     
     constructor(
         protected authMapping:IAuthMapping
@@ -30,4 +34,8 @@ export abstract class BaseAuthenticationService implements IAuthentication{
     abstract signUp(registerPayload: any): Observable<any>;
     abstract signOut(): Observable<any>;
     abstract me():Observable<any>;
+
+    protected updateAuthState(user: User | null) {
+        this._authState.next(user); 
+    }
 }
