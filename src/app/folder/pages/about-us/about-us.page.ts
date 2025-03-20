@@ -16,6 +16,7 @@ export class AboutUsPage implements AfterViewInit {
   dealershipLocations = [
     { lat: 36.740593415355185, lng: -4.554227569330064, title: "Campanillas" }, 
     { lat: 36.71474387800368, lng: -4.313236528055307, title: "Rincón de la Victoria" },  
+    { lat: 38.66433838189199, lng: -9.074217301969389, title: "Barreiro"}
   ];
 
   constructor() {}

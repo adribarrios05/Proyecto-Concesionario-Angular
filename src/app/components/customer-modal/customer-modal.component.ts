@@ -27,7 +27,7 @@ export class CustomerModalComponent {
       dni: ['', [Validators.required]],
       phone: ['', [Validators.required]],
       birthDate: ['', [Validators.required]],
-      picture: ['']
+      //picture: ['']
     });
   }
 
