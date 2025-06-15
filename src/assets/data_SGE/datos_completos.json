@@ -1,0 +1,1051 @@
+{
+  "customers": [
+    {
+      "id": "ytJp6eiCPHXqYz6NSAMR690sq5E3",
+      "name": "Adri",
+      "surname": "Barrios",
+      "role": [
+        "admin"
+      ],
+      "dni": "12345678A",
+      "picture": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F1749819178441_4t5tve1h698?alt=media&token=5d391780-8ae2-402c-8b54-f8b58ba8f28b",
+      "username": "adri",
+      "birthDate": "2005-01-05T00:00:00.000Z",
+      "phone": "987654321",
+      "user": "ytJp6eiCPHXqYz6NSAMR690sq5E3"
+    },
+    {
+      "id": "HfqNHwCg51dqGqguVkfeQz8jn7j2",
+      "name": "Carlos",
+      "surname": "Gil",
+      "role": [
+        "customer"
+      ],
+      "dni": "42114765P",
+      "picture": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F1749993467858_20d19ttbwjc?alt=media&token=4a23e337-65f3-4238-9771-557de806cf10",
+      "username": "carlos",
+      "birthDate": "2004-04-13T00:00:00.000Z",
+      "phone": "684852184",
+      "user": "HfqNHwCg51dqGqguVkfeQz8jn7j2"
+    },
+    {
+      "id": "LR5O14I3PURJRq1qmWHu4ijebDs1",
+      "name": "Ivan",
+      "surname": "Caro",
+      "role": [
+        "customer"
+      ],
+      "dni": "76187249K",
+      "picture": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F1749993218429_814s10z4bjk?alt=media&token=4a6170c6-7728-469c-8c88-49d1b13736f8",
+      "username": "ivan",
+      "birthDate": "2025-08-31T00:00:00.000Z",
+      "phone": "673154975",
+      "user": "LR5O14I3PURJRq1qmWHu4ijebDs1"
+    },
+    {
+      "id": "M8zqBVL1cBawnB5TUI3VdT8ILe12",
+      "name": "Pablo",
+      "surname": "Camino",
+      "role": [
+        "customer"
+      ],
+      "dni": "74269258A",
+      "picture": "",
+      "username": "pablo",
+      "birthDate": "2003-11-06T00:00:00.000Z",
+      "phone": "632148987",
+      "user": "M8zqBVL1cBawnB5TUI3VdT8ILe12"
+    },
+    {
+      "id": "fD6BDbia33S3cuTjYPWP8ePn1LW2",
+      "name": "Samu",
+      "surname": "Avella",
+      "role": [
+        "customer"
+      ],
+      "dni": "49787215H",
+      "picture": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F1749908028864_02cdxz0c0ki5?alt=media&token=11871217-a9bf-4df9-847f-5282787b0e02",
+      "username": "samu",
+      "birthDate": "2005-07-19T00:00:00.000Z",
+      "phone": "674581934",
+      "user": "fD6BDbia33S3cuTjYPWP8ePn1LW2"
+    }
+  ],
+  "cars": [
+    {
+      "id": "XRK3ok1ttai1ZLazR6f9",
+      "brand": "Aston Martin",
+      "model": "DBS",
+      "plate": "58-5617N",
+      "price": 2122227,
+      "color": "Black",
+      "description": "Your line born beyond me.",
+      "horsePower": 1077,
+      "doors": 4,
+      "picture": {
+        "url": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fprueba-aston-martin-dbs-770-ultimate-3053200.webp?alt=media&token=4a375921-7366-4ce1-b7c6-4fe6f153b486",
+        "large": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fprueba-aston-martin-dbs-770-ultimate-3053200.webp?alt=media&token=4a375921-7366-4ce1-b7c6-4fe6f153b486",
+        "medium": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fprueba-aston-martin-dbs-770-ultimate-3053200.webp?alt=media&token=4a375921-7366-4ce1-b7c6-4fe6f153b486",
+        "small": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fprueba-aston-martin-dbs-770-ultimate-3053200.webp?alt=media&token=4a375921-7366-4ce1-b7c6-4fe6f153b486",
+        "thumbnail": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fprueba-aston-martin-dbs-770-ultimate-3053200.webp?alt=media&token=4a375921-7366-4ce1-b7c6-4fe6f153b486"
+      },
+      "type": "Coupe"
+    },
+    {
+      "id": "bDBsg2ellYIc5TFUFiZz",
+      "brand": "Aston Martin",
+      "model": "DBS Superleggera",
+      "plate": "5316CRQ",
+      "price": 310000,
+      "color": "Verde",
+      "description": "V12 biturbo",
+      "horsePower": 715,
+      "doors": 2,
+      "picture": {
+        "url": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F1741336078054_xrarktpdqr?alt=media&token=d3a44434-7c6f-4df8-b480-f67d6a50e7c6",
+        "large": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F1741336078054_xrarktpdqr?alt=media&token=d3a44434-7c6f-4df8-b480-f67d6a50e7c6",
+        "medium": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F1741336078054_xrarktpdqr?alt=media&token=d3a44434-7c6f-4df8-b480-f67d6a50e7c6",
+        "small": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F1741336078054_xrarktpdqr?alt=media&token=d3a44434-7c6f-4df8-b480-f67d6a50e7c6",
+        "thumbnail": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F1741336078054_xrarktpdqr?alt=media&token=d3a44434-7c6f-4df8-b480-f67d6a50e7c6"
+      },
+      "type": "Coupé"
+    },
+    {
+      "id": "qhLXC5EKJvOOnAbxAiuP",
+      "brand": "Aston Martin",
+      "model": "Valhalla",
+      "plate": "145-CVN",
+      "price": 2362805,
+      "color": "Red",
+      "description": "State stand seven sing recently new.",
+      "horsePower": 846,
+      "doors": 4,
+      "type": "Sport"
+    },
+    {
+      "id": "uZ3KpLlRAkb7kXnOmqjz",
+      "brand": "Aston Martin",
+      "model": "Rapide",
+      "plate": "DXY-748",
+      "price": 2237183,
+      "color": "Orange",
+      "description": "Yet recent vote north wish yard.",
+      "horsePower": 543,
+      "doors": 4,
+      "type": "Convertible"
+    },
+    {
+      "id": "x05H3fUmsoDzAWoszieC",
+      "brand": "Aston Martin",
+      "model": "DB11",
+      "plate": "132 RE3",
+      "price": 287831,
+      "color": "Green",
+      "description": "Break war garden stand price those.",
+      "horsePower": 607,
+      "doors": 4,
+      "type": "Coupe"
+    },
+    {
+      "id": "xGm0ZzQkELcD6HBfk67X",
+      "brand": "Aston Martin",
+      "model": "Vantage",
+      "plate": "2-52781G",
+      "price": 1927479,
+      "color": "Blue",
+      "description": "Reveal too government budget.",
+      "horsePower": 427,
+      "doors": 4,
+      "type": "Convertible",
+      "customer": "fD6BDbia33S3cuTjYPWP8ePn1LW2"
+    },
+    {
+      "id": "5AGtUU9okxvaWRZDG2LC",
+      "brand": "Bentley",
+      "model": "Continental GT Speed",
+      "plate": "2837HQW",
+      "price": 280000,
+      "color": "Verde",
+      "description": "Motor W12 y tracción total",
+      "horsePower": 650,
+      "doors": 2,
+      "picture": {
+        "url": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F1741338182126_owzqpag3im?alt=media&token=769a11b7-677b-47e1-b752-dd337a764cb9",
+        "large": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F1741338182126_owzqpag3im?alt=media&token=769a11b7-677b-47e1-b752-dd337a764cb9",
+        "medium": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F1741338182126_owzqpag3im?alt=media&token=769a11b7-677b-47e1-b752-dd337a764cb9",
+        "small": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F1741338182126_owzqpag3im?alt=media&token=769a11b7-677b-47e1-b752-dd337a764cb9",
+        "thumbnail": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F1741338182126_owzqpag3im?alt=media&token=769a11b7-677b-47e1-b752-dd337a764cb9"
+      },
+      "type": "Coupé"
+    },
+    {
+      "id": "4isPPwvYOpQ7wYO1FmXI",
+      "brand": "Bugatti",
+      "model": "Divo",
+      "plate": "516-MDC",
+      "price": 2536662,
+      "color": "Silver",
+      "description": "Good those top brother charge something run.",
+      "horsePower": 709,
+      "doors": 3,
+      "picture": {
+        "url": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fbugatti-divo-principal-soymotor.jpg?alt=media&token=999d0c49-4cb6-4c08-9e84-b15198182525",
+        "large": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fbugatti-divo-principal-soymotor.jpg?alt=media&token=999d0c49-4cb6-4c08-9e84-b15198182525",
+        "medium": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fbugatti-divo-principal-soymotor.jpg?alt=media&token=999d0c49-4cb6-4c08-9e84-b15198182525",
+        "small": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fbugatti-divo-principal-soymotor.jpg?alt=media&token=999d0c49-4cb6-4c08-9e84-b15198182525",
+        "thumbnail": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fbugatti-divo-principal-soymotor.jpg?alt=media&token=999d0c49-4cb6-4c08-9e84-b15198182525"
+      },
+      "type": "SUV"
+    },
+    {
+      "id": "H7zfmoj8dmWEcrTUYGTr",
+      "brand": "Bugatti",
+      "model": "Centodieci",
+      "plate": "AIR-951",
+      "price": 2584034,
+      "color": "Yellow",
+      "description": "Decade then this certain loss different short.",
+      "horsePower": 1042,
+      "doors": 3,
+      "picture": {
+        "url": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fbugatti-centodieci-in-vendita-all-asta-di-rm-sotheby-s.jpg?alt=media&token=29e3c9a1-bf58-4d65-8379-5c2bfe8ca64c",
+        "large": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fbugatti-centodieci-in-vendita-all-asta-di-rm-sotheby-s.jpg?alt=media&token=29e3c9a1-bf58-4d65-8379-5c2bfe8ca64c",
+        "medium": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fbugatti-centodieci-in-vendita-all-asta-di-rm-sotheby-s.jpg?alt=media&token=29e3c9a1-bf58-4d65-8379-5c2bfe8ca64c",
+        "small": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fbugatti-centodieci-in-vendita-all-asta-di-rm-sotheby-s.jpg?alt=media&token=29e3c9a1-bf58-4d65-8379-5c2bfe8ca64c",
+        "thumbnail": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fbugatti-centodieci-in-vendita-all-asta-di-rm-sotheby-s.jpg?alt=media&token=29e3c9a1-bf58-4d65-8379-5c2bfe8ca64c"
+      },
+      "type": "Convertible"
+    },
+    {
+      "id": "lO12FQJnTcSnR6y5F80E",
+      "brand": "Bugatti",
+      "model": "Veyron",
+      "plate": "XP-0938",
+      "price": 2145475,
+      "color": "White",
+      "description": "Pressure five service organization course join.",
+      "horsePower": 570,
+      "doors": 4,
+      "type": "Coupe",
+      "customer": "M8zqBVL1cBawnB5TUI3VdT8ILe12"
+    },
+    {
+      "id": "uoo2jjAMckNdHTgiFYLp",
+      "brand": "Bugatti",
+      "model": "Chiron",
+      "plate": "800 ABV",
+      "price": 2402405,
+      "color": "Red",
+      "description": "Month respond quality tree form mission.",
+      "horsePower": 509,
+      "doors": 4,
+      "type": "SUV"
+    },
+    {
+      "id": "vvg3sGJTpXJtdU1hFyuz",
+      "brand": "Bugatti",
+      "model": "Chiron Super Sport 300",
+      "plate": "8214KLQ",
+      "price": 3500000,
+      "color": "Naranja y negro",
+      "description": "Capaz de superar los 482 km/h",
+      "horsePower": 1600,
+      "doors": 2,
+      "picture": {
+        "url": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F1741304486703_kvzi3ho741?alt=media&token=3361c70d-0d1f-4863-b829-7b014d998908",
+        "large": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F1741304486703_kvzi3ho741?alt=media&token=3361c70d-0d1f-4863-b829-7b014d998908",
+        "medium": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F1741304486703_kvzi3ho741?alt=media&token=3361c70d-0d1f-4863-b829-7b014d998908",
+        "small": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F1741304486703_kvzi3ho741?alt=media&token=3361c70d-0d1f-4863-b829-7b014d998908",
+        "thumbnail": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F1741304486703_kvzi3ho741?alt=media&token=3361c70d-0d1f-4863-b829-7b014d998908"
+      },
+      "type": "Coupé"
+    },
+    {
+      "id": "zSm4Cq87dLEkWi8OFU6F",
+      "brand": "Bugatti",
+      "model": "Bolide",
+      "plate": "83QV8",
+      "price": 2052645,
+      "color": "Blue",
+      "description": "Find right study nice.",
+      "horsePower": 354,
+      "doors": 4,
+      "type": "Hypercar",
+      "customer": "ytJp6eiCPHXqYz6NSAMR690sq5E3"
+    },
+    {
+      "id": "9GGM4dfv0PVOlb9WYFXm",
+      "brand": "Ferrari",
+      "model": "SF90 Stradale",
+      "plate": "RBE G95",
+      "price": 2426748,
+      "color": "Orange",
+      "description": "However teach grow six realize join.",
+      "horsePower": 736,
+      "doors": 2,
+      "picture": {
+        "url": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fferrari-sf90-xx-stradale.jpg?alt=media&token=7ade20b1-1b2a-4aba-9b5e-d6f7113c0272",
+        "large": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fferrari-sf90-xx-stradale.jpg?alt=media&token=7ade20b1-1b2a-4aba-9b5e-d6f7113c0272",
+        "medium": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fferrari-sf90-xx-stradale.jpg?alt=media&token=7ade20b1-1b2a-4aba-9b5e-d6f7113c0272",
+        "small": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fferrari-sf90-xx-stradale.jpg?alt=media&token=7ade20b1-1b2a-4aba-9b5e-d6f7113c0272",
+        "thumbnail": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fferrari-sf90-xx-stradale.jpg?alt=media&token=7ade20b1-1b2a-4aba-9b5e-d6f7113c0272"
+      },
+      "type": "Hypercar"
+    },
+    {
+      "id": "FRY5KO91pNRsLgBv4Keu",
+      "brand": "Ferrari",
+      "model": "812 Superfast",
+      "plate": "00RV391",
+      "price": 2327282,
+      "color": "Yellow",
+      "description": "Today help whole.",
+      "horsePower": 1518,
+      "doors": 3,
+      "picture": {
+        "url": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fbig_full_4.jpeg?alt=media&token=882193b1-14f5-4c5e-8a42-beca6b77e99d",
+        "large": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fbig_full_4.jpeg?alt=media&token=882193b1-14f5-4c5e-8a42-beca6b77e99d",
+        "medium": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fbig_full_4.jpeg?alt=media&token=882193b1-14f5-4c5e-8a42-beca6b77e99d",
+        "small": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fbig_full_4.jpeg?alt=media&token=882193b1-14f5-4c5e-8a42-beca6b77e99d",
+        "thumbnail": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fbig_full_4.jpeg?alt=media&token=882193b1-14f5-4c5e-8a42-beca6b77e99d"
+      },
+      "type": "Hypercar"
+    },
+    {
+      "id": "LskClMzUxktJtJSnwPbu",
+      "brand": "Ferrari",
+      "model": "F40",
+      "plate": "5178JFQ",
+      "price": 1500000,
+      "color": "Rojo",
+      "description": "Clásico con un V8 atmosférico",
+      "horsePower": 358,
+      "doors": 2,
+      "picture": {
+        "url": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F1741346326189_tu4zrirbpd?alt=media&token=7ee401b3-d429-46d8-a61f-4dbafdc1b888",
+        "large": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F1741346326189_tu4zrirbpd?alt=media&token=7ee401b3-d429-46d8-a61f-4dbafdc1b888",
+        "medium": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F1741346326189_tu4zrirbpd?alt=media&token=7ee401b3-d429-46d8-a61f-4dbafdc1b888",
+        "small": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F1741346326189_tu4zrirbpd?alt=media&token=7ee401b3-d429-46d8-a61f-4dbafdc1b888",
+        "thumbnail": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F1741346326189_tu4zrirbpd?alt=media&token=7ee401b3-d429-46d8-a61f-4dbafdc1b888"
+      },
+      "type": "Coupé",
+      "customer": "ytJp6eiCPHXqYz6NSAMR690sq5E3"
+    },
+    {
+      "id": "bWQUTveNy4tLOHkbHfEm",
+      "brand": "Ferrari",
+      "model": "SF90 Stradale",
+      "plate": "3598 JBR",
+      "price": 515000,
+      "color": "Rojo",
+      "description": "Híbrido enchufable",
+      "horsePower": 1000,
+      "doors": 2,
+      "picture": {
+        "url": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F1741192233114_j12r6ulx8k?alt=media&token=64a0a7c6-5cbc-410a-8467-a6c5b30f3f40",
+        "large": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F1741192233114_j12r6ulx8k?alt=media&token=64a0a7c6-5cbc-410a-8467-a6c5b30f3f40",
+        "medium": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F1741192233114_j12r6ulx8k?alt=media&token=64a0a7c6-5cbc-410a-8467-a6c5b30f3f40",
+        "small": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F1741192233114_j12r6ulx8k?alt=media&token=64a0a7c6-5cbc-410a-8467-a6c5b30f3f40",
+        "thumbnail": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F1741192233114_j12r6ulx8k?alt=media&token=64a0a7c6-5cbc-410a-8467-a6c5b30f3f40"
+      },
+      "type": "Coupé"
+    },
+    {
+      "id": "fye1I3w40Sdfa4NXuPnr",
+      "brand": "Ferrari",
+      "model": "Portofino",
+      "plate": "7TZR508",
+      "price": 1259101,
+      "color": "Blue",
+      "description": "Discuss wear small collection responsibility technology with.",
+      "horsePower": 1271,
+      "doors": 4,
+      "picture": {
+        "url": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fferrari_portofino-2017_r7.webp?alt=media&token=db317c6d-733a-4bd0-b2e2-c0c3f33cf85f",
+        "large": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fferrari_portofino-2017_r7.webp?alt=media&token=db317c6d-733a-4bd0-b2e2-c0c3f33cf85f",
+        "medium": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fferrari_portofino-2017_r7.webp?alt=media&token=db317c6d-733a-4bd0-b2e2-c0c3f33cf85f",
+        "small": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fferrari_portofino-2017_r7.webp?alt=media&token=db317c6d-733a-4bd0-b2e2-c0c3f33cf85f",
+        "thumbnail": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fferrari_portofino-2017_r7.webp?alt=media&token=db317c6d-733a-4bd0-b2e2-c0c3f33cf85f"
+      },
+      "type": "Hypercar"
+    },
+    {
+      "id": "orjGVfRvK4MLjQa8YQvi",
+      "brand": "Ferrari",
+      "model": "Roma",
+      "plate": "HNI 859",
+      "price": 731085,
+      "color": "Yellow",
+      "description": "Focus picture boy decision leave treat off.",
+      "horsePower": 665,
+      "doors": 3,
+      "type": "Convertible"
+    },
+    {
+      "id": "yXUM7e3vWWkTMOCDFE0t",
+      "brand": "Ferrari",
+      "model": "F8 Tributo",
+      "plate": "536-RMW",
+      "price": 2267292,
+      "color": "Red",
+      "description": "Short worker north cup will seem letter.",
+      "horsePower": 393,
+      "doors": 4,
+      "type": "SUV"
+    },
+    {
+      "id": "KCI0F0tR3663nQ0CnwcB",
+      "brand": "Koenigsegg",
+      "model": "Regera",
+      "plate": "LUO 136",
+      "price": 1843647,
+      "color": "Red",
+      "description": "Including happy action back.",
+      "horsePower": 600,
+      "doors": 2,
+      "picture": {
+        "url": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fkoenigsegg-regera-mmp-1-1591115837.avif?alt=media&token=7d14eeca-8a6e-4119-bae3-dc32bdf10e34",
+        "large": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fkoenigsegg-regera-mmp-1-1591115837.avif?alt=media&token=7d14eeca-8a6e-4119-bae3-dc32bdf10e34",
+        "medium": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fkoenigsegg-regera-mmp-1-1591115837.avif?alt=media&token=7d14eeca-8a6e-4119-bae3-dc32bdf10e34",
+        "small": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fkoenigsegg-regera-mmp-1-1591115837.avif?alt=media&token=7d14eeca-8a6e-4119-bae3-dc32bdf10e34",
+        "thumbnail": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fkoenigsegg-regera-mmp-1-1591115837.avif?alt=media&token=7d14eeca-8a6e-4119-bae3-dc32bdf10e34"
+      },
+      "type": "Sport"
+    },
+    {
+      "id": "oROlu36h9ytoK3JuY3C1",
+      "brand": "Koenigsegg",
+      "model": "Gemera",
+      "plate": "2-26661P",
+      "price": 848631,
+      "color": "White",
+      "description": "Camera area rather argue religious see reflect.",
+      "horsePower": 770,
+      "doors": 2,
+      "type": "Hypercar"
+    },
+    {
+      "id": "urC0H040CMU6zAchAbZo",
+      "brand": "Koenigsegg",
+      "model": "Agera RS",
+      "plate": "98Y QN1",
+      "price": 2609661,
+      "color": "Green",
+      "description": "Player worry suggest.",
+      "horsePower": 908,
+      "doors": 4,
+      "type": "Convertible"
+    },
+    {
+      "id": "wDlIUrYWWM1vC3gbV93l",
+      "brand": "Koenigsegg",
+      "model": "CC850",
+      "plate": "452S0",
+      "price": 2351688,
+      "color": "Blue",
+      "description": "No future decide theory add.",
+      "horsePower": 636,
+      "doors": 2,
+      "type": "Sport",
+      "customer": "fD6BDbia33S3cuTjYPWP8ePn1LW2"
+    },
+    {
+      "id": "yhUahoOSu1l7Jl7b3SFg",
+      "brand": "Koenigsegg",
+      "model": "Jesko",
+      "plate": "2Z 9X2JXX",
+      "price": 1871934,
+      "color": "Green",
+      "description": "Future inside accept soon hair network.",
+      "horsePower": 784,
+      "doors": 3,
+      "type": "Sport"
+    },
+    {
+      "id": "OBZDbLayLbsaD3mgudsw",
+      "brand": "Lamborghini",
+      "model": "Aventador SVJ",
+      "plate": "4537BQF",
+      "price": 550000,
+      "color": "Verde",
+      "description": "Motor V12",
+      "horsePower": 770,
+      "doors": 2,
+      "picture": {
+        "url": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F1741279870706_m7xk5nq2lw?alt=media&token=26c222eb-d123-49e1-a412-f687f8bb543f",
+        "large": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F1741279870706_m7xk5nq2lw?alt=media&token=26c222eb-d123-49e1-a412-f687f8bb543f",
+        "medium": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F1741279870706_m7xk5nq2lw?alt=media&token=26c222eb-d123-49e1-a412-f687f8bb543f",
+        "small": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F1741279870706_m7xk5nq2lw?alt=media&token=26c222eb-d123-49e1-a412-f687f8bb543f",
+        "thumbnail": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F1741279870706_m7xk5nq2lw?alt=media&token=26c222eb-d123-49e1-a412-f687f8bb543f"
+      },
+      "type": "Coupé"
+    },
+    {
+      "id": "QPSZLAAgzJwXqsWCrIvB",
+      "brand": "Lamborghini",
+      "model": "Urus",
+      "plate": "8AF9140",
+      "price": 2903444,
+      "color": "Green",
+      "description": "Least develop tell grow you.",
+      "horsePower": 608,
+      "doors": 2,
+      "picture": {
+        "url": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F17368437435604.jpg?alt=media&token=e62f6cd8-a770-4983-8a0a-6eb0e426dc86",
+        "large": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F17368437435604.jpg?alt=media&token=e62f6cd8-a770-4983-8a0a-6eb0e426dc86",
+        "medium": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F17368437435604.jpg?alt=media&token=e62f6cd8-a770-4983-8a0a-6eb0e426dc86",
+        "small": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F17368437435604.jpg?alt=media&token=e62f6cd8-a770-4983-8a0a-6eb0e426dc86",
+        "thumbnail": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F17368437435604.jpg?alt=media&token=e62f6cd8-a770-4983-8a0a-6eb0e426dc86"
+      },
+      "type": "Coupe"
+    },
+    {
+      "id": "WDXc8QwV77FScvZMW3Zl",
+      "brand": "Lamborghini",
+      "model": "Aventador",
+      "plate": "8O 8632T",
+      "price": 1393714,
+      "color": "Yellow",
+      "description": "Yeah east star professional his group.",
+      "horsePower": 1181,
+      "doors": 2,
+      "picture": {
+        "url": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fkxxsmpxaopxf5gzec22w.webp?alt=media&token=c623899a-7024-4352-8c64-5c58b8bb1af9",
+        "large": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fkxxsmpxaopxf5gzec22w.webp?alt=media&token=c623899a-7024-4352-8c64-5c58b8bb1af9",
+        "medium": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fkxxsmpxaopxf5gzec22w.webp?alt=media&token=c623899a-7024-4352-8c64-5c58b8bb1af9",
+        "small": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fkxxsmpxaopxf5gzec22w.webp?alt=media&token=c623899a-7024-4352-8c64-5c58b8bb1af9",
+        "thumbnail": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fkxxsmpxaopxf5gzec22w.webp?alt=media&token=c623899a-7024-4352-8c64-5c58b8bb1af9"
+      },
+      "type": "Convertible"
+    },
+    {
+      "id": "qyC5LPTCEy5jxPBxGP6N",
+      "brand": "Lamborghini",
+      "model": "Sian",
+      "plate": "07E N78",
+      "price": 1310894,
+      "color": "Yellow",
+      "description": "Story yard participant million total respond race.",
+      "horsePower": 541,
+      "doors": 2,
+      "type": "Coupe"
+    },
+    {
+      "id": "vErAvetMlzFicAcce0KJ",
+      "brand": "Lamborghini",
+      "model": "Revuelto",
+      "plate": "MLU3324",
+      "price": 1188684,
+      "color": "Red",
+      "description": "Administration sometimes parent take executive.",
+      "horsePower": 896,
+      "doors": 3,
+      "type": "SUV",
+      "customer": "LR5O14I3PURJRq1qmWHu4ijebDs1"
+    },
+    {
+      "id": "xPhha2mDli802ILcbacA",
+      "brand": "Lamborghini",
+      "model": "Huracán",
+      "plate": "PHK 198",
+      "price": 2206312,
+      "color": "Green",
+      "description": "Continue baby leg.",
+      "horsePower": 1374,
+      "doors": 2,
+      "type": "Sport"
+    },
+    {
+      "id": "B7Pn8V1gJqt2tDsBJ6WH",
+      "brand": "Lotus",
+      "model": "Emira",
+      "plate": "PFL 672",
+      "price": 1537446,
+      "color": "Yellow",
+      "description": "Dream first food admit either side people.",
+      "horsePower": 458,
+      "doors": 3,
+      "picture": {
+        "url": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Flotus-emira-v6-first-edition.webp?alt=media&token=0ef6258c-a84e-4064-b564-8692eef44841",
+        "large": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Flotus-emira-v6-first-edition.webp?alt=media&token=0ef6258c-a84e-4064-b564-8692eef44841",
+        "medium": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Flotus-emira-v6-first-edition.webp?alt=media&token=0ef6258c-a84e-4064-b564-8692eef44841",
+        "small": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Flotus-emira-v6-first-edition.webp?alt=media&token=0ef6258c-a84e-4064-b564-8692eef44841",
+        "thumbnail": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Flotus-emira-v6-first-edition.webp?alt=media&token=0ef6258c-a84e-4064-b564-8692eef44841"
+      },
+      "type": "SUV"
+    },
+    {
+      "id": "CPf7dJcLu0IkTkpZTjra",
+      "brand": "Lotus",
+      "model": "Evora",
+      "plate": "82V D20",
+      "price": 694067,
+      "color": "Red",
+      "description": "Other movement reality.",
+      "horsePower": 1290,
+      "doors": 4,
+      "picture": {
+        "url": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Flotus-evora-gt430.webp?alt=media&token=a4589c19-4297-4417-8ce0-340edd8612ac",
+        "large": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Flotus-evora-gt430.webp?alt=media&token=a4589c19-4297-4417-8ce0-340edd8612ac",
+        "medium": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Flotus-evora-gt430.webp?alt=media&token=a4589c19-4297-4417-8ce0-340edd8612ac",
+        "small": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Flotus-evora-gt430.webp?alt=media&token=a4589c19-4297-4417-8ce0-340edd8612ac",
+        "thumbnail": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Flotus-evora-gt430.webp?alt=media&token=a4589c19-4297-4417-8ce0-340edd8612ac"
+      },
+      "type": "Convertible"
+    },
+    {
+      "id": "SkkcUf6cBrief078g7xG",
+      "brand": "Lotus",
+      "model": "Eletre",
+      "plate": "43DH895",
+      "price": 412104,
+      "color": "Black",
+      "description": "Way member join though believe significant money.",
+      "horsePower": 751,
+      "doors": 4,
+      "picture": {
+        "url": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Flotus_eletre-s_solar-yellow_static_1.jpg?alt=media&token=4f0f1286-3077-4e04-b411-a3f035f2e1de",
+        "large": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Flotus_eletre-s_solar-yellow_static_1.jpg?alt=media&token=4f0f1286-3077-4e04-b411-a3f035f2e1de",
+        "medium": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Flotus_eletre-s_solar-yellow_static_1.jpg?alt=media&token=4f0f1286-3077-4e04-b411-a3f035f2e1de",
+        "small": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Flotus_eletre-s_solar-yellow_static_1.jpg?alt=media&token=4f0f1286-3077-4e04-b411-a3f035f2e1de",
+        "thumbnail": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Flotus_eletre-s_solar-yellow_static_1.jpg?alt=media&token=4f0f1286-3077-4e04-b411-a3f035f2e1de"
+      },
+      "type": "Hypercar"
+    },
+    {
+      "id": "UX5pEe6ncdVnvAchrhjP",
+      "brand": "Lotus",
+      "model": "Elise",
+      "plate": "CRC-0340",
+      "price": 2433230,
+      "color": "Silver",
+      "description": "Eye affect understand upon.",
+      "horsePower": 924,
+      "doors": 3,
+      "picture": {
+        "url": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Felectric-lotus-elise-delayed-until-lighter-batteries-exist-v0-Pfo8m8BtFReS8eVkwlNdLrzrOV1iQDSgDZpDgSJtEBo.webp?alt=media&token=c97361ef-dd9f-48b3-9526-01c868dcd5f0",
+        "large": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Felectric-lotus-elise-delayed-until-lighter-batteries-exist-v0-Pfo8m8BtFReS8eVkwlNdLrzrOV1iQDSgDZpDgSJtEBo.webp?alt=media&token=c97361ef-dd9f-48b3-9526-01c868dcd5f0",
+        "medium": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Felectric-lotus-elise-delayed-until-lighter-batteries-exist-v0-Pfo8m8BtFReS8eVkwlNdLrzrOV1iQDSgDZpDgSJtEBo.webp?alt=media&token=c97361ef-dd9f-48b3-9526-01c868dcd5f0",
+        "small": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Felectric-lotus-elise-delayed-until-lighter-batteries-exist-v0-Pfo8m8BtFReS8eVkwlNdLrzrOV1iQDSgDZpDgSJtEBo.webp?alt=media&token=c97361ef-dd9f-48b3-9526-01c868dcd5f0",
+        "thumbnail": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Felectric-lotus-elise-delayed-until-lighter-batteries-exist-v0-Pfo8m8BtFReS8eVkwlNdLrzrOV1iQDSgDZpDgSJtEBo.webp?alt=media&token=c97361ef-dd9f-48b3-9526-01c868dcd5f0"
+      },
+      "type": "Hypercar"
+    },
+    {
+      "id": "aabFi6MpmKzNuYW48nLY",
+      "brand": "Lotus",
+      "model": "Exige",
+      "plate": "3M 3247E",
+      "price": 487860,
+      "color": "Green",
+      "description": "Present season Republican so pay something born.",
+      "horsePower": 1320,
+      "doors": 2,
+      "picture": {
+        "url": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2FLotus_Exige_Cup_Final_Edition_03.webp?alt=media&token=5920068d-4a1f-4437-9bbb-e948bfdd4912",
+        "large": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2FLotus_Exige_Cup_Final_Edition_03.webp?alt=media&token=5920068d-4a1f-4437-9bbb-e948bfdd4912",
+        "medium": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2FLotus_Exige_Cup_Final_Edition_03.webp?alt=media&token=5920068d-4a1f-4437-9bbb-e948bfdd4912",
+        "small": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2FLotus_Exige_Cup_Final_Edition_03.webp?alt=media&token=5920068d-4a1f-4437-9bbb-e948bfdd4912",
+        "thumbnail": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2FLotus_Exige_Cup_Final_Edition_03.webp?alt=media&token=5920068d-4a1f-4437-9bbb-e948bfdd4912"
+      },
+      "type": "Coupe"
+    },
+    {
+      "id": "8B5iRl18u2dyYKhh72qc",
+      "brand": "Maserati",
+      "model": "Quattroporte",
+      "plate": "BMN 898",
+      "price": 2037698,
+      "color": "Black",
+      "description": "Skill view establish these city continue.",
+      "horsePower": 424,
+      "doors": 4,
+      "picture": {
+        "url": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fmaserati_quattroporte-gts-gransport-2016_r4.webp?alt=media&token=d119d3c9-6b86-4d63-8ef4-63169ab47215",
+        "large": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fmaserati_quattroporte-gts-gransport-2016_r4.webp?alt=media&token=d119d3c9-6b86-4d63-8ef4-63169ab47215",
+        "medium": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fmaserati_quattroporte-gts-gransport-2016_r4.webp?alt=media&token=d119d3c9-6b86-4d63-8ef4-63169ab47215",
+        "small": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fmaserati_quattroporte-gts-gransport-2016_r4.webp?alt=media&token=d119d3c9-6b86-4d63-8ef4-63169ab47215",
+        "thumbnail": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fmaserati_quattroporte-gts-gransport-2016_r4.webp?alt=media&token=d119d3c9-6b86-4d63-8ef4-63169ab47215"
+      },
+      "type": "Convertible"
+    },
+    {
+      "id": "9ZEKkaNPkmJY8yTLtPee",
+      "brand": "Maserati",
+      "model": "Levante",
+      "plate": "LIS-1622",
+      "price": 588078,
+      "color": "Orange",
+      "description": "Stage play beat short reality seven.",
+      "horsePower": 1350,
+      "doors": 2,
+      "picture": {
+        "url": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fmaserati-levante-2024.jpg?alt=media&token=99e963c5-98a8-4302-89a1-91d079e05bad",
+        "large": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fmaserati-levante-2024.jpg?alt=media&token=99e963c5-98a8-4302-89a1-91d079e05bad",
+        "medium": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fmaserati-levante-2024.jpg?alt=media&token=99e963c5-98a8-4302-89a1-91d079e05bad",
+        "small": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fmaserati-levante-2024.jpg?alt=media&token=99e963c5-98a8-4302-89a1-91d079e05bad",
+        "thumbnail": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fmaserati-levante-2024.jpg?alt=media&token=99e963c5-98a8-4302-89a1-91d079e05bad"
+      },
+      "type": "Convertible"
+    },
+    {
+      "id": "WWd6a7luqNKfDeiqTrnv",
+      "brand": "Maserati",
+      "model": "Ghibli",
+      "plate": "1UG79",
+      "price": 2353828,
+      "color": "Orange",
+      "description": "Guess chance their focus issue.",
+      "horsePower": 532,
+      "doors": 2,
+      "picture": {
+        "url": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Ffoto---maserati-ghibli-mc-edition.webp?alt=media&token=03396ec7-02cb-4f57-b1fb-48464757eb91",
+        "large": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Ffoto---maserati-ghibli-mc-edition.webp?alt=media&token=03396ec7-02cb-4f57-b1fb-48464757eb91",
+        "medium": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Ffoto---maserati-ghibli-mc-edition.webp?alt=media&token=03396ec7-02cb-4f57-b1fb-48464757eb91",
+        "small": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Ffoto---maserati-ghibli-mc-edition.webp?alt=media&token=03396ec7-02cb-4f57-b1fb-48464757eb91",
+        "thumbnail": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Ffoto---maserati-ghibli-mc-edition.webp?alt=media&token=03396ec7-02cb-4f57-b1fb-48464757eb91"
+      },
+      "type": "Sport"
+    },
+    {
+      "id": "csAlVKEyhkoGp9T2l1HR",
+      "brand": "Maserati",
+      "model": "GranTurismo",
+      "plate": "84-HF07",
+      "price": 1593504,
+      "color": "Black",
+      "description": "Adult else firm back unit newspaper.",
+      "horsePower": 912,
+      "doors": 4,
+      "picture": {
+        "url": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F1310794.jpg?alt=media&token=85d1fcc2-71d6-42bc-9d8b-80ee738983f0",
+        "large": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F1310794.jpg?alt=media&token=85d1fcc2-71d6-42bc-9d8b-80ee738983f0",
+        "medium": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F1310794.jpg?alt=media&token=85d1fcc2-71d6-42bc-9d8b-80ee738983f0",
+        "small": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F1310794.jpg?alt=media&token=85d1fcc2-71d6-42bc-9d8b-80ee738983f0",
+        "thumbnail": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F1310794.jpg?alt=media&token=85d1fcc2-71d6-42bc-9d8b-80ee738983f0"
+      },
+      "type": "Coupe"
+    },
+    {
+      "id": "yaWA2JzJezFN0afsdMcL",
+      "brand": "Maserati",
+      "model": "MC20",
+      "plate": "8-94176",
+      "price": 602462,
+      "color": "Black",
+      "description": "Song marriage year act.",
+      "horsePower": 1490,
+      "doors": 4,
+      "type": "Convertible",
+      "customer": "HfqNHwCg51dqGqguVkfeQz8jn7j2"
+    },
+    {
+      "id": "4D5xzegF1UHW3ihn63XW",
+      "brand": "McLaren",
+      "model": "765LT",
+      "plate": "YAY 947",
+      "price": 796859,
+      "color": "Blue",
+      "description": "Yourself card full when old eat several.",
+      "horsePower": 864,
+      "doors": 2,
+      "picture": {
+        "url": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fraqc0fhylroix2detzyb.webp?alt=media&token=b06e544c-e93f-4c95-87dc-2d5220b92862",
+        "large": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fraqc0fhylroix2detzyb.webp?alt=media&token=b06e544c-e93f-4c95-87dc-2d5220b92862",
+        "medium": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fraqc0fhylroix2detzyb.webp?alt=media&token=b06e544c-e93f-4c95-87dc-2d5220b92862",
+        "small": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fraqc0fhylroix2detzyb.webp?alt=media&token=b06e544c-e93f-4c95-87dc-2d5220b92862",
+        "thumbnail": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fraqc0fhylroix2detzyb.webp?alt=media&token=b06e544c-e93f-4c95-87dc-2d5220b92862"
+      },
+      "type": "Coupe"
+    },
+    {
+      "id": "8qcuQj9WFhxeNTGAHDFM",
+      "brand": "McLaren",
+      "model": "P1",
+      "plate": "MVF-337",
+      "price": 1862966,
+      "color": "Blue",
+      "description": "Site try feeling degree rich small two.",
+      "horsePower": 1261,
+      "doors": 2,
+      "picture": {
+        "url": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F2012-mclaren-p1.jpg?alt=media&token=ab7187d1-a17b-4734-84f6-32ddd3055df3",
+        "large": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F2012-mclaren-p1.jpg?alt=media&token=ab7187d1-a17b-4734-84f6-32ddd3055df3",
+        "medium": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F2012-mclaren-p1.jpg?alt=media&token=ab7187d1-a17b-4734-84f6-32ddd3055df3",
+        "small": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F2012-mclaren-p1.jpg?alt=media&token=ab7187d1-a17b-4734-84f6-32ddd3055df3",
+        "thumbnail": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F2012-mclaren-p1.jpg?alt=media&token=ab7187d1-a17b-4734-84f6-32ddd3055df3"
+      },
+      "type": "SUV"
+    },
+    {
+      "id": "Yq6yAhfrmJ5fhopx18rn",
+      "brand": "McLaren",
+      "model": "765LT",
+      "plate": "8146LPQ",
+      "price": 380000,
+      "color": "Naranja",
+      "description": "Edición más extrema del McLaren 720S",
+      "horsePower": 765,
+      "doors": 2,
+      "picture": {
+        "url": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F1741335890487_o9dtlcoiw4?alt=media&token=64c8016f-ea39-4163-a4ea-5edee58870ec",
+        "large": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F1741335890487_o9dtlcoiw4?alt=media&token=64c8016f-ea39-4163-a4ea-5edee58870ec",
+        "medium": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F1741335890487_o9dtlcoiw4?alt=media&token=64c8016f-ea39-4163-a4ea-5edee58870ec",
+        "small": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F1741335890487_o9dtlcoiw4?alt=media&token=64c8016f-ea39-4163-a4ea-5edee58870ec",
+        "thumbnail": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F1741335890487_o9dtlcoiw4?alt=media&token=64c8016f-ea39-4163-a4ea-5edee58870ec"
+      },
+      "type": "Coupé"
+    },
+    {
+      "id": "fMn48XeSpXnP9YzOFnZx",
+      "brand": "McLaren",
+      "model": "Artura",
+      "plate": "327-NVW",
+      "price": 421050,
+      "color": "White",
+      "description": "Exactly strong than debate.",
+      "horsePower": 1572,
+      "doors": 2,
+      "picture": {
+        "url": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2FMcLaren_Artura_05.webp?alt=media&token=c0c503d6-90a0-47e0-8191-d5ba00b00801",
+        "large": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2FMcLaren_Artura_05.webp?alt=media&token=c0c503d6-90a0-47e0-8191-d5ba00b00801",
+        "medium": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2FMcLaren_Artura_05.webp?alt=media&token=c0c503d6-90a0-47e0-8191-d5ba00b00801",
+        "small": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2FMcLaren_Artura_05.webp?alt=media&token=c0c503d6-90a0-47e0-8191-d5ba00b00801",
+        "thumbnail": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2FMcLaren_Artura_05.webp?alt=media&token=c0c503d6-90a0-47e0-8191-d5ba00b00801"
+      },
+      "type": "SUV"
+    },
+    {
+      "id": "jIYwciwNY2Gp9qKFAQfv",
+      "brand": "McLaren",
+      "model": "GT",
+      "plate": "763 BWC",
+      "price": 923029,
+      "color": "Silver",
+      "description": "Benefit help fact look.",
+      "horsePower": 1193,
+      "doors": 4,
+      "type": "Sport"
+    },
+    {
+      "id": "xaTCN3HQCKXuMYMPmPGs",
+      "brand": "McLaren",
+      "model": "720S",
+      "plate": "UPY9985",
+      "price": 2100497,
+      "color": "Red",
+      "description": "Trial early family fact.",
+      "horsePower": 692,
+      "doors": 3,
+      "type": "Hypercar"
+    },
+    {
+      "id": "SZ1RYRxMhqmbPLCj8qll",
+      "brand": "Pagani",
+      "model": "Huayra",
+      "plate": "618 7GW",
+      "price": 2156825,
+      "color": "Orange",
+      "description": "Rich successful have allow rise.",
+      "horsePower": 393,
+      "doors": 4,
+      "picture": {
+        "url": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fpagani-huayra-r-1616086455.avif?alt=media&token=6ea1b9fc-fb59-43f3-8014-3dfb3ca45682",
+        "large": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fpagani-huayra-r-1616086455.avif?alt=media&token=6ea1b9fc-fb59-43f3-8014-3dfb3ca45682",
+        "medium": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fpagani-huayra-r-1616086455.avif?alt=media&token=6ea1b9fc-fb59-43f3-8014-3dfb3ca45682",
+        "small": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fpagani-huayra-r-1616086455.avif?alt=media&token=6ea1b9fc-fb59-43f3-8014-3dfb3ca45682",
+        "thumbnail": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fpagani-huayra-r-1616086455.avif?alt=media&token=6ea1b9fc-fb59-43f3-8014-3dfb3ca45682"
+      },
+      "type": "Sport"
+    },
+    {
+      "id": "Xci07Nq2Ndf8PsQgdWJI",
+      "brand": "Pagani",
+      "model": "C12",
+      "plate": "5V W8707",
+      "price": 2263633,
+      "color": "Black",
+      "description": "All blood air become unit care evidence.",
+      "horsePower": 465,
+      "doors": 2,
+      "picture": {
+        "url": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fpagani-zonda-c12-prototipo-ii.jpg?alt=media&token=178e21fc-e693-41c8-8c9b-a8670c7c8141",
+        "large": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fpagani-zonda-c12-prototipo-ii.jpg?alt=media&token=178e21fc-e693-41c8-8c9b-a8670c7c8141",
+        "medium": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fpagani-zonda-c12-prototipo-ii.jpg?alt=media&token=178e21fc-e693-41c8-8c9b-a8670c7c8141",
+        "small": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fpagani-zonda-c12-prototipo-ii.jpg?alt=media&token=178e21fc-e693-41c8-8c9b-a8670c7c8141",
+        "thumbnail": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fpagani-zonda-c12-prototipo-ii.jpg?alt=media&token=178e21fc-e693-41c8-8c9b-a8670c7c8141"
+      },
+      "type": "Sport"
+    },
+    {
+      "id": "l0Wdp70kbc9njsChhdO9",
+      "brand": "Pagani",
+      "model": "Zonda",
+      "plate": "2OW1998",
+      "price": 1438042,
+      "color": "Orange",
+      "description": "Wish chair bit level arrive.",
+      "horsePower": 1022,
+      "doors": 2,
+      "type": "Hypercar"
+    },
+    {
+      "id": "nMYx183kyFJdOjkfeCjM",
+      "brand": "Pagani",
+      "model": "Imola",
+      "plate": "521-KGC",
+      "price": 179771,
+      "color": "Green",
+      "description": "Experience campaign write.",
+      "horsePower": 777,
+      "doors": 4,
+      "type": "Coupe"
+    },
+    {
+      "id": "uPoAmT47yRSFL8Hwggw8",
+      "brand": "Pagani",
+      "model": "Utopia",
+      "plate": "252-135",
+      "price": 871453,
+      "color": "Orange",
+      "description": "Look determine represent possible improve picture.",
+      "horsePower": 1143,
+      "doors": 3,
+      "type": "Sport",
+      "customer": "HfqNHwCg51dqGqguVkfeQz8jn7j2"
+    },
+    {
+      "id": "4GaMXGAs8LLrGGefD6Zv",
+      "brand": "Porsche",
+      "model": "911 Turbo",
+      "plate": "JGE3273",
+      "price": 1144962,
+      "color": "White",
+      "description": "Send song you.",
+      "horsePower": 692,
+      "doors": 3,
+      "picture": {
+        "url": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2FPLA22_1125_fine.jpg?alt=media&token=b342518b-de8d-4c5b-986b-939f7698a7f8",
+        "large": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2FPLA22_1125_fine.jpg?alt=media&token=b342518b-de8d-4c5b-986b-939f7698a7f8",
+        "medium": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2FPLA22_1125_fine.jpg?alt=media&token=b342518b-de8d-4c5b-986b-939f7698a7f8",
+        "small": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2FPLA22_1125_fine.jpg?alt=media&token=b342518b-de8d-4c5b-986b-939f7698a7f8",
+        "thumbnail": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2FPLA22_1125_fine.jpg?alt=media&token=b342518b-de8d-4c5b-986b-939f7698a7f8"
+      },
+      "type": "Convertible"
+    },
+    {
+      "id": "AaJmGjRCtAvxIlUCFm1A",
+      "brand": "Porsche",
+      "model": "Cayman",
+      "plate": "KSJ 046",
+      "price": 2036255,
+      "color": "Orange",
+      "description": "Politics physical we cup term have.",
+      "horsePower": 994,
+      "doors": 3,
+      "picture": {
+        "url": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fporsche_718-cayman-982c-2016_r11.webp?alt=media&token=cfd4608e-1e04-4f4d-b46f-f53f55e60679",
+        "large": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fporsche_718-cayman-982c-2016_r11.webp?alt=media&token=cfd4608e-1e04-4f4d-b46f-f53f55e60679",
+        "medium": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fporsche_718-cayman-982c-2016_r11.webp?alt=media&token=cfd4608e-1e04-4f4d-b46f-f53f55e60679",
+        "small": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fporsche_718-cayman-982c-2016_r11.webp?alt=media&token=cfd4608e-1e04-4f4d-b46f-f53f55e60679",
+        "thumbnail": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Fporsche_718-cayman-982c-2016_r11.webp?alt=media&token=cfd4608e-1e04-4f4d-b46f-f53f55e60679"
+      },
+      "type": "SUV"
+    },
+    {
+      "id": "O6w13DDTfYrzY3PvMWVG",
+      "brand": "Porsche",
+      "model": "Macan",
+      "plate": "309 PZQ",
+      "price": 2815196,
+      "color": "Black",
+      "description": "Strong clearly evening federal.",
+      "horsePower": 1016,
+      "doors": 4,
+      "picture": {
+        "url": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Ff91ab6ef9bdfdc2e3679fa80fd71bdcb.webp?alt=media&token=d3fac6d0-e3ce-4284-9227-8b97e807f387",
+        "large": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Ff91ab6ef9bdfdc2e3679fa80fd71bdcb.webp?alt=media&token=d3fac6d0-e3ce-4284-9227-8b97e807f387",
+        "medium": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Ff91ab6ef9bdfdc2e3679fa80fd71bdcb.webp?alt=media&token=d3fac6d0-e3ce-4284-9227-8b97e807f387",
+        "small": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Ff91ab6ef9bdfdc2e3679fa80fd71bdcb.webp?alt=media&token=d3fac6d0-e3ce-4284-9227-8b97e807f387",
+        "thumbnail": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Ff91ab6ef9bdfdc2e3679fa80fd71bdcb.webp?alt=media&token=d3fac6d0-e3ce-4284-9227-8b97e807f387"
+      },
+      "type": "Convertible"
+    },
+    {
+      "id": "SOgCeNlcNttQZF6qamiE",
+      "brand": "Porsche",
+      "model": "Panamera",
+      "plate": "9O X2324",
+      "price": 2327595,
+      "color": "Blue",
+      "description": "Price prove move machine early party.",
+      "horsePower": 1088,
+      "doors": 2,
+      "picture": {
+        "url": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F2025-porsche-panamera-turbo-s-e-hybrid.webp?alt=media&token=b02d83b4-00e1-4226-80c7-e52ae1a00885",
+        "large": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F2025-porsche-panamera-turbo-s-e-hybrid.webp?alt=media&token=b02d83b4-00e1-4226-80c7-e52ae1a00885",
+        "medium": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F2025-porsche-panamera-turbo-s-e-hybrid.webp?alt=media&token=b02d83b4-00e1-4226-80c7-e52ae1a00885",
+        "small": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F2025-porsche-panamera-turbo-s-e-hybrid.webp?alt=media&token=b02d83b4-00e1-4226-80c7-e52ae1a00885",
+        "thumbnail": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F2025-porsche-panamera-turbo-s-e-hybrid.webp?alt=media&token=b02d83b4-00e1-4226-80c7-e52ae1a00885"
+      },
+      "type": "Sport"
+    },
+    {
+      "id": "b9CvFZarGjMnuXiOvEDo",
+      "brand": "Porsche",
+      "model": "Taycan",
+      "plate": "Z88 8NZ",
+      "price": 290703,
+      "color": "Orange",
+      "description": "Home course risk.",
+      "horsePower": 1552,
+      "doors": 4,
+      "picture": {
+        "url": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F2025-porsche-taycan-gts.jpg?alt=media&token=89658aa9-4bbe-44fe-b302-d306f1169dcd",
+        "large": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F2025-porsche-taycan-gts.jpg?alt=media&token=89658aa9-4bbe-44fe-b302-d306f1169dcd",
+        "medium": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F2025-porsche-taycan-gts.jpg?alt=media&token=89658aa9-4bbe-44fe-b302-d306f1169dcd",
+        "small": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F2025-porsche-taycan-gts.jpg?alt=media&token=89658aa9-4bbe-44fe-b302-d306f1169dcd",
+        "thumbnail": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F2025-porsche-taycan-gts.jpg?alt=media&token=89658aa9-4bbe-44fe-b302-d306f1169dcd"
+      },
+      "type": "Hypercar"
+    },
+    {
+      "id": "blWiItn19cCtxHUYaUKO",
+      "brand": "Porsche",
+      "model": "911 Turbo S",
+      "plate": "8246CWV",
+      "price": 250000,
+      "color": "Gris",
+      "description": "Tración 4x4",
+      "horsePower": 650,
+      "doors": 2,
+      "picture": {
+        "url": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Firis.webp?alt=media&token=af723b5d-61b6-4826-a6c8-b8e9558dcb76",
+        "large": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Firis.webp?alt=media&token=af723b5d-61b6-4826-a6c8-b8e9558dcb76",
+        "medium": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Firis.webp?alt=media&token=af723b5d-61b6-4826-a6c8-b8e9558dcb76",
+        "small": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Firis.webp?alt=media&token=af723b5d-61b6-4826-a6c8-b8e9558dcb76",
+        "thumbnail": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2Firis.webp?alt=media&token=af723b5d-61b6-4826-a6c8-b8e9558dcb76"
+      },
+      "type": "Coupé"
+    },
+    {
+      "id": "ntdKKAa7Zetqqyw2znEA",
+      "brand": "Rolls-Royce",
+      "model": "Phantom",
+      "plate": "8786GJP",
+      "price": 460000,
+      "color": "Gris",
+      "description": "Cásico con motor V12",
+      "horsePower": 563,
+      "doors": 4,
+      "picture": {
+        "url": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F1741336257024_ph8c3n94u?alt=media&token=049e054c-5487-46ab-83ad-048a3b40b1ae",
+        "large": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F1741336257024_ph8c3n94u?alt=media&token=049e054c-5487-46ab-83ad-048a3b40b1ae",
+        "medium": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F1741336257024_ph8c3n94u?alt=media&token=049e054c-5487-46ab-83ad-048a3b40b1ae",
+        "small": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F1741336257024_ph8c3n94u?alt=media&token=049e054c-5487-46ab-83ad-048a3b40b1ae",
+        "thumbnail": "https://firebasestorage.googleapis.com/v0/b/concesionarios-baca.firebasestorage.app/o/uploads%2F1741336257024_ph8c3n94u?alt=media&token=049e054c-5487-46ab-83ad-048a3b40b1ae"
+      },
+      "type": "Sedán"
+    }
+  ]
+}

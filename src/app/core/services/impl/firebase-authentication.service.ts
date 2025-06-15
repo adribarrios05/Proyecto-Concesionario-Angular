@@ -5,31 +5,53 @@ import { AUTH_MAPPING_TOKEN, FIREBASE_CONFIG_TOKEN } from '../../repositories/re
 import { IAuthMapping } from '../interfaces/auth-mapping.interface';
 import { User } from '../../models/auth.model';
 import { initializeApp } from 'firebase/app';
-import { 
-  getAuth, 
-  signInWithEmailAndPassword, 
+import {
+  getAuth,
+  signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signOut as firebaseSignOut,
   onAuthStateChanged
 } from 'firebase/auth';
 import { Firestore, getFirestore, doc, getDoc } from 'firebase/firestore';
 
+/**
+ * Servicio de autenticación usando Firebase.
+ * Extiende el servicio base `BaseAuthenticationService` y define los métodos reales de autenticación.
+ *
+ * @export
+ * @class FirebaseAuthenticationService
+ */
 @Injectable({
   providedIn: 'root'
 })
 export class FirebaseAuthenticationService extends BaseAuthenticationService {
+
+  /**
+   * Instancia de Firebase Auth.
+   */
   private auth;
+
+  /**
+   * Token de acceso JWT proporcionado por Firebase.
+   */
   private _token: string | null = null;
 
+  /**
+   * Inicializa Firebase, escucha cambios en el estado de autenticación
+   * y sincroniza el estado interno del servicio.
+   *
+   * @param firebaseConfig Configuración del proyecto Firebase
+   * @param authMapping Servicio de mapeo de usuarios
+   */
   constructor(
     @Inject(FIREBASE_CONFIG_TOKEN) protected firebaseConfig = {
-      apiKey: "AIzaSyDXjHUKnlhNBpIpfdxOZlAKb1vykp8ElPo",
-      authDomain: "concesionarios-baca.firebaseapp.com",
-      projectId: "concesionarios-baca",
-      storageBucket: "concesionarios-baca.firebasestorage.app",
-      messagingSenderId: "1098140390614",
-      appId: "1:1098140390614:web:f468fba37feeba8ddea577",
-      measurementId: "G-FWC8EPFFQG"
+      apiKey: "...",
+      authDomain: "...",
+      projectId: "...",
+      storageBucket: "...",
+      messagingSenderId: "...",
+      appId: "...",
+      measurementId: "..."
     },
     @Inject(AUTH_MAPPING_TOKEN) authMapping: IAuthMapping
   ) {
@@ -54,27 +76,44 @@ export class FirebaseAuthenticationService extends BaseAuthenticationService {
     });
   }
 
+  /**
+   * Espera a que el servicio esté listo y retorna el usuario actual.
+   *
+   * @returns Usuario autenticado
+   */
   async getCurrentUser(): Promise<any> {
     await firstValueFrom(this._ready.pipe(filter(ready => ready === true)));
     return firstValueFrom(this._user);
   }
 
+  /**
+   * Inicia sesión con email y contraseña.
+   *
+   * @param authPayload Objeto con credenciales
+   * @returns Observable con el usuario autenticado
+   */
   signIn(authPayload: any): Observable<User> {
     const { email, password } = this.authMapping.signInPayload(authPayload);
     console.log("Email: ", email, " Password: ", password);
-    
+
     return from(signInWithEmailAndPassword(this.auth, email, password)).pipe(
       map(userCredential => {
         const mappedUser = this.authMapping.signIn(userCredential.user);
-        this.updateAuthState(mappedUser)
+        this.updateAuthState(mappedUser);
         return mappedUser;
       })
     );
   }
 
+  /**
+   * Registra un nuevo usuario en Firebase Authentication.
+   *
+   * @param signUpPayload Datos de registro
+   * @returns Observable con el usuario registrado
+   */
   signUp(signUpPayload: any): Observable<User> {
     const { email, password } = this.authMapping.signUpPayload(signUpPayload);
-    
+
     return from(createUserWithEmailAndPassword(this.auth, email, password)).pipe(
       map(userCredential => {
         return this.authMapping.signUp(userCredential.user);
@@ -82,42 +121,44 @@ export class FirebaseAuthenticationService extends BaseAuthenticationService {
     );
   }
 
-  /*signOut(): Observable<any> {
-    if(!this.auth){
-      return throwError(() => new Error("Firebase Auth no está inicializado."));
-    }
+  /**
+   * Cierra la sesión del usuario actual.
+   *
+   * @returns Observable que completa al cerrar sesión
+   */
+  signOut(): Observable<any> {
     return from(firebaseSignOut(this.auth)).pipe(
       tap(() => {
-        this._authenticated.next(false);
-        this._user.next(undefined);
+        this.updateAuthState(null);
       })
     );
-  }*/
+  }
 
-    signOut(): Observable<any> {
-      return from(firebaseSignOut(this.auth)).pipe(
-        tap(() => {
-          this.updateAuthState(null); 
-        })
-      );
-    }
-
+  /**
+   * Devuelve los datos del usuario autenticado si existe.
+   *
+   * @returns Observable con los datos del usuario
+   */
   me(): Observable<any> {
-  return new Observable((observer) => {
-    onAuthStateChanged(this.auth, (user) => {
-      if (user) {
-        observer.next({ id: user.uid, email: user.email });
-      } else {
-        observer.error(new Error('No authenticated user'));
-      }
-    }, (error) => {
-      observer.error(error);
+    return new Observable((observer) => {
+      onAuthStateChanged(this.auth, (user) => {
+        if (user) {
+          observer.next({ id: user.uid, email: user.email });
+        } else {
+          observer.error(new Error('No authenticated user'));
+        }
+      }, (error) => {
+        observer.error(error);
+      });
     });
-  });
-}
+  }
 
-  
+  /**
+   * Devuelve el token actual de autenticación (JWT).
+   *
+   * @returns Token de usuario autenticado
+   */
   getToken(): string | null {
     return this._token;
   }
-} 
+}

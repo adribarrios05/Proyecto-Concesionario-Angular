@@ -17,22 +17,58 @@ import { ProfileImgModalComponent } from 'src/app/components/profile-img-modal/p
 import { AppComponent } from 'src/app/app.component';
 import { BaseMediaService } from 'src/app/core/services/impl/base-media.service';
 
+/**
+ * Componente para la gestión del perfil del usuario.
+ * Permite ver y editar la información personal, incluyendo la imagen de perfil.
+ */
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
   styleUrls: ['./profile.page.scss'],
 })
 export class ProfilePage implements OnInit {
+  /** Contraseña utilizada para habilitar funcionalidades de administrador */
   adminPassword: string = 'CONCESIONARIOSBACA2025';
+
+  /** Roles actuales del usuario (ej. 'customer', 'admin') */
   userRole: string[] = [];
+
+  /** Formulario reactivo con los datos del perfil */
   profileForm: FormGroup;
+
+  /** Copia de los valores originales para poder restaurar cambios */
   originalValues: any = {};
+
+  /** URL de la imagen de perfil mostrada por defecto */
   profileImage: string = 'https://ionicframework.com/docs/img/demos/avatar.svg';
+
+  /** Estado de sesión: true si el usuario está logueado */
   isLoggedIn: boolean = false;
+
+  /** Objeto del cliente actualmente autenticado */
   customer?: Customer | null;
+
+  /** Indica si el selector de imagen está abierto */
   isPictureSelectorOpen = false;
+
+  /** Indica si se está realizando una operación de guardado */
   isSaving: boolean = false;
 
+  /**
+   * Constructor del componente.
+   * Inyecta servicios necesarios y define el formulario de perfil.
+   *
+   * @param fb Constructor del FormBuilder para crear formularios reactivos
+   * @param authSvc Servicio de autenticación
+   * @param customerSvc Servicio de clientes para acceder y actualizar datos
+   * @param loadingController Controlador de loading (carga)
+   * @param toastController Controlador de toasts (mensajes emergentes)
+   * @param translateService Servicio de traducción i18n
+   * @param router Servicio de navegación
+   * @param modalCtrl Controlador de modales
+   * @param appComponent Componente raíz de la app para actualizar la UI global
+   * @param mediaService Servicio para subir y gestionar archivos multimedia
+   */
   constructor(
     private fb: FormBuilder,
     private authSvc: BaseAuthenticationService,
@@ -48,8 +84,6 @@ export class ProfilePage implements OnInit {
     this.profileForm = this.fb.group({
       username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      //password: ['', Validators.required],
-      //confirmPassword: ['', Validators.required],
       name: ['', Validators.required],
       surname: ['', Validators.required],
       phone: ['', Validators.required],
@@ -59,6 +93,10 @@ export class ProfilePage implements OnInit {
     });
   }
 
+  /**
+   * Carga inicial de la página de perfil.
+   * Recupera los datos del usuario logueado y los muestra en el formulario.
+   */
   async ngOnInit() {
     const loading = await this.loadingController.create();
     await loading.present();
@@ -66,9 +104,7 @@ export class ProfilePage implements OnInit {
     try {
       const user = await this.authSvc.getCurrentUser();
       if (user) {
-        this.customer = await lastValueFrom(
-          this.customerSvc.getById(user.id)
-        );
+        this.customer = await lastValueFrom(this.customerSvc.getById(user.id));
         console.log(this.customer);
 
         if (this.customer) {
@@ -115,6 +151,10 @@ export class ProfilePage implements OnInit {
     }
   }
 
+  /**
+   * Guarda los cambios del formulario si es válido.
+   * Muestra un toast informando del resultado.
+   */
   saveChanges() {
     if (this.profileForm.valid) {
       this.isSaving = true;
@@ -160,11 +200,19 @@ export class ProfilePage implements OnInit {
     }
   }
 
+  /**
+   * Restaura los valores originales del formulario, descartando los cambios no guardados.
+   */
   discardChanges() {
     this.profileForm.patchValue(this.originalValues);
     console.log('Cambios descartados');
   }
 
+  /**
+   * Actualiza la imagen de perfil del usuario.
+   *
+   * @param picture Objeto que contiene la URL o los datos de la nueva imagen
+   */
   updateProfileImage(picture: any) {
     if (!this.customer) return;
 
@@ -199,6 +247,9 @@ export class ProfilePage implements OnInit {
     });
   }
 
+  /**
+   * Cierra la sesión del usuario y redirige al login.
+   */
   logout() {
     this.authSvc.signOut().subscribe({
       next: () => {
@@ -211,12 +262,21 @@ export class ProfilePage implements OnInit {
     });
   }
 
+  /**
+   * Verifica si el usuario tiene el rol de cliente (no administrador).
+   *
+   * @returns true si es cliente y no admin
+   */
   isClient(): boolean {
     return (
       this.userRole.includes('customer') && !this.userRole.includes('admin')
     );
   }
 
+  /**
+   * Comprueba si la contraseña introducida coincide con la clave de administrador
+   * y actualiza el rol del usuario para incluir 'administrador'.
+   */
   confirmAdminPassword() {
     const adminKey = 'CONCESIONARIOSBACA2025';
 
@@ -242,6 +302,10 @@ export class ProfilePage implements OnInit {
     }
   }
 
+  /**
+   * Abre el selector de imagen de perfil en un modal.
+   * Al cerrarse, si hay una nueva imagen, la actualiza y guarda los cambios.
+   */
   async openPictureSelector() {
     const modal = await this.modalCtrl.create({
       component: ProfileImgModalComponent,
@@ -250,17 +314,25 @@ export class ProfilePage implements OnInit {
     modal.onDidDismiss().then((data) => {
       if (data.data) {
         this.updateProfileImage(data.data);
-        this.saveChanges;
+        this.saveChanges; // ⚠️ ¡Ojo! Esto no ejecuta la función, falta () si es intencional
       }
     });
 
     return await modal.present();
   }
 
+  /**
+   * Cierra el selector de imagen de perfil (bandera booleana).
+   */
   closePictureSelector() {
     this.isPictureSelectorOpen = false;
   }
 
+  /**
+   * Maneja la selección de un archivo desde un input file y lo sube como imagen de perfil.
+   *
+   * @param event Evento de selección de archivo (input[type=file])
+   */
   async onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
     if (!input.files || input.files.length === 0) return;
@@ -289,7 +361,7 @@ export class ProfilePage implements OnInit {
           },
         };
 
-        console.log("Customer id: ", this.customer.id)
+        console.log('Customer id: ', this.customer.id);
 
         this.customerSvc.update(this.customer.id, updatedData).subscribe({
           next: () => {

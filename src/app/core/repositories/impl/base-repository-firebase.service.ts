@@ -33,15 +33,37 @@ import { Model } from '../../models/base.model';
 import { IBaseMapping } from '../intefaces/base-mapping.interface';
 import { Paginated } from '../../models/paginated.model';
 
+/**
+ * Servicio base para repositorios que utilizan Firebase como backend.
+ * Proporciona operaciones CRUD y paginación con filtros.
+ *
+ * @export
+ * @class BaseRepositoryFirebaseService
+ * @template T Tipo de modelo que extiende de Model
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class BaseRepositoryFirebaseService<T extends Model>
   implements IBaseRepository<T>
 {
+  /**
+   * Instancia de Firestore inicializada.
+   */
   protected db;
+
+  /**
+   * Referencia a la colección de Firestore específica para la entidad T.
+   */
   private collectionRef;
 
+  /**
+   * Constructor que inyecta la configuración de Firebase, el nombre de la colección y el mapeador de datos.
+   *
+   * @param firebaseConfig Configuración del proyecto Firebase
+   * @param collectionName Nombre de la colección de Firestore
+   * @param mapping Servicio de mapeo de datos para T
+   */
   constructor(
     @Inject(FIREBASE_CONFIG_TOKEN)
     protected firebaseConfig = {
@@ -61,6 +83,16 @@ export class BaseRepositoryFirebaseService<T extends Model>
     this.collectionRef = collection(this.db, this.collectionName);
   }
 
+  /**
+   * Recupera el último documento de la página anterior para aplicar paginación basada en cursores.
+   *
+   * @private
+   * @param page Página actual
+   * @param pageSize Tamaño de página
+   * @param filters Filtros de búsqueda
+   * @param orderField Campo por el que se ordena
+   * @returns Último documento de la página anterior
+   */
   private async getLastDocumentOfPreviousPage(
     page: number,
     pageSize: number,
@@ -95,6 +127,15 @@ export class BaseRepositoryFirebaseService<T extends Model>
     return snapshot.docs[snapshot.docs.length - 1];
   }
 
+  /**
+   * Obtiene una página de elementos aplicando filtros y paginación.
+   *
+   * @param page Número de página a obtener
+   * @param pageSize Cantidad de elementos por página
+   * @param filters Filtros aplicados sobre los campos
+   * @param orderField Campo por el que se ordena (por defecto 'id')
+   * @returns Observable con los resultados paginados
+   */
   getAll(
     page: number,
     pageSize: number,
@@ -116,7 +157,6 @@ export class BaseRepositoryFirebaseService<T extends Model>
           console.log(`🔁 startAfter aplicado desde documento:`, lastDoc.id);
         }
 
-        // Filtros
         Object.entries(filters).forEach(([key, value]) => {
           if (typeof value === 'object' && value !== null) {
             if ('$gte' in value && '$lte' in value) {
@@ -132,7 +172,6 @@ export class BaseRepositoryFirebaseService<T extends Model>
           } else {
             constraints.push(where(key, '==', value));
           }
-          
         });
 
         console.log('📦 Filtros aplicados en Firebase:', filters);
@@ -159,6 +198,12 @@ export class BaseRepositoryFirebaseService<T extends Model>
     );
   }
 
+  /**
+   * Obtiene un elemento por su ID.
+   *
+   * @param id Identificador del documento
+   * @returns Observable con el documento encontrado o null
+   */
   getById(id: string): Observable<T | null> {
     const docRef = doc(this.db, this.collectionName, id);
     return from(getDoc(docRef)).pipe(
@@ -171,6 +216,12 @@ export class BaseRepositoryFirebaseService<T extends Model>
     );
   }
 
+  /**
+   * Añade un nuevo documento a la colección.
+   *
+   * @param entity Objeto de tipo T a añadir
+   * @returns Observable con el objeto añadido
+   */
   add(entity: T): Observable<T> {
     const entityData = { ...this.mapping.setAdd(entity) };
 
@@ -188,6 +239,13 @@ export class BaseRepositoryFirebaseService<T extends Model>
     }
   }
 
+  /**
+   * Actualiza un documento por su ID.
+   *
+   * @param id Identificador del documento
+   * @param entity Objeto con los datos actualizados
+   * @returns Observable con el objeto actualizado
+   */
   update(id: string, entity: T): Observable<T> {
     const updatedData = this.mapping.setUpdate(entity);
 
@@ -211,6 +269,12 @@ export class BaseRepositoryFirebaseService<T extends Model>
     );
   }
 
+  /**
+   * Elimina un documento por su ID.
+   *
+   * @param id Identificador del documento a eliminar
+   * @returns Observable con el objeto eliminado
+   */
   delete(id: string): Observable<T> {
     const docRef = doc(this.db, this.collectionName, id);
     return from(getDoc(docRef)).pipe(

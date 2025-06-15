@@ -12,12 +12,25 @@ import { initializeApp } from 'firebase/app';
 import { Customer } from '../../models/customer.model';
 import { FirebaseCustomer } from '../../models/firebase/firebase-customer.model';
 
+/**
+ * Servicio de mapeo para clientes con Firebase.
+ * Transforma los datos entre el modelo interno `Customer` y el formato de Firebase.
+ *
+ * @export
+ * @class CustomerMappingFirebaseService
+ * @implements {IBaseMapping<Customer>}
+ */
+
 @Injectable({
   providedIn: 'root',
 })
 export class CustomerMappingFirebaseService implements IBaseMapping<Customer> {
   private db: Firestore;
 
+  /**
+   * Inicializa el servicio y configura Firestore.
+   * @param firebaseConfig Configuración de Firebase inyectada
+   */
   constructor(
     //@Inject(FIREBASE_CONFIG_TOKEN) protected firebaseConfig: any
     @Inject(FIREBASE_CONFIG_TOKEN)
@@ -34,6 +47,11 @@ export class CustomerMappingFirebaseService implements IBaseMapping<Customer> {
     this.db = getFirestore(initializeApp(firebaseConfig));
   }
 
+  /**
+   * Transforma un objeto `Customer` al formato `FirebaseCustomer` para ser añadido.
+   * @param data Objeto de tipo Customer
+   * @returns Objeto mapeado para Firebase
+   */
   setAdd(data: Customer): FirebaseCustomer {
     let dataMapping: FirebaseCustomer = {
       name: data.name,
@@ -52,6 +70,11 @@ export class CustomerMappingFirebaseService implements IBaseMapping<Customer> {
     return dataMapping;
   }
 
+  /**
+   * Transforma parcialmente un objeto `Customer` para actualización en Firebase.
+   * @param data Datos parciales del cliente
+   * @returns Objeto parcial mapeado
+   */
   setUpdate(data: Partial<Customer>): FirebaseCustomer {
     const result: any = {};
 
@@ -68,6 +91,11 @@ export class CustomerMappingFirebaseService implements IBaseMapping<Customer> {
     return result;
   }
 
+  /**
+   * Transforma un documento de Firebase a un objeto `Customer`.
+   * @param doc Documento obtenido de Firestore
+   * @returns Cliente mapeado
+   */
   getOne(doc: any): Customer {
     return {
       ...doc,
@@ -77,6 +105,14 @@ export class CustomerMappingFirebaseService implements IBaseMapping<Customer> {
     };
   }
 
+  /**
+   * Transforma un conjunto paginado de datos Firebase a un paginado de `Customer`.
+   * @param page Página actual
+   * @param pageSize Tamaño de página
+   * @param total Total de elementos
+   * @param data Datos de Firebase
+   * @returns Paginado de clientes
+   */
   getPaginated(
     page: number,
     pageSize: number,
@@ -91,6 +127,11 @@ export class CustomerMappingFirebaseService implements IBaseMapping<Customer> {
     };
   }
 
+  /**
+   * Devuelve el objeto tras ser añadido.
+   * @param item Cliente añadido
+   * @returns Cliente transformado
+   */
   getAdded(item: Customer): any {
     return {
       ...item,
@@ -101,10 +142,20 @@ export class CustomerMappingFirebaseService implements IBaseMapping<Customer> {
     };
   }
 
+  /**
+   * Devuelve el objeto tras ser actualizado.
+   * @param data Cliente actualizado
+   * @returns Cliente transformado
+   */
   getUpdated(data: any): Customer {
     return this.getAdded(data);
   }
 
+  /**
+   * Devuelve el objeto tras ser eliminado.
+   * @param data Cliente eliminado
+   * @returns Cliente transformado
+   */
   getDeleted(data: { id: string } & FirebaseCustomer): Customer {
     return this.getOne(data);
   }

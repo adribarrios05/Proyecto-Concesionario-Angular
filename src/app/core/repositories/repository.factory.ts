@@ -1,9 +1,21 @@
+/**
+ * Este archivo define factorías de Angular (`FactoryProvider`) para crear instancias
+ * dinámicamente de repositorios, mapeadores, servicios de autenticación y servicios de medios.
+ * 
+ * Permite desacoplar la lógica de backend y soporta múltiples fuentes de datos: Firebase, Strapi, etc.
+ */
+
 import { FactoryProvider, InjectionToken } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BaseRepositoryHttpService } from './impl/base-repository-http.service';
 import { IBaseRepository } from './intefaces/base-repository.interface';
-import { AUTH_MAPPING_TOKEN, AUTH_ME_API_URL_TOKEN, AUTH_SIGN_IN_API_URL_TOKEN, AUTH_SIGN_UP_API_URL_TOKEN, BACKEND_TOKEN, CAR_API_URL_TOKEN, CAR_COLLECTION_SUBSCRIPTION_TOKEN, CAR_REPOSITORY_MAPPING_TOKEN, CAR_REPOSITORY_TOKEN, CAR_RESOURCE_NAME_TOKEN, CUSTOMER_API_URL_TOKEN, CUSTOMER_COLLECTION_SUBSCRIPTION_TOKEN, CUSTOMER_REPOSITORY_MAPPING_TOKEN, CUSTOMER_REPOSITORY_TOKEN, CUSTOMER_RESOURCE_NAME_TOKEN, FIREBASE_CONFIG_TOKEN, UPLOAD_API_URL_TOKEN } from './repository.tokens';
-import { BaseRespositoryLocalStorageService } from './impl/base-repository-local-storage.service';
+import {
+  AUTH_MAPPING_TOKEN, AUTH_ME_API_URL_TOKEN, AUTH_SIGN_IN_API_URL_TOKEN, AUTH_SIGN_UP_API_URL_TOKEN,
+  BACKEND_TOKEN, CAR_API_URL_TOKEN, CAR_COLLECTION_SUBSCRIPTION_TOKEN, CAR_REPOSITORY_MAPPING_TOKEN,
+  CAR_REPOSITORY_TOKEN, CAR_RESOURCE_NAME_TOKEN, CUSTOMER_API_URL_TOKEN, CUSTOMER_COLLECTION_SUBSCRIPTION_TOKEN,
+  CUSTOMER_REPOSITORY_MAPPING_TOKEN, CUSTOMER_REPOSITORY_TOKEN, CUSTOMER_RESOURCE_NAME_TOKEN,
+  FIREBASE_CONFIG_TOKEN, UPLOAD_API_URL_TOKEN
+} from './repository.tokens';
 import { Model } from '../models/base.model';
 import { IBaseMapping } from './intefaces/base-mapping.interface';
 import { JsonServerRepositoryService } from './impl/json-server-repository.service';
@@ -29,162 +41,181 @@ import { FirebaseCollectionSubscriptionService } from '../services/impl/firebase
 import { ICollectionSubscription } from '../services/interfaces/collection-subscription.interface';
 import { IAuthentication } from '../services/interfaces/authentication.interface';
 
+/**
+ * Factoría para crear un repositorio base genérico en función del backend.
+ */
 export function createBaseRepositoryFactory<T extends Model>(
   token: InjectionToken<IBaseRepository<T>>,
-  dependencies:any[]): FactoryProvider {
+  dependencies: any[]
+): FactoryProvider {
   return {
     provide: token,
-    useFactory: (backend: string, http: HttpClient, auth:IStrapiAuthentication, apiURL: string, resource: string, mapping: IBaseMapping<T>, firebaseConfig?: any) => {
+    useFactory: (
+      backend: string,
+      http: HttpClient,
+      auth: IStrapiAuthentication,
+      apiURL: string,
+      resource: string,
+      mapping: IBaseMapping<T>,
+      firebaseConfig?: any
+    ) => {
       switch (backend) {
-        case 'http':
-          return new BaseRepositoryHttpService<T>(http, auth, apiURL, resource, mapping);
-        case 'local-storage':
-          return new BaseRespositoryLocalStorageService<T>(resource, mapping);
-        case 'json-server':
-          return new JsonServerRepositoryService<T>(http, auth,apiURL, resource, mapping);
-        case 'strapi':
-          return new StrapiRepositoryService<T>(http, auth, apiURL, resource, mapping);
-        case 'firebase':
-          return new BaseRepositoryFirebaseService<T>(firebaseConfig, resource, mapping)
-        default:
-       
-          throw new Error("BACKEND NOT IMPLEMENTED");
+        case 'http': return new BaseRepositoryHttpService<T>(http, auth, apiURL, resource, mapping);
+        case 'json-server': return new JsonServerRepositoryService<T>(http, auth, apiURL, resource, mapping);
+        case 'strapi': return new StrapiRepositoryService<T>(http, auth, apiURL, resource, mapping);
+        case 'firebase': return new BaseRepositoryFirebaseService<T>(firebaseConfig, resource, mapping);
+        default: throw new Error("BACKEND NOT IMPLEMENTED");
       }
     },
     deps: dependencies
   };
-};
+}
 
+/**
+ * Factoría para crear un mapeador base según el backend y tipo de modelo.
+ */
 export function createBaseMappingFactory<T extends Model>(
   token: InjectionToken<IBaseMapping<T>>,
   dependencies: any[],
-  modelType: 'car' | 'customer',
+  modelType: 'car' | 'customer'
 ): FactoryProvider {
   return {
     provide: token,
     useFactory: (backend: string, firebaseConfig?: any) => {
       switch (backend) {
         case 'strapi':
-          return modelType === 'car'
-            ? new CarMappingStrapi()
-            : new CustomerMappingStrapi();
+          return modelType === 'car' ? new CarMappingStrapi() : new CustomerMappingStrapi();
         case 'firebase':
-          return modelType === 'car'
-            ? new CarMappingFirebaseService(firebaseConfig)
-            : new CustomerMappingFirebaseService(firebaseConfig)
-        default:
-          throw new Error("BACKEND NOT IMPLEMENTED");
+          return modelType === 'car' ? new CarMappingFirebaseService(firebaseConfig) : new CustomerMappingFirebaseService(firebaseConfig);
+        default: throw new Error("BACKEND NOT IMPLEMENTED");
       }
     },
     deps: dependencies
   };
-};
+}
 
-export function createBaseAuthMappingFactory(token: InjectionToken<IAuthMapping>, dependencies:any[]): FactoryProvider {
+/**
+ * Factoría para crear el mapeador de autenticación según el backend.
+ */
+export function createBaseAuthMappingFactory(token: InjectionToken<IAuthMapping>, dependencies: any[]): FactoryProvider {
   return {
     provide: token,
     useFactory: (backend: string) => {
       switch (backend) {
-        case 'http':
-          throw new Error("BACKEND NOT IMPLEMENTED");
-        case 'local-storage':
-          throw new Error("BACKEND NOT IMPLEMENTED");
-        case 'json-server':
-          throw new Error("BACKEND NOT IMPLEMENTED");
-        case 'strapi':
-          return new StrapiAuthMappingService();
-        case 'firebase':
-          return new FirebaseAuthMappingService();
-        default:
-          throw new Error("BACKEND NOT IMPLEMENTED");
+        case 'strapi': return new StrapiAuthMappingService();
+        case 'firebase': return new FirebaseAuthMappingService();
+        default: throw new Error("BACKEND NOT IMPLEMENTED");
       }
     },
     deps: dependencies
   };
-};
+}
 
-
+/** Mapeador de coche según backend */
 export const CarMappingFactory = createBaseMappingFactory<Car>(
   CAR_REPOSITORY_MAPPING_TOKEN, 
   [BACKEND_TOKEN],
   'car'
 );
 
+/** Mapeador de cliente según backend */
 export const CustomerMappingFactory = createBaseMappingFactory<Customer>(
   CUSTOMER_REPOSITORY_MAPPING_TOKEN, 
   [BACKEND_TOKEN],
   'customer'
 );
 
+/** Factoría para el mapeador de autenticación */
 export const AuthMappingFactory: FactoryProvider = createBaseAuthMappingFactory(AUTH_MAPPING_TOKEN, [BACKEND_TOKEN]);
 
-export const AuthenticationServiceFactory:FactoryProvider = {
+/**
+ * Factoría para crear el servicio de autenticación según backend.
+ */
+export const AuthenticationServiceFactory: FactoryProvider = {
   provide: BaseAuthenticationService,
-  useFactory: (backend:string, firebaseConfig: any, signIn:string, signUp:string, meUrl:string, mapping:IAuthMapping, http:HttpClient) => {
-    switch(backend){
-      case 'http':
-        throw new Error("BACKEND NOT IMPLEMENTED");
-      case 'local-storage':
-        throw new Error("BACKEND NOT IMPLEMENTED");
-      case 'json-server':
-        throw new Error("BACKEND NOT IMPLEMENTED");
+  useFactory: (
+    backend: string,
+    firebaseConfig: any,
+    signIn: string,
+    signUp: string,
+    meUrl: string,
+    mapping: IAuthMapping,
+    http: HttpClient
+  ) => {
+    switch (backend) {
       case 'strapi':
-        console.log("Esta usando el authService de Strapi")
+        console.log("Esta usando el authService de Strapi");
         return new StrapiAuthenticationService(signIn, signUp, meUrl, mapping, http);
       case 'firebase':
-        console.log("Esta usando el authServie de Firebase")
-        return new FirebaseAuthenticationService(firebaseConfig, mapping)
+        console.log("Esta usando el authService de Firebase");
+        return new FirebaseAuthenticationService(firebaseConfig, mapping);
       default:
         throw new Error("BACKEND NOT IMPLEMENTED");
     }
-    
   },
-  deps: [BACKEND_TOKEN, FIREBASE_CONFIG_TOKEN, AUTH_SIGN_IN_API_URL_TOKEN, AUTH_SIGN_UP_API_URL_TOKEN, AUTH_ME_API_URL_TOKEN, AUTH_MAPPING_TOKEN, HttpClient]
+  deps: [
+    BACKEND_TOKEN,
+    FIREBASE_CONFIG_TOKEN,
+    AUTH_SIGN_IN_API_URL_TOKEN,
+    AUTH_SIGN_UP_API_URL_TOKEN,
+    AUTH_ME_API_URL_TOKEN,
+    AUTH_MAPPING_TOKEN,
+    HttpClient
+  ]
 };
 
-export const MediaServiceFactory:FactoryProvider = {
+/**
+ * Factoría para crear el servicio de media según backend.
+ */
+export const MediaServiceFactory: FactoryProvider = {
   provide: BaseMediaService,
-  useFactory: (backend:string, firebaseConfig: any, upload:string, auth:IAuthentication, http:HttpClient) => {
-    switch(backend){
-      case 'http':
-        throw new Error("BACKEND NOT IMPLEMENTED");
-      case 'local-storage':
-        throw new Error("BACKEND NOT IMPLEMENTED");
-      case 'json-server':
-        throw new Error("BACKEND NOT IMPLEMENTED");
-      case 'strapi':
-        return new StrapiMediaService(upload, auth as IStrapiAuthentication, http);
-      case 'firebase':
-        return new FirebaseMediaService(firebaseConfig, auth)
-      default:
-        throw new Error("BACKEND NOT IMPLEMENTED");
+  useFactory: (
+    backend: string,
+    firebaseConfig: any,
+    upload: string,
+    auth: IAuthentication,
+    http: HttpClient
+  ) => {
+    switch (backend) {
+      case 'strapi': return new StrapiMediaService(upload, auth as IStrapiAuthentication, http);
+      case 'firebase': return new FirebaseMediaService(firebaseConfig, auth);
+      default: throw new Error("BACKEND NOT IMPLEMENTED");
     }
-    
   },
   deps: [BACKEND_TOKEN, FIREBASE_CONFIG_TOKEN, UPLOAD_API_URL_TOKEN, BaseAuthenticationService, HttpClient]
 };
 
-export const CarRepositoryFactory: FactoryProvider = createBaseRepositoryFactory<Car>(CAR_REPOSITORY_TOKEN,
-  [BACKEND_TOKEN, 
-    HttpClient, 
-    BaseAuthenticationService, 
-    CAR_API_URL_TOKEN, 
-    CAR_RESOURCE_NAME_TOKEN, 
+/** Factoría para el repositorio de coches */
+export const CarRepositoryFactory: FactoryProvider = createBaseRepositoryFactory<Car>(
+  CAR_REPOSITORY_TOKEN,
+  [
+    BACKEND_TOKEN,
+    HttpClient,
+    BaseAuthenticationService,
+    CAR_API_URL_TOKEN,
+    CAR_RESOURCE_NAME_TOKEN,
     CAR_REPOSITORY_MAPPING_TOKEN,
-    FIREBASE_CONFIG_TOKEN,
-  ]
-);
-export const CustomerRepositoryFactory: FactoryProvider = createBaseRepositoryFactory<Customer>(CUSTOMER_REPOSITORY_TOKEN,
-  [BACKEND_TOKEN, 
-    HttpClient, 
-    BaseAuthenticationService, 
-    CUSTOMER_API_URL_TOKEN, 
-    CUSTOMER_RESOURCE_NAME_TOKEN, 
-    CUSTOMER_REPOSITORY_MAPPING_TOKEN,
-    FIREBASE_CONFIG_TOKEN,
+    FIREBASE_CONFIG_TOKEN
   ]
 );
 
+/** Factoría para el repositorio de clientes */
+export const CustomerRepositoryFactory: FactoryProvider = createBaseRepositoryFactory<Customer>(
+  CUSTOMER_REPOSITORY_TOKEN,
+  [
+    BACKEND_TOKEN,
+    HttpClient,
+    BaseAuthenticationService,
+    CUSTOMER_API_URL_TOKEN,
+    CUSTOMER_RESOURCE_NAME_TOKEN,
+    CUSTOMER_REPOSITORY_MAPPING_TOKEN,
+    FIREBASE_CONFIG_TOKEN
+  ]
+);
+
+/**
+ * Crea factorías para la suscripción en tiempo real a colecciones (Firebase).
+ */
 export function createCollectionSubscriptionFactory<T extends Model>(
   collectionName: string,
   mappingToken: InjectionToken<IBaseMapping<T>>,
@@ -204,16 +235,16 @@ export function createCollectionSubscriptionFactory<T extends Model>(
   };
 }
 
-// Factorías específicas para cada tipo
+/** Suscripción a colección de coches en Firebase */
 export const CarsCollectionSubscriptionFactory = createCollectionSubscriptionFactory<Car>(
   'cars',
   CAR_REPOSITORY_MAPPING_TOKEN,
   CAR_COLLECTION_SUBSCRIPTION_TOKEN
 );
 
+/** Suscripción a colección de clientes en Firebase */
 export const CustomersCollectionSubscriptionFactory = createCollectionSubscriptionFactory<Customer>(
   'customers',
   CUSTOMER_REPOSITORY_MAPPING_TOKEN,
   CUSTOMER_COLLECTION_SUBSCRIPTION_TOKEN
 );
-

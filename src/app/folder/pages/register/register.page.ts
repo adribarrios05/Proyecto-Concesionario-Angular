@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { User } from 'src/app/core/models/auth.model';
 import { Customer } from 'src/app/core/models/customer.model';
-import { CustomerStrapiRepositoryService } from 'src/app/core/repositories/impl/customer-strapi-repository.service';
 import { BaseAuthenticationService } from 'src/app/core/services/impl/base-authentication.service';
 import { CustomerService } from 'src/app/core/services/impl/customer.service';
 import {
@@ -12,15 +11,30 @@ import {
   passwordValidator,
 } from 'src/app/core/utils/validators';
 
+/**
+ * Página de registro para nuevos usuarios.
+ * Permite registrar usuarios en Firebase Auth y crear su perfil como `Customer`.
+ */
 @Component({
   selector: 'app-register',
   templateUrl: './register.page.html',
   styleUrls: ['./register.page.scss'],
 })
 export class RegisterPage {
+  /** Formulario de registro reactivo */
   registerForm: FormGroup;
+
+  /** Booleano que controla la visibilidad del campo de contraseña */
   showPassword: boolean = false;
 
+  /**
+   * Constructor de la clase.
+   * @param fb Servicio para construir formularios reactivos
+   * @param router Servicio para redirección de rutas
+   * @param route Ruta actual para obtener parámetros de navegación
+   * @param authSvc Servicio de autenticación base
+   * @param customerSvc Servicio de gestión de clientes
+   */
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -28,6 +42,7 @@ export class RegisterPage {
     private authSvc: BaseAuthenticationService,
     private customerSvc: CustomerService
   ) {
+    // Inicialización del formulario con validaciones personalizadas
     this.registerForm = this.fb.group(
       {
         username: ['', [Validators.required, Validators.minLength(2)]],
@@ -41,11 +56,15 @@ export class RegisterPage {
         birthDate: ['', [Validators.required]],
         role: [''],
       },
-      { validators: passwordsMatchValidator, dniValidator }
+      { validators: passwordsMatchValidator }
     );
   }
 
-  onSubmit() {
+  /**
+   * Envía el formulario si es válido, crea el usuario en Firebase
+   * y guarda los datos como `Customer`.
+   */
+  onSubmit(): void {
     if (this.registerForm.valid) {
       let formData = this.registerForm.value;
 
@@ -57,7 +76,6 @@ export class RegisterPage {
 
       const { email, username, password } = formData;
 
-      // 1. Crear usuario de Firebase Auth
       this.authSvc.signUp({ email, username, password }).subscribe({
         next: (user: User) => {
           const customer: Customer = {
@@ -70,7 +88,7 @@ export class RegisterPage {
             picture: '',
             username: formData.username,
             role: assignedRoles,
-            user: user, // objeto User
+            user: user,
           };
 
           this.customerSvc.add(customer).subscribe({
@@ -88,7 +106,10 @@ export class RegisterPage {
     }
   }
 
-  onLogin() {
+  /**
+   * Redirige a la vista de login y reinicia el formulario de registro.
+   */
+  onLogin(): void {
     this.registerForm.reset();
     const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/home';
     this.router.navigate(['/login'], {
@@ -97,31 +118,49 @@ export class RegisterPage {
     });
   }
 
-  changePasswordVisibility() {
+  /**
+   * Alterna la visibilidad del campo de contraseña.
+   */
+  changePasswordVisibility(): void {
     this.showPassword = !this.showPassword;
   }
 
+  /** Getter del campo `name` del formulario */
   get name() {
     return this.registerForm.get('name');
   }
+
+  /** Getter del campo `surname` del formulario */
   get surname() {
     return this.registerForm.get('surname');
   }
+
+  /** Getter del campo `username` del formulario */
   get username() {
     return this.registerForm.get('username');
   }
+
+  /** Getter del campo `dni` del formulario */
   get dni() {
     return this.registerForm.get('dni');
   }
+
+  /** Getter del campo `phone` del formulario */
   get phone() {
     return this.registerForm.get('phone');
   }
+
+  /** Getter del campo `age` (birthDate) del formulario */
   get age() {
     return this.registerForm.get('age');
   }
+
+  /** Getter del campo `email` del formulario */
   get email() {
     return this.registerForm.get('email');
   }
+
+  /** Getter del campo `password` del formulario */
   get password() {
     return this.registerForm.get('password');
   }

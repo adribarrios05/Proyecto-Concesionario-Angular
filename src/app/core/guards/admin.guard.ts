@@ -4,6 +4,19 @@ import { BaseAuthenticationService } from '../services/impl/base-authentication.
 import { CustomerService } from '../services/impl/customer.service';
 import { filter, switchMap, map, take, of, catchError } from 'rxjs';
 
+/**
+ * Guard de ruta para restringir el acceso únicamente a usuarios con rol de administrador.
+ *
+ * Este guard:
+ * - Espera a que el servicio de autenticación esté listo (`ready$`).
+ * - Recupera el estado de autenticación actual (`authState$`).
+ * - Comprueba si el usuario actual tiene rol `admin` mediante `CustomerService`.
+ * - Redirige a `/home` si no está autenticado o no tiene permisos.
+ *
+ * @param route Ruta activada
+ * @param state Estado de navegación
+ * @returns Un Observable<boolean> que indica si se permite el acceso o no
+ */
 export const adminGuard: CanActivateFn = (route, state) => {
   const authService = inject(BaseAuthenticationService);
   const customerService = inject(CustomerService);
@@ -15,7 +28,7 @@ export const adminGuard: CanActivateFn = (route, state) => {
     switchMap(() => authService.authState$),
     switchMap((user) => {
       if (!user?.id) {
-        console.log("No hay user")
+        console.log("No hay user");
         router.navigate(['/home'], { queryParams: { returnUrl: state.url } });
         return of(false);
       }

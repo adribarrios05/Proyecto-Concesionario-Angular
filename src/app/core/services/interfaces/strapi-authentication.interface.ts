@@ -1,6 +1,11 @@
-import { Observable } from "rxjs";
 import { IAuthentication } from "./authentication.interface";
 
-export interface IStrapiAuthentication extends IAuthentication{
-    getToken():string | null;
+/**
+ * Extiende el sistema de autenticación base para incluir token JWT de Strapi.
+ */
+export interface IStrapiAuthentication extends IAuthentication {
+  /**
+   * Devuelve el token JWT actual, si existe.
+   */
+  getToken(): string | null;
 }

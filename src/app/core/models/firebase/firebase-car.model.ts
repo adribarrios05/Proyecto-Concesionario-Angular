@@ -1,5 +1,6 @@
 import { DocumentReference } from "firebase/firestore";
 
+// Modelo específico para Firestore: coche
 export interface FirebaseCar {
     brand: string,
     model: string,
@@ -12,4 +13,4 @@ export interface FirebaseCar {
     plate: string,
     customer?: DocumentReference | null;
     picture?: string;
-} 
+}

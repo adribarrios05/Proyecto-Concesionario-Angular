@@ -7,12 +7,26 @@ import { initializeApp } from 'firebase/app';
 import { Car } from '../../models/car.model';
 import { FirebaseCar } from '../../models/firebase/firebase-car.model';
 
+/**
+ * Servicio de mapeo entre el modelo `Car` y el modelo utilizado en Firebase (`FirebaseCar`).
+ * Implementa `IBaseMapping` para proporcionar las funciones de transformación necesarias.
+ *
+ * @export
+ * @class CarMappingFirebaseService
+ */
 @Injectable({
   providedIn: 'root'
 })
 export class CarMappingFirebaseService implements IBaseMapping<Car> {
+  /**
+   * Instancia de Firestore usada para generar referencias.
+   */
   db: Firestore;
 
+  /**
+   * Inicializa Firestore con la configuración inyectada.
+   * @param firebaseConfig Configuración del proyecto Firebase
+   */
   constructor(
     @Inject(FIREBASE_CONFIG_TOKEN) protected firebaseConfig = {
       apiKey: "AIzaSyDXjHUKnlhNBpIpfdxOZlAKb1vykp8ElPo",
@@ -26,6 +40,12 @@ export class CarMappingFirebaseService implements IBaseMapping<Car> {
   ){
         this.db = getFirestore(initializeApp(firebaseConfig));
   }
+
+  /**
+   * Convierte un objeto de tipo FirebaseCar con ID en un objeto `Car`.
+   * @param data Objeto proveniente de Firebase
+   * @returns Objeto mapeado de tipo Car
+   */
   getOne(data: { id: string } & FirebaseCar): Car {
     return {
       id: data.id,
@@ -50,6 +70,14 @@ export class CarMappingFirebaseService implements IBaseMapping<Car> {
     };
   }
 
+  /**
+   * Convierte un listado paginado de objetos FirebaseCar a `Car`.
+   * @param page Página actual
+   * @param pageSize Tamaño de la página
+   * @param pages Total de páginas
+   * @param data Lista de objetos FirebaseCar
+   * @returns Paginado de objetos `Car`
+   */
   getPaginated(page: number, pageSize: number, pages: number, data: ({ id: string } & FirebaseCar)[]): Paginated<Car> {
     return {
       page,
@@ -59,6 +87,11 @@ export class CarMappingFirebaseService implements IBaseMapping<Car> {
     };
   }
 
+   /**
+   * Convierte un objeto `Car` en un objeto `FirebaseCar` para ser añadido a Firebase.
+   * @param data Objeto `Car`
+   * @returns Objeto mapeado `FirebaseCar`
+   */
   setAdd(data: Car): FirebaseCar {
     console.log("Data del mapping: ", data);
     console.log("Imagen del mapping: ", data.picture) 
@@ -91,6 +124,11 @@ export class CarMappingFirebaseService implements IBaseMapping<Car> {
     return dataMapping;
   }
 
+  /**
+   * Convierte un objeto `Car` en una estructura parcial `FirebaseCar` para actualizar en Firebase.
+   * @param data Objeto `Car`
+   * @returns Objeto parcial para actualización
+   */
   setUpdate(data: Car): FirebaseCar {
     const result: any = {};
     
@@ -109,14 +147,29 @@ export class CarMappingFirebaseService implements IBaseMapping<Car> {
     return result;
   }
 
+  /**
+   * Devuelve un objeto `Car` transformado desde el añadido.
+   * @param data Datos del objeto añadido
+   * @returns Objeto `Car`
+   */
   getAdded(data:{id:string} & FirebaseCar): Car {
     return this.getOne(data);
   }
 
+  /**
+   * Devuelve un objeto `Car` transformado desde la actualización.
+   * @param data Datos del objeto actualizado
+   * @returns Objeto `Car`
+   */
   getUpdated(data:{id:string} & FirebaseCar): Car {
     return this.getOne(data);
   }
 
+   /**
+   * Devuelve un objeto `Car` transformado desde la eliminación.
+   * @param data Datos del objeto eliminado
+   * @returns Objeto `Car`
+   */
   getDeleted(data:{id:string} & FirebaseCar): Car {
     return this.getOne(data);
   }

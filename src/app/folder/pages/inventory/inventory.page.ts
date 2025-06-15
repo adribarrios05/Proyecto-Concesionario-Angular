@@ -40,6 +40,10 @@ import { FirebaseCustomer } from 'src/app/core/models/firebase/firebase-customer
 import { FirebaseCar } from 'src/app/core/models/firebase/firebase-car.model';
 import { FilePicker } from '@capawesome/capacitor-file-picker';
 
+/**
+ * Componente de la página de inventario. Permite listar, filtrar, comprar y eliminar coches.
+ * También genera un contrato en PDF al realizar una compra.
+ */
 @Component({
   selector: 'app-inventory',
   templateUrl: './inventory.page.html',
@@ -47,23 +51,86 @@ import { FilePicker } from '@capawesome/capacitor-file-picker';
   standalone: false,
 })
 export class InventoryPage implements OnInit {
+  /**
+   * Evento emitido cuando se cambian los filtros desde el componente.
+   */
   @Output() filterChange = new EventEmitter<any>();
+
+  /**
+   * Referencia al componente de scroll infinito (Ionic).
+   */
   @ViewChild('infiniteScroll', { static: false })
   infiniteScroll?: any;
 
+  /**
+   * Filtro de caballos de potencia.
+   */
   horsePower: RangeValue = { lower: 200, upper: 1600 };
-  price: RangeValue = { lower: 50000, upper: 3500000 };
-  marcasSeleccionadas: string[] = [];
-  _cars: BehaviorSubject<Car[]> = new BehaviorSubject<Car[]>([]);
-  cars$: Observable<Car[]> = this._cars.asObservable();
-  isLoggedIn: boolean = false;
-  private loadedIds: Set<string> = new Set();
-  showFilters: boolean = false;
-  activeFilters: SearchParams = {};
-  customer: Customer | null = null;
-  searchQuery: string = '';
-  allCars: Car[] = []; // Todos los coches originales para buscar
 
+  /**
+   * Filtro de precio.
+   */
+  price: RangeValue = { lower: 50000, upper: 3500000 };
+
+  /**
+   * Marcas de coches seleccionadas como filtro.
+   */
+  marcasSeleccionadas: string[] = [];
+
+  /**
+   * BehaviorSubject que contiene los coches actualmente visibles.
+   */
+  _cars: BehaviorSubject<Car[]> = new BehaviorSubject<Car[]>([]);
+
+  /**
+   * Observable expuesto de los coches visibles.
+   */
+  cars$: Observable<Car[]> = this._cars.asObservable();
+
+  /**
+   * Indica si el usuario ha iniciado sesión.
+   */
+  isLoggedIn: boolean = false;
+
+  /**
+   * IDs de coches ya cargados (para evitar duplicados).
+   */
+  private loadedIds: Set<string> = new Set();
+
+  /**
+   * Indica si se están mostrando los filtros.
+   */
+  showFilters: boolean = false;
+
+  /**
+   * Filtros activos para buscar coches.
+   */
+  activeFilters: SearchParams = {};
+
+  /**
+   * Cliente asociado al usuario autenticado.
+   */
+  customer: Customer | null = null;
+
+  /**
+   * Consulta de búsqueda libre (marca, modelo...).
+   */
+  searchQuery: string = '';
+
+  /**
+   * Todos los coches cargados (sin filtros), usados para búsquedas locales.
+   */
+  allCars: Car[] = [];
+
+  /**
+   * Constructor del componente InventoryPage.
+   * @param modalCtrl Controlador de modales de Ionic.
+   * @param carSvc Servicio de coches.
+   * @param authSvc Servicio de autenticación.
+   * @param customerSvc Servicio de clientes.
+   * @param alertController Controlador de alertas.
+   * @param carSubscription Suscripción a cambios en la colección de coches.
+   */
   constructor(
     private modalCtrl: ModalController,
     private carSvc: CarService,
@@ -74,6 +141,9 @@ export class InventoryPage implements OnInit {
     private carSubscription: ICollectionSubscription<Car>
   ) {}
 
+  /**
+   * Hook de inicialización. Carga datos del usuario, suscripción a cambios y filtros iniciales.
+   */
   ngOnInit() {
     this.authSvc.me().subscribe({
       next: (user) => {
@@ -144,11 +214,30 @@ export class InventoryPage implements OnInit {
       });
   }
 
+  /**
+   * Página actual para la paginación.
+   */
   page: number = 1;
+
+  /**
+   * Número de elementos por página.
+   */
   pageSize: number = 4;
+
+  /**
+   * Número total de páginas (calculado desde backend).
+   */
   pages: number = 0;
+
+  /**
+   * Indica si se están cargando coches actualmente.
+   */
   isLoading: boolean = true;
 
+  /**
+   * Carga la siguiente página de resultados, manteniendo los filtros activos.
+   * @param event Evento opcional de scroll infinito (Ionic).
+   */
   loadNextPage(event?: Event): void {
     console.log(
       `📦 Cargando página ${this.page} con filtros:`,
@@ -188,10 +277,18 @@ export class InventoryPage implements OnInit {
       });
   }
 
+  /**
+   * Verifica si un valor es un rango válido con propiedades `lower` y `upper`.
+   * @param value Valor a comprobar
+   * @returns True si es un rango válido, False en caso contrario
+   */
   isRangeValue(value: RangeValue): value is { lower: number; upper: number } {
     return typeof value === 'object' && 'lower' in value && 'upper' in value;
   }
 
+  /**
+   * Aplica los filtros seleccionados, reinicia la paginación y actualiza la lista de coches mostrados.
+   */
   applyFilters(): void {
     console.log('🔍 Aplicando filtros...');
     this.page = 1;
@@ -211,6 +308,9 @@ export class InventoryPage implements OnInit {
     });
   }
 
+  /**
+   * Restaura los filtros a sus valores por defecto y aplica los cambios.
+   */
   resetFilters(): void {
     console.log('🔄 Reseteando filtros...');
     this.horsePower = { lower: 200, upper: 1600 };
@@ -219,6 +319,10 @@ export class InventoryPage implements OnInit {
     this.applyFilters();
   }
 
+  /**
+   * Construye los filtros de búsqueda activos según los rangos y marcas seleccionadas.
+   * @returns Objeto con los parámetros de búsqueda a aplicar
+   */
   buildFilters(): SearchParams {
     const filters: any = { customer: null };
 
@@ -246,16 +350,29 @@ export class InventoryPage implements OnInit {
     return filters;
   }
 
+  /**
+   * Evento al cambiar el rango de caballos de potencia. Aplica nuevos filtros.
+   * @param ev Evento del ion-range
+   */
   onCaballosChange(ev: any): void {
     this.horsePower = ev.detail.value;
     this.applyFilters();
   }
 
+  /**
+   * Evento al cambiar el rango de precio. Aplica nuevos filtros.
+   * @param ev Evento del ion-range
+   */
   onPrecioChange(ev: any): void {
     this.price = ev.detail.value;
     this.applyFilters();
   }
 
+  /**
+   * Evento al seleccionar o deseleccionar una marca para el filtro.
+   * @param ev Evento del ion-checkbox
+   * @param marca Marca seleccionada o deseleccionada
+   */
   onMarcaChange(ev: any, marca: string) {
     if (ev.detail.checked) {
       this.marcasSeleccionadas.push(marca);
@@ -267,11 +384,18 @@ export class InventoryPage implements OnInit {
     this.applyFilters();
   }
 
+  /**
+   * Evento del Infinite Scroll que carga la siguiente página de resultados.
+   * @param event Evento del scroll infinito
+   */
   onIonInfinite(event: InfiniteScrollCustomEvent) {
     console.log('Scrolleando...');
     this.loadNextPage(event);
   }
 
+  /**
+   * Abre un modal para crear un nuevo coche. Al cerrar, guarda el coche si se ha enviado correctamente.
+   */
   async openCarModal() {
     const modal = await this.modalCtrl.create({
       component: CarModalComponent,
@@ -280,6 +404,8 @@ export class InventoryPage implements OnInit {
     modal.onDidDismiss().then((result) => {
       if (result.data) {
         let { carData } = result.data;
+
+        // Normaliza el campo picture
         if (carData.picture) {
           if (typeof carData.picture === 'string') {
             console.log('✅ Imagen en string:', carData.picture);
@@ -314,6 +440,10 @@ export class InventoryPage implements OnInit {
     await modal.present();
   }
 
+  /**
+   * Acción al pulsar "comprar" en un coche. Muestra confirmación si el usuario está autenticado.
+   * @param car Coche seleccionado para compra
+   */
   onBuy(car: Car) {
     if (this.isLoggedIn) {
       this.presentConfirmAlert(car);
@@ -322,6 +452,10 @@ export class InventoryPage implements OnInit {
     }
   }
 
+  /**
+   * Muestra un alert de confirmación antes de realizar la compra del coche.
+   * @param car Coche seleccionado para comprar
+   */
   async presentConfirmAlert(car: Car) {
     const alert = await this.alertController.create({
       header: 'Confirmar Compra',
@@ -349,6 +483,10 @@ export class InventoryPage implements OnInit {
     await alert.present();
   }
 
+  /**
+   * Realiza el proceso de compra del coche, actualizando su propiedad `customer`.
+   * @param car Coche a comprar
+   */
   processPurchase(car: Car) {
     this.authSvc.me().subscribe({
       next: (user) => {
@@ -361,19 +499,16 @@ export class InventoryPage implements OnInit {
           return;
         }
 
-        let _userId = user.id || user.uid;
+        const _userId = user.id || user.uid;
         console.log('Usuario autenticado: ', [
           user,
           user.id,
           user.uid,
           user.email,
         ]);
-        console.log(
-          '🔎 Buscando cliente con userId:',
-          user.id ? user.id : user.uid ? user.uid : null
-        );
+        console.log('🔎 Buscando cliente con userId:', _userId);
 
-        this.customerSvc.getById(user.id ? user.id : user.uid).subscribe({
+        this.customerSvc.getById(_userId).subscribe({
           next: (customer) => {
             console.log('Customer: ', customer);
             if (!customer || !customer.id) {
@@ -384,8 +519,8 @@ export class InventoryPage implements OnInit {
             }
 
             console.log('✅ Cliente encontrado:', [customer, customer.id]);
-
             console.log('Car antes de updatearlo: ', car);
+
             const updatedCar = { ...car, customer: customer.id };
             console.log('🚀 Actualizando coche con:', [
               updatedCar,
@@ -416,10 +551,18 @@ export class InventoryPage implements OnInit {
     });
   }
 
+  /**
+   * Inicia el proceso de eliminación de un coche mostrando un alert de confirmación.
+   * @param car Coche a eliminar
+   */
   onDelete(car: Car) {
     this.presentDeleteConfirmAlert(car);
   }
 
+  /**
+   * Muestra un alert para confirmar la eliminación del coche.
+   * @param car Coche a eliminar
+   */
   async presentDeleteConfirmAlert(car: Car) {
     const alert = await this.alertController.create({
       header: 'Confirmar Eliminación',
@@ -447,6 +590,10 @@ export class InventoryPage implements OnInit {
     await alert.present();
   }
 
+  /**
+   * Elimina el coche especificado de la base de datos.
+   * @param car Coche a eliminar
+   */
   deleteCar(car: Car) {
     this.carSvc.delete(car.id).subscribe({
       next: () => {
@@ -459,6 +606,12 @@ export class InventoryPage implements OnInit {
     });
   }
 
+  /**
+   * Genera un contrato de compra en formato PDF para el coche y cliente especificados.
+   * El contrato incluye datos del vehículo, cliente, condiciones y espacio para firmas.
+   * @param car Objeto del coche adquirido
+   * @param customer Objeto del cliente comprador
+   */
   async generateContract(
     car: Car | FirebaseCar,
     customer: Customer | FirebaseCustomer
@@ -553,10 +706,17 @@ export class InventoryPage implements OnInit {
     console.log(`✅ Contrato generado y listo para descargar.`);
   }
 
+  /**
+   * Alterna la visibilidad de los filtros en el panel.
+   */
   toggleFilters() {
     this.showFilters = !this.showFilters;
   }
 
+  /**
+   * Captura los cambios del input de búsqueda y vuelve a aplicar los filtros.
+   * @param event Evento de cambio del campo de búsqueda
+   */
   onSearchChange(event: any): void {
     this.searchQuery = event.target.value;
     this.applyFilters();

@@ -2,13 +2,33 @@ import { Directive, ElementRef, Input, OnChanges, Renderer2, OnDestroy } from '@
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 
+/**
+ * Directiva para formatear automáticamente un número como precio
+ * según el idioma actual de la aplicación.
+ *
+ * Se actualiza automáticamente cuando cambia el idioma.
+ */
 @Directive({
   selector: '[appPriceFormat]'
 })
 export class PriceFormatDirective implements OnChanges, OnDestroy {
-  @Input('appPriceFormat') price!: number | string; 
+
+  /**
+   * Precio que se desea formatear y mostrar.
+   */
+  @Input('appPriceFormat') price!: number | string;
+
+  /**
+   * Suscripción al evento de cambio de idioma.
+   */
   private langChangeSubscription!: Subscription;
 
+  /**
+   * Constructor de la directiva.
+   * @param el Elemento HTML al que se aplica la directiva
+   * @param renderer Renderer Angular para modificar el DOM
+   * @param translate Servicio de traducción para detectar idioma
+   */
   constructor(
     private el: ElementRef,
     private renderer: Renderer2,
@@ -19,17 +39,28 @@ export class PriceFormatDirective implements OnChanges, OnDestroy {
     });
   }
 
-  ngOnChanges() {
+  /**
+   * Hook que se ejecuta cuando cambian los inputs.
+   */
+  ngOnChanges(): void {
     this.updatePrice();
   }
 
-  ngOnDestroy() {
+  /**
+   * Hook que se ejecuta al destruir la directiva.
+   * Cancela la suscripción al evento de cambio de idioma.
+   */
+  ngOnDestroy(): void {
     if (this.langChangeSubscription) {
       this.langChangeSubscription.unsubscribe();
     }
   }
 
-  private updatePrice() {
+  /**
+   * Actualiza el contenido del elemento con el precio formateado
+   * según el idioma actual.
+   */
+  private updatePrice(): void {
     const numericPrice = typeof this.price === 'number' ? this.price : parseFloat(this.price as unknown as string);
     if (isNaN(numericPrice)) {
       console.error('Invalid price value:', this.price);
@@ -45,6 +76,11 @@ export class PriceFormatDirective implements OnChanges, OnDestroy {
     this.renderer.setProperty(this.el.nativeElement, 'textContent', formattedPrice);
   }
 
+  /**
+   * Devuelve la moneda correspondiente al idioma proporcionado.
+   * @param locale Código de idioma (ej. 'es', 'en')
+   * @returns Código de moneda (ej. 'EUR', 'USD')
+   */
   private getCurrencyByLocale(locale: string): string {
     const currencyMap: { [key: string]: string } = {
       en: 'USD',
