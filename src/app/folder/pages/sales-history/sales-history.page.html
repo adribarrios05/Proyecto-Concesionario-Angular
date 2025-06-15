@@ -1,48 +1,80 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Historial de Ventas</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content>
-  <ion-grid>
-    <ion-row class="header-row">
-      <ion-col size="2" class="header-cell">Marca</ion-col>
-      <ion-col size="2" class="header-cell">Modelo</ion-col>
-      <ion-col size="2" class="header-cell">Matrícula</ion-col>
-      <ion-col size="2" class="header-cell">Cliente</ion-col>
-      <ion-col size="2" class="header-cell">DNI</ion-col>
-      <ion-col size="1" class="header-cell">Contrato</ion-col>
+<ion-grid class="w-full px-0">
+  <!-- 🖥 Tabla: visible solo si !isMobile -->
+  <ng-container *ngIf="!isMobile">
+    <ion-row class="text-white text-center font-semibold bg-red-900 mt-[53px]">
+      <ion-col class="w-1/5">Marca</ion-col>
+      <ion-col class="w-1/5">Modelo</ion-col>
+      <ion-col class="w-1/5">Matrícula</ion-col>
+      <ion-col class="w-1/5">Cliente</ion-col>
+      <ion-col class="w-1/5">DNI</ion-col>
+      <ion-col class="w-1/12">Contrato</ion-col>
     </ion-row>
 
-    <ion-row *ngFor="let car of soldCars$ | async" class="data-row">
-      <ion-col size="2" class="data-cell">{{ car.brand }}</ion-col>
-      <ion-col size="2" class="data-cell">{{ car.model }}</ion-col>
-      <ion-col size="2" class="data-cell">{{ car.plate }}</ion-col>
+    <ion-row
+      *ngFor="let car of soldCars$ | async"
+      class="text-white text-center border-b border-gray-700"
+    >
+      <ion-col class="w-1/5">{{ car.brand }}</ion-col>
+      <ion-col class="w-1/5">{{ car.model }}</ion-col>
+      <ion-col class="w-1/5">{{ car.plate }}</ion-col>
 
-      <!-- Cliente -->
-      <ion-col size="2" class="data-cell">
+      <ion-col class="w-1/5">
         <ng-container *ngIf="getCustomerData(car) | async as customer">
           {{ customer.name }} {{ customer.surname }}
         </ng-container>
       </ion-col>
 
-      <!-- DNI -->
-      
-      <ion-col size="2" class="data-cell">
+      <ion-col class="w-1/5">
         <ng-container *ngIf="getCustomerData(car) | async as customer">
           {{ customer.dni }}
         </ng-container>
       </ion-col>
 
-      <!-- Contrato -->
-      <ion-col size="1" class="data-cell">
+      <ion-col class="w-1/12">
         <ng-container *ngIf="getCustomerData(car) | async as customer">
-          <ion-button fill="clear" color="primary" (click)="generateContract(car, customer)">
-            <ion-icon name="download-outline"></ion-icon>
-          </ion-button>
+          <ion-icon
+            name="download-outline"
+            class="text-lg cursor-pointer hover:text-red-500"
+            (click)="generateContract(car, customer)"
+          ></ion-icon>
         </ng-container>
       </ion-col>
     </ion-row>
-  </ion-grid>
-</ion-content>
+  </ng-container>
+
+  <!-- 📱 Tarjetas: solo si isMobile -->
+  <ng-container *ngIf="isMobile">
+    <ion-row
+      class="mt-[88px] grid grid-cols-1 md:grid-cols-2 gap-4 w-full px-0 sm:px-4 md:px-6 lg:px-12"
+    >
+      <ion-col *ngFor="let car of soldCars$ | async" class="col-span-1">
+        <ion-card class="bg-[#1c1c1c] text-white w-full">
+          <ion-card-header>
+            <ion-card-title class="text-lg"
+              >{{ car.brand }} {{ car.model }}</ion-card-title
+            >
+            <ion-card-subtitle class="text-sm"
+              >{{ car.plate }}</ion-card-subtitle
+            >
+          </ion-card-header>
+          <ion-card-content class="text-sm space-y-1">
+            <ng-container *ngIf="getCustomerData(car) | async as customer">
+              <p>
+                <strong>Cliente:</strong> {{ customer.name }} {{
+                customer.surname }}
+              </p>
+              <p><strong>DNI:</strong> {{ customer.dni }}</p>
+              <ion-button
+                class="text-white hover:bg-white hover:text-black transition duration-200 rounded-md px-4 py-1 text-sm"
+                (click)="generateContract(car, customer)"
+              >
+                <ion-icon name="download-outline" slot="start"></ion-icon>
+                Contrato
+              </ion-button>
+            </ng-container>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ng-container>
+</ion-grid>

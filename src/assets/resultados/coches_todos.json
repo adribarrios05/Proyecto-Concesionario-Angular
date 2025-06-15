@@ -1,0 +1,119 @@
+[
+  {
+    "marca":"Aston Martin",
+    "modelo":"DBS Superleggera",
+    "color":"Verde",
+    "puertas":"dos",
+    "precio":310000,
+    "matricula":"5316CRQ",
+    "clienteId":"Disponible"
+  },
+  {
+    "marca":"Bentley",
+    "modelo":"Continental GT Speed",
+    "color":"Verde",
+    "puertas":"dos",
+    "precio":280000,
+    "matricula":"2837HQW",
+    "clienteId":"Disponible"
+  },
+  {
+    "marca":"Bugatti",
+    "modelo":"Chiron Super Sport 300",
+    "color":"Naranja y negro",
+    "puertas":"dos",
+    "precio":3500000,
+    "matricula":"8214KLQ",
+    "clienteId":"Disponible"
+  },
+  {
+    "marca":"Ferrari",
+    "modelo":"F40",
+    "color":"Rojo",
+    "puertas":"dos",
+    "precio":1500000,
+    "matricula":"5178JFQ",
+    "clienteId":"ytJp6eiCPHXqYz6NSAMR690sq5E3"
+  },
+  {
+    "marca":"Ferrari",
+    "modelo":"SF90 Stradale",
+    "color":"Rojo",
+    "puertas":"dos",
+    "precio":515000,
+    "matricula":"3598 JBR",
+    "clienteId":"Disponible"
+  },
+  {
+    "marca":"Lamborghini",
+    "modelo":"d",
+    "color":"d",
+    "puertas":"tres",
+    "precio":3,
+    "matricula":"d",
+    "clienteId":"Disponible"
+  },
+  {
+    "marca":"Lamborghini",
+    "modelo":"b",
+    "color":"b",
+    "puertas":"dos",
+    "precio":2,
+    "matricula":"2",
+    "clienteId":"Disponible"
+  },
+  {
+    "marca":"Lamborghini",
+    "modelo":"Aventador SVJ",
+    "color":"Verde",
+    "puertas":"dos",
+    "precio":550000,
+    "matricula":"4537BQF",
+    "clienteId":"Disponible"
+  },
+  {
+    "marca":"Lamborghini",
+    "modelo":"a",
+    "color":"a",
+    "puertas":"una",
+    "precio":1,
+    "matricula":"1",
+    "clienteId":"Disponible"
+  },
+  {
+    "marca":"Lamborghini",
+    "modelo":"e",
+    "color":"e",
+    "puertas":"cuatro",
+    "precio":4,
+    "matricula":"e",
+    "clienteId":"Disponible"
+  },
+  {
+    "marca":"McLaren",
+    "modelo":"765LT",
+    "color":"Naranja",
+    "puertas":"dos",
+    "precio":380000,
+    "matricula":"8146LPQ",
+    "clienteId":"Disponible"
+  },
+  {
+    "marca":"Porsche",
+    "modelo":"911 Turbo S",
+    "color":"Gris",
+    "puertas":"dos",
+    "precio":250000,
+    "matricula":"8246CWV",
+    "clienteId":"Disponible"
+  },
+  {
+    "marca":"Rolls-Royce",
+    "modelo":"Phantom",
+    "color":"Gris",
+    "puertas":"cuatro",
+    "precio":460000,
+    "matricula":"8786GJP",
+    "clienteId":"Disponible"
+  }
+]

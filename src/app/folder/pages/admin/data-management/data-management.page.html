@@ -1,0 +1,75 @@
+<ion-header>
+  <ion-toolbar class="bg-[#550000] text-white">
+    <ion-title class="text-lg font-semibold">Gestión de Datos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="p-4">
+  <ion-segment
+    [(ngModel)]="archivoSeleccionado"
+    (ionChange)="onSegmentChanged($event)"
+    class="my-6"
+  >
+    <ion-segment-button value="clientes">
+      Clientes ordenados
+    </ion-segment-button>
+    <ion-segment-button value="cochesConCliente">
+      Coches con cliente
+    </ion-segment-button>
+    <ion-segment-button value="cochesDisponibles">
+      Coches disponibles
+    </ion-segment-button>
+    <ion-segment-button value="cochesTodos">
+      Todos los coches
+    </ion-segment-button>
+  </ion-segment>
+
+  <div *ngIf="datosCargados.length > 0" class="overflow-x-auto">
+    <ion-grid class="rounded-lg overflow-hidden">
+      <ion-row class="bg-[#550000] text-white text-sm font-bold">
+        <ion-col *ngFor="let key of columnas" class="py-2 px-3">
+          {{ key }}
+        </ion-col>
+      </ion-row>
+
+      <ion-row
+        *ngFor="let item of datosCargados"
+        class="text-sm border-t border-[#550000] hover:bg-[#550000] hover:text-white transition duration-200"
+      >
+        <ion-col *ngFor="let key of columnas" class="py-2 px-3">
+          <ng-container *ngIf="key === 'clienteId'; else normalCell">
+            {{ getName(item[key]) }}
+          </ng-container>
+          <ng-template #normalCell> {{ item[key] }} </ng-template>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <div class="flex justify-end mt-4">
+      <ion-button
+        (click)="exportarDatos()"
+        class="bg-[#550000] text-white hover:bg-[#770000] rounded-xl px-4"
+      >
+        <ion-icon name="cloud-download-outline" slot="start"></ion-icon>
+        Exportar datos desde la app
+      </ion-button>
+    </div>
+
+    <div class="flex justify-end mt-4">
+      <input
+        type="file"
+        accept=".json"
+        (change)="importarCochesDesdeJSON($event)"
+        hidden
+        #fileInput
+      />
+      <ion-button
+        (click)="fileInput.click()"
+        class="bg-[#550000] text-white hover:bg-[#770000] rounded-xl px-4"
+      >
+        <ion-icon name="cloud-upload-outline" slot="start"></ion-icon>
+        Importar coches desde JSON
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

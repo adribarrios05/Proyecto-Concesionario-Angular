@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@angular/core';
+/*import { Injectable, Inject } from '@angular/core';
 import { collection, doc, getDoc, getDocs, query, where } from 'firebase/firestore';
 import { Observable, from, map } from 'rxjs';
 import { BaseRepositoryFirebaseService } from './base-repository-firebase.service';
@@ -52,4 +52,4 @@ export class CustomerFirebaseRepositoryService extends BaseRepositoryFirebaseSer
     );
   }
   
-}
+}*/

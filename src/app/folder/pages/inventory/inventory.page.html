@@ -1,8 +1,6 @@
-<ion-header [translucent]="true">
-</ion-header>
+<ion-header [translucent]="true"> </ion-header>
 
 <ion-content [fullscreen]="true">
-  
   <ion-split-pane contentId="main-content">
     <ion-menu side="start" menuId="menu">
       <ion-header>
@@ -10,113 +8,227 @@
           <ion-title>{{ 'FILTERS' | translate}}</ion-title>
         </ion-toolbar>
       </ion-header>
-  
+
       <ion-content>
         <ion-list>
-  
-          <ion-item>
+          <!--<ion-item>
             <ion-searchbar
-              
-            ></ion-searchbar>
-          </ion-item>
+              placeholder="Buscar..."
+              [(ngModel)]="searchQuery"
+              (ionInput)="onSearchChange()"
+              class="p-4"
+            />
+          </ion-item>-->
 
           <ion-item>
             <ion-label>{{ 'HORSEPOWER' | translate }}</ion-label>
-            <ion-range [(ngModel)]="caballos" [min]=200 [max]=1600 step="10" [dualKnobs]="true" pin="true" (ionChange)="onCaballosChange($event)" >
-              <ion-label slot="start">{{ isRangeValue(caballos) ? caballos.lower : 'N/A' }}</ion-label>
-              <ion-label slot="start">{{ isRangeValue(caballos) ? caballos.upper : 'N/A' }}</ion-label>
+            <ion-range
+              [(ngModel)]="horsePower"
+              [min]="200"
+              [max]="1600"
+              step="10"
+              [dualKnobs]="true"
+              pin="true"
+              (ionChange)="onCaballosChange($event)"
+            >
+              <ion-label slot="start"
+                >{{ isRangeValue(horsePower) ? horsePower.lower : 'N/A'
+                }}</ion-label
+              >
+              <ion-label slot="start"
+                >{{ isRangeValue(horsePower) ? horsePower.upper : 'N/A'
+                }}</ion-label
+              >
             </ion-range>
           </ion-item>
-  
+
           <ion-item>
             <ion-label>{{ 'PRICE' | translate }}</ion-label>
-            <ion-range [(ngModel)]="precio" [min]=50000 [max]=3500000 step="1000" [dualKnobs]="true" pin="true" (ionChange)="onPrecioChange($event)" >
-              <ion-label slot="start">{{ isRangeValue(precio) ? precio.lower : 'N/A' }}</ion-label>
-              <ion-label slot="start">{{ isRangeValue(precio) ? precio.upper : 'N/A' }}</ion-label>
+            <ion-range
+              [(ngModel)]="price"
+              [min]="50000"
+              [max]="3500000"
+              step="1000"
+              [dualKnobs]="true"
+              pin="true"
+              (ionChange)="onPrecioChange($event)"
+            >
+              <ion-label slot="start"
+                >{{ isRangeValue(price) ? price.lower : 'N/A' }}</ion-label
+              >
+              <ion-label slot="start"
+                >{{ isRangeValue(price) ? price.upper : 'N/A' }}</ion-label
+              >
             </ion-range>
           </ion-item>
-  
+
           <ion-item>
             <ion-label>{{ 'BRAND' | translate}}</ion-label>
           </ion-item>
           <ion-list>
             <ion-item>
-              <ion-checkbox slot="start" value="Ferrari" (ionChange)="onMarcaChange($event, 'Ferrari')"></ion-checkbox>
+              <ion-checkbox
+                slot="start"
+                value="Ferrari"
+                (ionChange)="onMarcaChange($event, 'Ferrari')"
+              ></ion-checkbox>
               <ion-label>Ferrari</ion-label>
             </ion-item>
             <ion-item>
-              <ion-checkbox slot="start" value="Lamborghini" (ionChange)="onMarcaChange($event, 'Lamborghini')"></ion-checkbox>
+              <ion-checkbox
+                slot="start"
+                value="Lamborghini"
+                (ionChange)="onMarcaChange($event, 'Lamborghini')"
+              ></ion-checkbox>
               <ion-label>Lamborghini</ion-label>
             </ion-item>
             <ion-item>
-              <ion-checkbox slot="start" value="Aston Martin" (ionChange)="onMarcaChange($event, 'Aston Martin')"></ion-checkbox>
+              <ion-checkbox
+                slot="start"
+                value="Aston Martin"
+                (ionChange)="onMarcaChange($event, 'Aston Martin')"
+              ></ion-checkbox>
               <ion-label>Aston Martin</ion-label>
             </ion-item>
             <ion-item>
-              <ion-checkbox slot="start" value="Bugatti" (ionChange)="onMarcaChange($event, 'Bugatti')"></ion-checkbox>
+              <ion-checkbox
+                slot="start"
+                value="Bugatti"
+                (ionChange)="onMarcaChange($event, 'Bugatti')"
+              ></ion-checkbox>
               <ion-label>Bugatti</ion-label>
             </ion-item>
             <ion-item>
-              <ion-checkbox slot="start" value="BMW" (ionChange)="onMarcaChange($event, 'BMW')"></ion-checkbox>
+              <ion-checkbox
+                slot="start"
+                value="BMW"
+                (ionChange)="onMarcaChange($event, 'BMW')"
+              ></ion-checkbox>
               <ion-label>BMW</ion-label>
             </ion-item>
             <ion-item>
-              <ion-checkbox slot="start" value="Porsche" (ionChange)="onMarcaChange($event, 'Porsche')"></ion-checkbox>
+              <ion-checkbox
+                slot="start"
+                value="Porsche"
+                (ionChange)="onMarcaChange($event, 'Porsche')"
+              ></ion-checkbox>
               <ion-label>Porsche</ion-label>
-            </ion-item> 
-            <ion-button class="reset-filters" (click)="resetFilters()">{{ 'RESET-FILTERS' | translate }}</ion-button>
-
+            </ion-item>
+            <ion-item>
+              <ion-checkbox
+                slot="start"
+                value="McLaren"
+                (ionChange)="onMarcaChange($event, 'McLaren')"
+              ></ion-checkbox>
+              <ion-label>McLaren</ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-checkbox
+                slot="start"
+                value="Pagani"
+                (ionChange)="onMarcaChange($event, 'Pagani')"
+              ></ion-checkbox>
+              <ion-label>Pagani</ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-checkbox
+                slot="start"
+                value="Lotus"
+                (ionChange)="onMarcaChange($event, 'Lotus')"
+              ></ion-checkbox>
+              <ion-label>Lotus</ion-label>
+            </ion-item>
+            <ion-button class="reset-filters" (click)="resetFilters()"
+              >{{ 'RESET-FILTERS' | translate }}</ion-button
+            >
           </ion-list>
-  
         </ion-list>
       </ion-content>
     </ion-menu>
-  
 
     <ion-content id="main-content">
       <ion-grid>
         <ion-row>
-          <ion-col size="12" size-md="6" size-lg="6"  *ngFor="let car of cars$ | async">
-            <ion-card >
-              <ion-img *ngIf="car.picture?.url" [src]="car.picture?.url" alt="Car image" />
-              <ion-img *ngIf="!car.picture?.url" src="../../../../assets/img/car-img-placeholder.png" alt="Car image"/>
+          <ion-col
+            size="12"
+            size-md="6"
+            size-lg="6"
+            *ngFor="let car of cars$ | async"
+          >
+            <ion-card>
+              <ion-img
+                *ngIf="car.picture?.url"
+                [src]="car.picture?.url"
+                alt="Car image"
+              />
+              <ion-img
+                *ngIf="!car.picture?.url"
+                src="../../../../assets/img/car-img-placeholder.png"
+                alt="Car image"
+              />
               <ion-card-header>
                 <ion-card-title>{{ car.brand }} {{ car.model }}</ion-card-title>
-                <ion-card-subtitle appPriceFormat="{{car.price}}"></ion-card-subtitle>
+                <ion-card-subtitle
+                  appPriceFormat="{{car.price}}"
+                ></ion-card-subtitle>
               </ion-card-header>
               <ion-card-content>
-                <p><strong>{{ 'HORSEPOWER' | translate }}:</strong> {{ car.horsePower }}</p>
-                <p><strong>{{ 'DOORS' | translate }}:</strong> {{ car.doors }}</p>
-                <p><strong>{{ 'COLOR' | translate }}:</strong> {{ car.color }}</p>
+                <p>
+                  <strong>{{ 'HORSEPOWER' | translate }}:</strong> {{
+                  car.horsePower }}
+                </p>
+                <p>
+                  <strong>{{ 'DOORS' | translate }}:</strong> {{ car.doors }}
+                </p>
+                <p>
+                  <strong>{{ 'COLOR' | translate }}:</strong> {{ car.color }}
+                </p>
                 <p><strong>{{ 'TYPE' | translate }}:</strong> {{ car.type }}</p>
-                <p><strong>{{ 'PLATE' | translate}}:</strong> {{ car.plate }}</p>
+                <p>
+                  <strong>{{ 'PLATE' | translate}}:</strong> {{ car.plate }}
+                </p>
                 <p>{{ car.description }}</p>
               </ion-card-content>
-              <ion-button class="buyBtn" *ngIf="isLoggedIn" expand="block" (click)="onBuy(car)">
+              <ion-button
+                class="buyBtn"
+                *ngIf="isLoggedIn"
+                expand="block"
+                (click)="onBuy(car)"
+              >
                 {{ 'BUY' | translate }}
               </ion-button>
-              <ion-button *ngIf="isLoggedIn" color="danger" expand="block" (click)="onDelete(car)">
+              <ion-button
+                *ngIf="isLoggedIn && customer?.role?.includes('admin')"
+                color="danger"
+                expand="block"
+                (click)="onDelete(car)"
+              >
                 {{ 'DELETE' | translate }}
               </ion-button>
-
             </ion-card>
           </ion-col>
 
           <ion-col size="12" size-md="6" size-lg="6">
             <ion-card (click)="openCarModal()" class="add-card">
               <ion-card-content>
-                <ion-icon name="add-circle" style="font-size: 3rem; color: gray;"></ion-icon>
+                <ion-icon
+                  name="add-circle"
+                  style="font-size: 3rem; color: gray"
+                ></ion-icon>
                 <p>{{ 'ADD-CAR' | translate }}</p>
               </ion-card-content>
             </ion-card>
           </ion-col>
-
         </ion-row>
       </ion-grid>
-      <ion-infinite-scroll threshold="100px" (ionInfinite)="onIonInfinite($event)">
+      <ion-infinite-scroll
+        threshold="100px"
+        (ionInfinite)="onIonInfinite($event)"
+        #infiniteScroll
+      >
         <ion-infinite-scroll-content
-          loadingSpinner="bubbles">
-        </ion-infinite-scroll-content>
+          loadingSpinner="bubbles"
+        ></ion-infinite-scroll-content>
       </ion-infinite-scroll>
     </ion-content>
   </ion-split-pane>

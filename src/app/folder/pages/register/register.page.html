@@ -54,8 +54,7 @@
                   labelPlacement="floating" 
                   [label]="'REGISTER.ADMIN_PASSWORD' | translate" 
                   [type]="showPassword ? 'text' : 'password'"  
-                  formControlName="role" 
-                  required>
+                  formControlName="role">
                 </ion-input>
                 <ion-button slot="end" fill="clear" (click)="changePasswordVisibility()">
                   <ion-icon style="color: white;" [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"></ion-icon>

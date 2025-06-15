@@ -1,4 +1,3 @@
-// src/app/repositories/repository.factory.ts
 import { FactoryProvider, InjectionToken } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BaseRepositoryHttpService } from './impl/base-repository-http.service';
@@ -122,7 +121,6 @@ export const AuthMappingFactory: FactoryProvider = createBaseAuthMappingFactory(
 export const AuthenticationServiceFactory:FactoryProvider = {
   provide: BaseAuthenticationService,
   useFactory: (backend:string, firebaseConfig: any, signIn:string, signUp:string, meUrl:string, mapping:IAuthMapping, http:HttpClient) => {
-    console.log("📌 Valor de BACKEND_TOKEN en AuthenticationServiceFactory:", backend);
     switch(backend){
       case 'http':
         throw new Error("BACKEND NOT IMPLEMENTED");

@@ -134,7 +134,7 @@ interface Meta {}
                 break;
                 //case 'carRent': mappedData.carRent = data[key] ? Number(data[key]) : null;
                 //break;
-                case 'userId': mappedData.userId = data[key] ? Number(data[key]) : null;
+                case 'user': mappedData.userId = data[key] ? Number(data[key]) : null;
                 break;
                 case 'picture': mappedData.picture = data[key] ? Number(data[key]) : null;
                 break;
@@ -197,7 +197,7 @@ interface Meta {}
             dni: attributes?.dni || "Sin DNI",
             phone: attributes?.phone || "Sin teléfono",
             birthDate: attributes?.birthDate || 0,
-            userId: attributes?.userId?.data?.id || undefined,
+            user: attributes?.userId?.data?.id || undefined,
             picture: attributes?.picture?.data ? {
                 url: attributes.picture.data.attributes.url,
                 large: attributes.picture.data.attributes.formats?.large?.url || attributes.picture.data.attributes.url,

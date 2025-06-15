@@ -1,28 +1,13 @@
-<!--<ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title>{{ 'PEOPLE.TITLE' | translate }}</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="onAddPerson()">
-        <ion-icon name="add-outline"></ion-icon>
-        {{ 'PEOPLE.ADD_BUTTON' | translate }}
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>-->
-
 <ion-content>
   <ion-searchbar
     [placeholder]="'PEOPLE.SEARCH_PLACEHOLDER' | translate"
   ></ion-searchbar>
 
-  <ion-content>
+  <!-- 🌐 VERSIÓN ESCRITORIO: Tabla -->
+  <ng-container *ngIf="!isMobile">
     <ion-grid>
-      <!-- Encabezado con títulos de los campos -->
       <ion-row class="header-row">
-        <ion-col size="2" class="header-cell">  </ion-col>
+        <ion-col size="2" class="header-cell"></ion-col>
         <ion-col size="2" class="header-cell">{{ 'NAME' | translate }}</ion-col>
         <ion-col size="2" class="header-cell">{{ 'SURNAME' | translate }}</ion-col>
         <ion-col size="2" class="header-cell">{{ 'DNI' | translate }}</ion-col>
@@ -30,22 +15,51 @@
         <ion-col size="1" class="header-cell">{{ 'PHONE' | translate }}</ion-col>
         <ion-col size="1" class="header-cell">{{ 'AGE' | translate }}</ion-col>
       </ion-row>
-  
-      <!-- Lista de clientes -->
+
       <ion-row *ngFor="let customer of _customers | async" class="data-row">
         <ion-col size="2" class="data-cell">
           <ion-avatar (click)="openCustomerModal(customer)">
-            <img [src]="customer.picture?.thumbnail || 'https://ionicframework.com/docs/img/demos/avatar.svg'" alt="Customer Photo" />
+            <img [src]="getCustomerThumbnail(customer)" alt="Customer Photo" />
           </ion-avatar>
         </ion-col>
         <ion-col size="2" class="data-cell">{{ customer.name }}</ion-col>
         <ion-col size="2" class="data-cell">{{ customer.surname }}</ion-col>
         <ion-col size="2" class="data-cell">{{ customer.dni }}</ion-col>
-        <ion-col size="2" class="data-cell">{{ customer.username+"@gmail.com" }}</ion-col>
+        <ion-col size="2" class="data-cell">{{ customer.username + '@gmail.com' }}</ion-col>
         <ion-col size="1" class="data-cell">{{ customer.phone }}</ion-col>
-        <ion-col size="1" class="data-cell">{{ customer.birthDate }}</ion-col>
+        <ion-col size="1" class="data-cell">{{ customer.birthDate | date: 'dd/MM/yyyy' }}</ion-col>
       </ion-row>
     </ion-grid>
+  </ng-container>
+
+  <!-- 📱 VERSIÓN MÓVIL: Cards -->
+  <ng-container *ngIf="isMobile">
+    <div class="p-4 space-y-4">
+      <ion-card *ngFor="let customer of _customers | async" class="bg-[#1c1c1c] text-white">
+        <ion-card-header>
+          <ion-avatar class="mb-2">
+            <img [src]="getCustomerThumbnail(customer)" />
+          </ion-avatar>
+          <ion-card-title>{{ customer.name }} {{ customer.surname }}</ion-card-title>
+          <ion-card-subtitle>DNI: {{ customer.dni }}</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <p><strong>Email:</strong> {{ customer.username + '@gmail.com' }}</p>
+          <p><strong>Teléfono:</strong> {{ customer.phone }}</p>
+          <p><strong>Fecha nacimiento:</strong> {{ customer.birthDate | date: 'dd/MM/yyyy' }}</p>
+          <ion-button
+            fill="clear"
+            class="mt-2 text-white border border-white hover:bg-white hover:text-black"
+            (click)="openCustomerModal(customer)"
+          >
+            Ver / Editar
+          </ion-button>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </ng-container>
+
+  <!-- Scroll infinito -->
   <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>

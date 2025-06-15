@@ -1,3 +1,4 @@
+import { User } from "./auth.model";
 import { Model } from "./base.model";
 
 export interface Customer extends Model{
@@ -6,14 +7,13 @@ export interface Customer extends Model{
     dni: string,
     phone: string,
     birthDate: Date,
-    //carRent?: number,
-    userId?: number | string,
-    picture?:{
-        url:string | undefined,
-        large:string | undefined,
-        medium:string | undefined,
-        small:string | undefined,
-        thumbnail:string | undefined
+    user: User,
+    picture?: string | {
+        url?:string | undefined,
+        large?:string | undefined,
+        medium?:string | undefined,
+        small?:string | undefined,
+        thumbnail?:string | undefined
     },
     username?: string,
     role: string[];

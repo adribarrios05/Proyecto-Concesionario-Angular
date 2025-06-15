@@ -97,24 +97,25 @@ export class FirebaseAuthenticationService extends BaseAuthenticationService {
     signOut(): Observable<any> {
       return from(firebaseSignOut(this.auth)).pipe(
         tap(() => {
-          this.updateAuthState(null); // ✅ Emitimos null al cerrar sesión
+          this.updateAuthState(null); 
         })
       );
     }
 
   me(): Observable<any> {
-    return new Observable((observer) => {
-      onAuthStateChanged(this.auth, (user) => {
-        if (user) {
-          observer.next(user);
-        } else {
-          observer.error(new Error('No authenticated user'));
-        }
-      }, (error) => {
-        observer.error(error);
-      });
+  return new Observable((observer) => {
+    onAuthStateChanged(this.auth, (user) => {
+      if (user) {
+        observer.next({ id: user.uid, email: user.email });
+      } else {
+        observer.error(new Error('No authenticated user'));
+      }
+    }, (error) => {
+      observer.error(error);
     });
-  }
+  });
+}
+
   
   getToken(): string | null {
     return this._token;

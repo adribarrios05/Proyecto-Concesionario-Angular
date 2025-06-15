@@ -12,8 +12,6 @@ import { FirebaseCar } from '../../models/firebase/firebase-car.model';
 })
 export class CarMappingFirebaseService implements IBaseMapping<Car> {
   db: Firestore;
-  
-  //private db: Firestore;
 
   constructor(
     @Inject(FIREBASE_CONFIG_TOKEN) protected firebaseConfig = {
@@ -47,7 +45,8 @@ export class CarMappingFirebaseService implements IBaseMapping<Car> {
         medium: data.picture,
         small: data.picture,
         thumbnail: data.picture
-      } : undefined
+      } : undefined,
+      createdAt: new Date().toString()
     };
   }
 

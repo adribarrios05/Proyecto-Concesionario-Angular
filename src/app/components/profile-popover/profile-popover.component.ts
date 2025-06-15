@@ -33,7 +33,7 @@ export class ProfilePopoverComponent implements OnInit{
       const user = await this.authSvc.getCurrentUser();
       console.log("User: ", user)
       if(user){
-        this.customer = await lastValueFrom(this.customerSvc.getByUserId(user.id))
+        this.customer = await lastValueFrom(this.customerSvc.getById(user.id))
         console.log("Customer: ", this.customer)
         
         console.log("Hay un cliente logueado: ", this.customer)

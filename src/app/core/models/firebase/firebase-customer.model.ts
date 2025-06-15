@@ -6,7 +6,7 @@ export interface FirebaseCustomer {
     dni: string,
     phone: string,
     birthDate: Date,
-    user?: string;
+    user: DocumentReference;
     picture?: string;
     username: string;
     role: string[];

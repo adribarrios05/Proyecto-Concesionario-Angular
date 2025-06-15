@@ -1,142 +1,108 @@
-<ion-content>
-  <ion-grid class="profile-container">
-    <ion-row class="profile-row">
-      <!-- Columna de Imagen -->
-      <ion-col size="4" class="profile-image-col">
-        <ion-avatar class="profile-avatar">
-          <img [src]="profileImage" alt="Imagen de perfil" />
-        </ion-avatar>
+<ion-content fullscreen="true" class="p-6">
+  <div class="mt-32 grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+    <!-- 🖼️ Columna izquierda: imagen de perfil -->
+    <div class="flex flex-col items-center space-y-4">
+      <div class="relative group w-40 h-40 my-32">
+        <img
+          [src]="profileImage"
+          alt="Imagen de perfil"
+          (click)="fileInput.click()"
+          class="rounded-full border-4 border-white shadow-md object-cover w-full h-full transition duration-300 group-hover:opacity-50 cursor-pointer"
+        />
+      </div>
 
-        <input type="file" #fileInput accept="image/*" hidden (change)="onFileSelected($event)" />
+      <input
+        type="file"
+        #fileInput
+        accept="image/*"
+        hidden
+        (change)="onFileSelected($event)"
+      />
+    </div>
 
-        <ion-button expand="block" color="primary" (click)="fileInput.click()">
-          {{ 'CHANGE-IMAGE' | translate }}
+    <!-- 📝 Columna derecha: formulario completo (ocupa 2/3) -->
+    <div class="md:col-span-2">
+      <form [formGroup]="profileForm" class="space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Info de usuario -->
+          <div class="bg-[#1c1c1c] p-4 rounded-lg shadow">
+            <h2 class="text-lg font-semibold mb-3">User Info</h2>
+            <div class="space-y-2">
+              <ion-item>
+                <ion-label position="stacked">Username</ion-label>
+                <ion-input formControlName="username"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="stacked">Email</ion-label>
+                <ion-input type="email" formControlName="email"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="stacked">Password</ion-label>
+                <ion-input type="password"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="stacked">Confirm password</ion-label>
+                <ion-input type="password"></ion-input>
+              </ion-item>
+            </div>
+          </div>
+
+          <!-- Info de cliente -->
+          <div class="bg-[#1c1c1c] p-4 rounded-lg shadow">
+            <h2 class="text-lg font-semibold mb-3">Customer Info</h2>
+            <div class="space-y-2">
+              <ion-item>
+                <ion-label position="stacked">Name</ion-label>
+                <ion-input formControlName="name"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="stacked">Surname</ion-label>
+                <ion-input formControlName="surname"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="stacked">Phone</ion-label>
+                <ion-input type="tel" formControlName="phone"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="stacked">ID</ion-label>
+                <ion-input formControlName="dni"></ion-input>
+              </ion-item>
+            </div>
+          </div>
+        </div>
+
+        <!-- Botones -->
+        <div class="grid grid-cols-2 gap-4">
+          <ion-button
+            expand="block"
+            color="success"
+            (click)="saveChanges()"
+            [disabled]="isSaving"
+          >
+            <ion-spinner *ngIf="isSaving" name="crescent"></ion-spinner>
+            <span *ngIf="isSaving">Saving</span>
+            <span *ngIf="!isSaving">Save Changes</span>
+          </ion-button>
+
+          <ion-button
+            expand="block"
+            color="danger"
+            (click)="discardChanges()"
+            [disabled]="isSaving"
+          >
+            Undo Changes
+          </ion-button>
+        </div>
+
+        <ion-button
+          expand="full"
+          color="danger"
+          class="mt-4"
+          (click)="logout()"
+        >
+          Log out
         </ion-button>
-
-        <ion-modal [isOpen]="isPictureSelectorOpen" (didDismiss)="closePictureSelector()">
-          <ng-template>
-            <ion-header>
-              <ion-toolbar>
-                <ion-title>{{ 'SELECT-PICTURE' | translate }}</ion-title>
-                <ion-buttons slot="end">
-                  <ion-button (click)="closePictureSelector()">
-                    <ion-icon name="close"></ion-icon>
-                  </ion-button>
-                </ion-buttons>
-              </ion-toolbar>
-            </ion-header>
-            <ion-content>
-              <app-picture-selectable formControlName="picture" (pictureChange)="updateProfileImage($event)"></app-picture-selectable>
-            </ion-content>
-          </ng-template>
-        </ion-modal>
-
-        <!--<ion-row *ngIf="isClient()">
-          <ion-col>
-            <ion-item>
-              <ion-label position="stacked">{{ 'ADMIN PASSWORD' | translate }}</ion-label>
-              <ion-input type="password" [(ngModel)]="adminPassword"></ion-input>
-            </ion-item>
-          </ion-col>
-          <ion-col>
-            <ion-button expand="block" color="success" (click)="confirmAdminPassword()">
-              {{ 'CONFIRM' | translate }}
-            </ion-button>
-          </ion-col>
-        </ion-row>-->
-      </ion-col>
-
-      <!-- Columna de Detalles -->
-      <ion-col size="8" class="profile-details">
-        <form [formGroup]="profileForm">
-          <ion-grid>
-            <ion-row>
-              <!-- Subcolumna de Usuario -->
-              <ion-col size="6">
-                <ion-card>
-                  <ion-card-header>
-                    <ion-card-title>{{ 'USER-INFO' | translate}}</ion-card-title>
-                  </ion-card-header>
-                  <ion-card-content>
-                    <ion-item>
-                      <ion-label position="stacked">{{ 'USERNAME' | translate }}</ion-label>
-                      <ion-input type="text" formControlName="username"></ion-input>
-                    </ion-item>
-
-                    <ion-item>
-                      <ion-label position="stacked">{{ 'EMAIL' | translate }}</ion-label>
-                      <ion-input type="email" formControlName="email"></ion-input>
-                    </ion-item>
-
-                    <ion-item>
-                      <ion-label position="stacked">{{ 'PASSWORD' | translate }}</ion-label>
-                      <ion-input type="password" ></ion-input>
-                    </ion-item>
-
-                    <ion-item>
-                      <ion-label position="stacked">{{ 'CONFIRM-PASSWORD' | translate}}</ion-label>
-                      <ion-input type="password" ></ion-input>
-                    </ion-item>
-                  </ion-card-content>
-                </ion-card>
-              </ion-col>
-
-              <!-- Subcolumna de Cliente -->
-              <ion-col size="6">
-                <ion-card>
-                  <ion-card-header>
-                    <ion-card-title>{{ 'CUSTOMER-INFO' | translate}}</ion-card-title>
-                  </ion-card-header>
-                  <ion-card-content>
-                    <ion-item>
-                      <ion-label position="stacked">{{ 'NAME' | translate }}</ion-label>
-                      <ion-input type="text" formControlName="name"></ion-input>
-                    </ion-item>
-
-                    <ion-item>
-                      <ion-label position="stacked">{{ 'SURNAME' | translate }}</ion-label>
-                      <ion-input type="text" formControlName="surname"></ion-input>
-                    </ion-item>
-
-                    <ion-item>
-                      <ion-label position="stacked">{{ 'PHONE' | translate }}</ion-label>
-                      <ion-input type="tel" formControlName="phone"></ion-input>
-                    </ion-item>
-
-                    <ion-item>
-                      <ion-label position="stacked">{{ 'ID' | translate }}</ion-label>
-                      <ion-input type="text" formControlName="dni"></ion-input>
-                    </ion-item>
-                  </ion-card-content>
-                </ion-card>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-
-          <!-- Botones de acción -->
-          <ion-row class="action-buttons">
-            <ion-col size="6">
-              <ion-button expand="block" color="success" (click)="saveChanges()" [disabled]="isSaving">
-              <ion-spinner *ngIf="isSaving" name="crescent"></ion-spinner>
-              <span *ngIf="isSaving">{{ 'SAVING' | translate }}</span>
-              <span *ngIf="!isSaving">{{ 'SAVE-CHANGES' | translate }}</span>
-            </ion-button>
-            </ion-col>
-            <ion-col size="6">
-              <ion-button expand="block" color="danger" (click)="discardChanges()" [disabled]="isSaving">{{ 'UNDO-CHANGES' | translate }}</ion-button>
-            </ion-col>
-          </ion-row>
-
-          <ion-row>
-            <ion-col>
-              <ion-button expand="full" color="danger" class="logout-button" (click)="logout()">
-                {{ 'LOGOUT' | translate }}
-              </ion-button>
-            </ion-col>
-          </ion-row>
-        </form>
-      </ion-col>
-    </ion-row>
-
-  </ion-grid>
+      </form>
+    </div>
+  </div>
 </ion-content>

@@ -46,7 +46,8 @@ export function createTranslateLoader(http: HttpClient) {
     })
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  providers: [{ provide: RouteReuseStrategy, 
+  providers: [
+    { provide: RouteReuseStrategy, 
     useClass: IonicRouteStrategy },
   provideHttpClient(),
   { provide: BACKEND_TOKEN, useValue: 'firebase' },
@@ -97,6 +98,5 @@ export function createTranslateLoader(http: HttpClient) {
 })
 export class AppModule {
   constructor() {
-    console.log("📌 BACKEND_TOKEN cargado:", 'firebase'); // Debug
   }
 }

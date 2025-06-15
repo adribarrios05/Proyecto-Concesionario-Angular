@@ -16,16 +16,25 @@ export class BaseService<T extends Model> implements IBaseService<T> {
   ) {}
 
   getAll(): Observable<T[]>;
-  getAll(page: number, pageSize: number): Observable<Paginated<T>>;
-  getAll(page: number, pageSize: number, filters: SearchParams): Observable<Paginated<T>>;
-  getAll(page?: number, pageSize?: number, filters?: SearchParams): Observable<T[] | Paginated<T>> {    
-    if (page === undefined || pageSize === undefined)
-        return this.repository.getAll(1, 25, {});
-    else{
-      return this.repository.getAll(page, pageSize, filters??{}).pipe(tap(response => console.log("Datos recibidos en el servicio base: ", response)));
-    }
-    
+getAll(page: number, pageSize: number): Observable<Paginated<T>>;
+getAll(page: number, pageSize: number, filters: SearchParams): Observable<Paginated<T>>;
+getAll(page: number, pageSize: number, filters: SearchParams, orderField: string): Observable<Paginated<T>>;
+
+getAll(
+  page?: number,
+  pageSize?: number,
+  filters?: SearchParams,
+  orderField?: string
+): Observable<T[] | Paginated<T>> {
+  if (page === undefined || pageSize === undefined)
+    return this.repository.getAll(1, 25, {}, 'id');
+  else {
+    return this.repository
+      .getAll(page, pageSize, filters ?? {}, orderField || 'id')
+      .pipe(tap((response) => console.log('📦 Datos recibidos en el servicio base:', response)));
   }
+}
+
 
   getById(id: string): Observable<T | null> {
     return this.repository.getById(id);

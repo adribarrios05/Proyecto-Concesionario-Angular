@@ -1,15 +1,36 @@
-import { Component, Directive, EventEmitter, Inject, OnInit, Output } from '@angular/core';
-import { AlertController, ModalController, Platform, RangeCustomEvent, ToastController } from '@ionic/angular';
+import {
+  Component,
+  Directive,
+  EventEmitter,
+  Inject,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
+import {
+  AlertController,
+  ModalController,
+  Platform,
+  RangeCustomEvent,
+  ToastController,
+} from '@ionic/angular';
 import { BehaviorSubject, Observable, timer } from 'rxjs';
 import { Car } from 'src/app/core/models/car.model';
 import { Paginated } from 'src/app/core/models/paginated.model';
 import { CarService } from 'src/app/core/services/impl/car.service';
-import { InfiniteScrollCustomEvent, RangeValue, toastController } from '@ionic/core';
+import {
+  InfiniteScrollCustomEvent,
+  RangeValue,
+  toastController,
+} from '@ionic/core';
 import { CarModalComponent } from 'src/app/components/car-modal/car-modal.component';
 import { SearchParams } from 'src/app/core/repositories/intefaces/base-repository.interface';
 import { BaseAuthenticationService } from 'src/app/core/services/impl/base-authentication.service';
 import { CustomerService } from 'src/app/core/services/impl/customer.service';
-import { CollectionChange, ICollectionSubscription } from 'src/app/core/services/interfaces/collection-subscription.interface';
+import {
+  CollectionChange,
+  ICollectionSubscription,
+} from 'src/app/core/services/interfaces/collection-subscription.interface';
 import { CAR_COLLECTION_SUBSCRIPTION_TOKEN } from 'src/app/core/repositories/repository.tokens';
 import { Customer } from 'src/app/core/models/customer.model';
 import jsPDF from 'jspdf';
@@ -19,25 +40,29 @@ import { FirebaseCustomer } from 'src/app/core/models/firebase/firebase-customer
 import { FirebaseCar } from 'src/app/core/models/firebase/firebase-car.model';
 import { FilePicker } from '@capawesome/capacitor-file-picker';
 
-
 @Component({
   selector: 'app-inventory',
   templateUrl: './inventory.page.html',
   styleUrls: ['./inventory.page.scss'],
-  standalone: false
+  standalone: false,
 })
 export class InventoryPage implements OnInit {
-
   @Output() filterChange = new EventEmitter<any>();
+  @ViewChild('infiniteScroll', { static: false })
+  infiniteScroll?: any;
 
-  caballos: RangeValue = { lower: 200, upper: 1600 };
-  precio: RangeValue = { lower: 50000, upper: 3500000 }
+  horsePower: RangeValue = { lower: 200, upper: 1600 };
+  price: RangeValue = { lower: 50000, upper: 3500000 };
   marcasSeleccionadas: string[] = [];
   _cars: BehaviorSubject<Car[]> = new BehaviorSubject<Car[]>([]);
   cars$: Observable<Car[]> = this._cars.asObservable();
   isLoggedIn: boolean = false;
-  private loadedIds: Set<string> = new Set(); 
+  private loadedIds: Set<string> = new Set();
   showFilters: boolean = false;
+  activeFilters: SearchParams = {};
+  customer: Customer | null = null;
+  searchQuery: string = '';
+  allCars: Car[] = []; // Todos los coches originales para buscar
 
   constructor(
     private modalCtrl: ModalController,
@@ -45,257 +70,249 @@ export class InventoryPage implements OnInit {
     private authSvc: BaseAuthenticationService,
     private customerSvc: CustomerService,
     private alertController: AlertController,
-    @Inject(CAR_COLLECTION_SUBSCRIPTION_TOKEN) private carSubscription: ICollectionSubscription<Car>
-  ) { }
+    @Inject(CAR_COLLECTION_SUBSCRIPTION_TOKEN)
+    private carSubscription: ICollectionSubscription<Car>
+  ) {}
 
   ngOnInit() {
     this.authSvc.me().subscribe({
       next: (user) => {
         if (user) {
-          console.log("✅ Usuario logueado:", user);
+          console.log('✅ Usuario logueado:', user);
           this.isLoggedIn = true;
+
+          // 🔄 Cargar el customer vinculado a este user
+          this.customerSvc.getById(user.id).subscribe({
+            next: (customer) => {
+              if (customer) {
+                console.log('👤 Customer cargado:', customer);
+                this.customer = customer;
+              } else {
+                console.warn('⚠️ No se encontró Customer para este user');
+                this.customer = null;
+              }
+            },
+            error: (err) => {
+              console.error('❌ Error al cargar customer:', err);
+              this.customer = null;
+            },
+          });
         } else {
-          console.log("🚨 No hay usuario logueado.");
+          console.log('🚨 No hay usuario logueado.');
           this.isLoggedIn = false;
+          this.customer = null;
         }
       },
       error: (e) => {
-        console.log("❌ Error al obtener usuario:", e);
+        console.log('❌ Error al obtener usuario:', e);
         this.isLoggedIn = false;
+        this.customer = null;
       },
     });
 
+    this.applyFilters();
 
-    this.loadCars()
-    this.applyFilters()
-    this.carSubscription.subscribe('cars').subscribe((change: CollectionChange<Car>) => {
-      const currentCars = [...this._cars.value]
+    this.carSubscription
+      .subscribe('cars')
+      .subscribe((change: CollectionChange<Car>) => {
+        const currentCars = [...this._cars.value];
 
-      // Solo procesar cambios de documentos que ya tenemos cargados
-      if (!this.loadedIds.has(change.id) && change.type !== 'added') {
-        return;
-      }
-
-      switch(change.type) {
-        case 'added':
-        case 'modified':
-          const index = currentCars.findIndex(p => p.id === change.id);
-          if (index >= 0) {
-            currentCars[index] = change.data!;
-          }
-          break;
-        case 'removed':
-          const removeIndex = currentCars.findIndex(p => p.id === change.id);
-          if (removeIndex >= 0) {
-            currentCars.splice(removeIndex, 1);
-            this.loadedIds.delete(change.id);
-          }
-          break;
-      }
-      this._cars.next(currentCars);
-
-    })
-  }
-
-  page:number = 1;
-  pageSize:number = 4;
-  pages:number = 0;
-  isLoading: boolean = true
-
-  loadCars(filters: SearchParams = { }){
-    console.log("🔎 Cargando coches con filtros:", filters);
-
-    this.page = 1
-    this.carSvc.getAll(this.page, this.pageSize, filters).subscribe({
-      next:(response:Paginated<Car>)=>{
-        if (response.data.length === 0) {
-          console.warn("⚠️ No se encontraron coches con los filtros aplicados.");
-        } else {
-            console.log("✅ Coches obtenidos:", response.data);
-        }
-
-      response.data.forEach(car => this.loadedIds.add(car.id));
-
-      const availableCars = response.data.filter(car => !car.customer);
-      console.log("🚀 Coches filtrados (solo disponibles):", availableCars);
-
-      this._cars.next(availableCars);
-      this.page = 2; 
-      this.pages = response.pages;
-        },
-      error: (err) => console.error("Error al cargar los datos del coche", err),
-    });
-  }
-
-  loadMoreCars(notify: HTMLIonInfiniteScrollElement | null = null, filters: SearchParams = {}) {
-    console.log(`🔄 Intentando cargar más coches... Página actual: ${this.page}, Total de páginas: ${this.pages}`);
-  
-    if (this.page > this.pages) {
-      console.warn("⚠️ No hay más coches disponibles para cargar.");
-      if (notify) notify.disabled = true; 
-
-      return;
-    }
-  
-    this.carSvc.getAll(this.page, this.pageSize, filters).subscribe({
-      next: (response: Paginated<Car>) => {
-        if (response.data.length === 0) {
-          console.warn("⚠️ No se encontraron más coches.");
-          if (notify) notify.disabled = true; 
-
+        // Solo procesar cambios de documentos que ya tenemos cargados
+        if (!this.loadedIds.has(change.id) && change.type !== 'added') {
           return;
         }
-  
-        console.log("✅ Coches nuevos cargados:", response.data);
 
-        response.data.forEach(car => this.loadedIds.add(car.id));
-
-        // 🔥 Agregar los nuevos coches a la lista sin sobrescribir los existentes
-        const updatedCars = [...this._cars.value, ...response.data];
-        this._cars.next(updatedCars)
-  
-        // ⬆️ Incrementar la página después de cargar datos correctamente
-        this.page++;
-        
-        console.log(`📌 Página incrementada: ${this.page}`);
-        
-        // ✅ Completar la acción de Infinite Scroll
-        notify?.complete();
-      },
-      error: (err) => {
-        console.error("❌ Error al cargar más coches:", err);
-        notify?.complete();
-      },
-    });
+        switch (change.type) {
+          case 'added':
+          case 'modified':
+            const index = currentCars.findIndex((p) => p.id === change.id);
+            if (index >= 0) {
+              currentCars[index] = change.data!;
+            }
+            break;
+          case 'removed':
+            const removeIndex = currentCars.findIndex(
+              (p) => p.id === change.id
+            );
+            if (removeIndex >= 0) {
+              currentCars.splice(removeIndex, 1);
+              this.loadedIds.delete(change.id);
+            }
+            break;
+        }
+        this._cars.next(currentCars);
+      });
   }
-  
+
+  page: number = 1;
+  pageSize: number = 4;
+  pages: number = 0;
+  isLoading: boolean = true;
+
+  loadNextPage(event?: Event): void {
+    console.log(
+      `📦 Cargando página ${this.page} con filtros:`,
+      this.activeFilters
+    );
+
+    this.carSvc
+      .getAll(this.page, this.pageSize, this.activeFilters, 'brand')
+      .subscribe({
+        next: (res) => {
+          const newCars = res.data.filter((c) => !this.loadedIds.has(c.id));
+          newCars.forEach((c) => this.loadedIds.add(c.id));
+          const merged = [...this._cars.value, ...newCars];
+          this._cars.next(merged);
+
+          console.log(
+            `✅ Página ${this.page} cargada. Coches nuevos:`,
+            newCars
+          );
+          this.page++;
+
+          if (
+            event &&
+            'target' in event &&
+            event.target &&
+            'complete' in event.target
+          ) {
+            const target = event.target as any;
+            if (typeof target.complete === 'function') {
+              target.complete();
+            }
+          }
+        },
+        error: (err) => {
+          console.error('❌ Error al cargar página:', err);
+        },
+      });
+  }
 
   isRangeValue(value: RangeValue): value is { lower: number; upper: number } {
     return typeof value === 'object' && 'lower' in value && 'upper' in value;
   }
-  
 
-  applyFilters() {
-    const filters: any = { customer: null };
+  applyFilters(): void {
+    console.log('🔍 Aplicando filtros...');
+    this.page = 1;
+    this.pages = 0;
+    this.loadedIds.clear();
+    this._cars.next([]);
+    this.activeFilters = this.buildFilters();
 
-    console.log("📌 Aplicando filtros...");
-
-    // 📌 Filtrar por rango de caballos
-    if (this.isRangeValue(this.caballos)) {
-        if (this.caballos.lower !== 200 || this.caballos.upper !== 1600) { // Ajuste de valores por defecto
-            filters.horsePower = {
-                $gte: this.caballos.lower,
-                $lte: this.caballos.upper,
-            };
-            console.log("✅ Filtro de caballos aplicado:", filters.horsePower);
-        }
-    } else {
-        console.error("❌ Error en el filtro de caballos: valor inesperado.");
+    if (this.searchQuery.trim()) {
+      this.activeFilters['search'] = this.searchQuery.toLowerCase();
     }
 
-    // 📌 Filtrar por rango de precio
-    if (this.isRangeValue(this.precio)) {
-        if (this.precio.lower !== 50000 || this.precio.upper !== 3500000) { // Ajuste de valores por defecto
-            filters.price = {
-                $gte: this.precio.lower,
-                $lte: this.precio.upper,
-            };
-            console.log("✅ Filtro de precio aplicado:", filters.price);
-        }
-    } else {
-        console.error("❌ Error en el filtro de precio: valor inesperado.");
-    }
+    setTimeout(() => {
+      this.infiniteScroll!.disabled = false;
+      console.log('♻️ Infinite Scroll reactivado tras aplicar filtros.');
+      this.loadNextPage();
+    });
+  }
 
-    // 📌 Filtrar por marcas seleccionadas
-    if (this.marcasSeleccionadas.length > 0) {
-        filters.brand = {
-            $in: this.marcasSeleccionadas,
-        };
-        console.log("✅ Filtro de marcas aplicado:", filters.brand);
-    }
-
-    console.log("📌 Filtros finales enviados a la consulta:", filters);
-    this.loadCars(filters);
-}
-
-
-  resetFilters() {
-    this.caballos = { lower: 200, upper: 1200 };
-    this.precio = { lower: 50000, upper: 2000000 };
+  resetFilters(): void {
+    console.log('🔄 Reseteando filtros...');
+    this.horsePower = { lower: 200, upper: 1600 };
+    this.price = { lower: 50000, upper: 3500000 };
     this.marcasSeleccionadas = [];
     this.applyFilters();
   }
 
-  onCaballosChange(ev: Event) {
-    const rangeEvent = ev as RangeCustomEvent;
-    this.caballos = rangeEvent.detail.value;
-    console.log('Nuevo rango de caballos:', this.caballos);
-    this.applyFilters()
+  buildFilters(): SearchParams {
+    const filters: any = { customer: null };
+
+    if (
+      this.isRangeValue(this.horsePower) &&
+      (this.horsePower.lower !== 200 || this.horsePower.upper !== 1600)
+    ) {
+      filters.horsePower = {
+        $gte: this.horsePower.lower,
+        $lte: this.horsePower.upper,
+      };
+    }
+
+    if (
+      this.isRangeValue(this.price) &&
+      (this.price.lower !== 50000 || this.price.upper !== 3500000)
+    ) {
+      filters.price = { $gte: this.price.lower, $lte: this.price.upper };
+    }
+
+    if (this.marcasSeleccionadas.length > 0) {
+      filters.brand = { $in: this.marcasSeleccionadas };
+    }
+
+    return filters;
   }
 
-  onPrecioChange(ev: Event) {
-    const rangeEvent = ev as RangeCustomEvent; 
-    this.precio = rangeEvent.detail.value;
-    console.log('Nuevo rango de precios:', this.precio);
-    this.applyFilters()
+  onCaballosChange(ev: any): void {
+    this.horsePower = ev.detail.value;
+    this.applyFilters();
+  }
+
+  onPrecioChange(ev: any): void {
+    this.price = ev.detail.value;
+    this.applyFilters();
   }
 
   onMarcaChange(ev: any, marca: string) {
     if (ev.detail.checked) {
       this.marcasSeleccionadas.push(marca);
     } else {
-      this.marcasSeleccionadas = this.marcasSeleccionadas.filter(m => m !== marca);
+      this.marcasSeleccionadas = this.marcasSeleccionadas.filter(
+        (m) => m !== marca
+      );
     }
     this.applyFilters();
   }
 
-  onIonInfinite(event: InfiniteScrollCustomEvent, filters: SearchParams = {}) {
-    console.log("📌 Scrolling detectado, intentando cargar más coches...");
-    
-    if (this.page <= this.pages) {
-      this.loadMoreCars(event.target, filters);
-    } else {
-      console.log("⚠️ No hay más coches para cargar.");
-      event.target.disabled = true; // 🔥 Desactiva el Infinite Scroll si no hay más datos
-    }
+  onIonInfinite(event: InfiniteScrollCustomEvent) {
+    console.log('Scrolleando...');
+    this.loadNextPage(event);
   }
-  
 
   async openCarModal() {
     const modal = await this.modalCtrl.create({
       component: CarModalComponent,
     });
-  
+
     modal.onDidDismiss().then((result) => {
       if (result.data) {
         let { carData } = result.data;
         if (carData.picture) {
           if (typeof carData.picture === 'string') {
-            console.log("✅ Imagen en string:", carData.picture);
-          } else if (typeof carData.picture === 'object' && carData.picture.url) {
-            console.log("✅ Imagen en objeto, extrayendo URL:", carData.picture.url);
+            console.log('✅ Imagen en string:', carData.picture);
+          } else if (
+            typeof carData.picture === 'object' &&
+            carData.picture.url
+          ) {
+            console.log(
+              '✅ Imagen en objeto, extrayendo URL:',
+              carData.picture.url
+            );
             carData.picture = carData.picture.url;
           } else {
-            console.warn("⚠️ Imagen en formato desconocido:", carData.picture);
-            carData.picture = ''; 
+            console.warn('⚠️ Imagen en formato desconocido:', carData.picture);
+            carData.picture = '';
           }
         } else {
-          console.warn("⚠️ No se ha asignado imagen al coche antes de enviarlo.");
+          console.warn(
+            '⚠️ No se ha asignado imagen al coche antes de enviarlo.'
+          );
         }
-  
-        console.log("✅ Guardando coche con imagen final:", carData.picture);
-  
+
+        console.log('✅ Guardando coche con imagen final:', carData.picture);
+
         this.carSvc.add(carData).subscribe(() => {
-          console.log("✅ Imagen vinculada correctamente:", carData.picture);
-          this.loadCars(); 
-          this.applyFilters()
+          console.log('✅ Imagen vinculada correctamente:', carData.picture);
+          this.applyFilters();
         });
       }
     });
-  
+
     await modal.present();
   }
-  
 
   onBuy(car: Car) {
     if (this.isLoggedIn) {
@@ -304,7 +321,7 @@ export class InventoryPage implements OnInit {
       console.error('El usuario no está autenticado');
     }
   }
-  
+
   async presentConfirmAlert(car: Car) {
     const alert = await this.alertController.create({
       header: 'Confirmar Compra',
@@ -314,7 +331,7 @@ export class InventoryPage implements OnInit {
         {
           text: 'No',
           role: 'cancel',
-          cssClass: 'alert-cancel-btn', 
+          cssClass: 'alert-cancel-btn',
           handler: () => {
             console.log('Compra cancelada');
           },
@@ -328,43 +345,60 @@ export class InventoryPage implements OnInit {
         },
       ],
     });
-  
+
     await alert.present();
   }
-  
+
   processPurchase(car: Car) {
     this.authSvc.me().subscribe({
       next: (user) => {
-        if (!user || (!user.id && !user.uid)) { 
-          console.error('Error: Usuario no encontrado o sin id: ', [user, user.id, user.uid])
-          return
+        if (!user || (!user.id && !user.uid)) {
+          console.error('Error: Usuario no encontrado o sin id: ', [
+            user,
+            user.id,
+            user.uid,
+          ]);
+          return;
         }
 
-        let _userId = user.id || user.uid
-        console.log("Usuario autenticado: ", [user, user.id, user.uid, user.email]);
-        console.log("🔎 Buscando cliente con userId:", user.id? user.id : user.uid? user.uid : null);
+        let _userId = user.id || user.uid;
+        console.log('Usuario autenticado: ', [
+          user,
+          user.id,
+          user.uid,
+          user.email,
+        ]);
+        console.log(
+          '🔎 Buscando cliente con userId:',
+          user.id ? user.id : user.uid ? user.uid : null
+        );
 
-
-        this.customerSvc.getByUserId(user.id? user.id : user.uid).subscribe({
+        this.customerSvc.getById(user.id ? user.id : user.uid).subscribe({
           next: (customer) => {
-            console.log("Customer: ", customer);
+            console.log('Customer: ', customer);
             if (!customer || !customer.id) {
-              console.error(`❌ No se encontró un cliente asociado al usuario con UID: ${user.uid}`);
-              return
+              console.error(
+                `❌ No se encontró un cliente asociado al usuario con UID: ${user.uid}`
+              );
+              return;
             }
 
-            console.log("✅ Cliente encontrado:", [customer, customer.id]);
+            console.log('✅ Cliente encontrado:', [customer, customer.id]);
 
-            console.log("Car antes de updatearlo: ", car)
+            console.log('Car antes de updatearlo: ', car);
             const updatedCar = { ...car, customer: customer.id };
-            console.log("🚀 Actualizando coche con:", [updatedCar, updatedCar.customer]);  
-              
+            console.log('🚀 Actualizando coche con:', [
+              updatedCar,
+              updatedCar.customer,
+            ]);
+
             this.carSvc.update(updatedCar.id, updatedCar).subscribe({
               next: () => {
-                console.log(`Coche ${car.brand} ${car.model} comprado con éxito por el cliente ${customer.name}. Id: ${car.customer}`);
+                console.log(
+                  `Coche ${car.brand} ${car.model} comprado con éxito por el cliente ${customer.name}. Id: ${car.customer}`
+                );
                 this.generateContract(updatedCar, customer);
-                this.loadCars()
-                this.applyFilters()
+                this.applyFilters();
               },
               error: (err) => {
                 console.error('Error al comprar el coche:', err);
@@ -385,7 +419,7 @@ export class InventoryPage implements OnInit {
   onDelete(car: Car) {
     this.presentDeleteConfirmAlert(car);
   }
-  
+
   async presentDeleteConfirmAlert(car: Car) {
     const alert = await this.alertController.create({
       header: 'Confirmar Eliminación',
@@ -409,15 +443,14 @@ export class InventoryPage implements OnInit {
         },
       ],
     });
-  
+
     await alert.present();
   }
-  
+
   deleteCar(car: Car) {
     this.carSvc.delete(car.id).subscribe({
       next: () => {
         console.log(`Coche ${car.brand} ${car.model} eliminado con éxito.`);
-        this.loadCars(); 
         this.applyFilters();
       },
       error: (err) => {
@@ -426,29 +459,39 @@ export class InventoryPage implements OnInit {
     });
   }
 
-  async generateContract(car: Car | FirebaseCar, customer: Customer | FirebaseCustomer) {
-
+  async generateContract(
+    car: Car | FirebaseCar,
+    customer: Customer | FirebaseCustomer
+  ) {
     const doc = new jsPDF();
     const pageWidth = doc.internal.pageSize.getWidth();
-    
+
     // 📌 Logo de la empresa
-    const logoUrl = "../../../../assets/icon/favicon.png"; // 🔹 Cambia por la URL de tu logo
+    const logoUrl = '../../../../assets/icon/favicon.png'; // 🔹 Cambia por la URL de tu logo
     const logoWidth = 40;
     const logoHeight = 40;
-    doc.addImage(logoUrl, "PNG", pageWidth - 60, 10, logoWidth, logoHeight);
+    doc.addImage(logoUrl, 'PNG', pageWidth - 60, 10, logoWidth, logoHeight);
 
     // 📌 Encabezado del contrato
     doc.setFontSize(18);
-    doc.text("CONTRATO DE COMPRA DE VEHÍCULO", 20, 30);
+    doc.text('CONTRATO DE COMPRA DE VEHÍCULO', 20, 30);
     doc.setFontSize(12);
-    doc.text("Concesionarios BaCa S.A.", 20, 40);
-    doc.text("Dirección: Calle Frederic Therman 3, Campanillas, Málaga", 20, 50);
-    doc.text("Teléfono: +34 900 123 456 | Email: contacto@concesionariosbaca.com", 20, 60);
+    doc.text('Concesionarios BaCa S.A.', 20, 40);
+    doc.text(
+      'Dirección: Calle Frederic Therman 3, Campanillas, Málaga',
+      20,
+      50
+    );
+    doc.text(
+      'Teléfono: +34 900 123 456 | Email: contacto@concesionariosbaca.com',
+      20,
+      60
+    );
     doc.line(20, 65, pageWidth - 20, 65);
 
     // 📌 Datos del Cliente
     doc.setFontSize(14);
-    doc.text("Datos del Cliente:", 20, 75);
+    doc.text('Datos del Cliente:', 20, 75);
     doc.setFontSize(12);
     doc.text(`Nombre: ${customer.name} ${customer.surname}`, 20, 85);
     doc.text(`DNI: ${customer.dni}`, 20, 95);
@@ -457,7 +500,7 @@ export class InventoryPage implements OnInit {
 
     // 📌 Datos del Vehículo
     doc.setFontSize(14);
-    doc.text("Datos del Vehículo:", 20, 130);
+    doc.text('Datos del Vehículo:', 20, 130);
     doc.setFontSize(12);
     doc.text(`Marca: ${car.brand}`, 20, 140);
     doc.text(`Modelo: ${car.model}`, 20, 150);
@@ -469,32 +512,38 @@ export class InventoryPage implements OnInit {
 
     // 📌 Términos y Condiciones
     doc.setFontSize(14);
-    doc.text("Términos y Condiciones:", 20, 205);
+    doc.text('Términos y Condiciones:', 20, 205);
     doc.setFontSize(10);
     const termsText = `Este contrato de compra establece los términos y condiciones bajo los cuales el cliente 
     adquiere el vehículo mencionado anteriormente. El vehículo cuenta con una garantía de 2 años cubriendo 
     defectos de fabricación. La empresa no se hace responsable de daños por uso indebido.`;
-    doc.text(termsText, 20, 215, { maxWidth: pageWidth - 40, align: "justify" });
+    doc.text(termsText, 20, 215, {
+      maxWidth: pageWidth - 40,
+      align: 'justify',
+    });
 
     doc.setFontSize(10);
     const extraConditions = `El cliente acepta las condiciones de compra, incluyendo el pago completo antes de la 
     entrega del vehículo y la obligación de cumplir con los requisitos legales para su uso en la vía pública.`;
-    doc.text(extraConditions, 20, 230, { maxWidth: pageWidth - 40, align: "justify" });
+    doc.text(extraConditions, 20, 230, {
+      maxWidth: pageWidth - 40,
+      align: 'justify',
+    });
 
     doc.line(20, 245, pageWidth - 20, 245);
 
     // 📌 Firma del Cliente y Empresa
     doc.setFontSize(12);
-    doc.text("Firma del Cliente:", 20, 255);
+    doc.text('Firma del Cliente:', 20, 255);
     doc.line(20, 260, 100, 260);
 
-    doc.text("Firma de la Empresa:", pageWidth - 80, 255);
+    doc.text('Firma de la Empresa:', pageWidth - 80, 255);
     doc.line(pageWidth - 80, 260, pageWidth - 20, 260);
 
     // 📌 Descargar PDF
-    const pdfBlob = new Blob([doc.output("blob")], { type: "application/pdf" });
+    const pdfBlob = new Blob([doc.output('blob')], { type: 'application/pdf' });
     const pdfUrl = URL.createObjectURL(pdfBlob);
-    const a = document.createElement("a");
+    const a = document.createElement('a');
     a.href = pdfUrl;
     a.download = `contrato_${car.plate}.pdf`;
     document.body.appendChild(a);
@@ -502,9 +551,14 @@ export class InventoryPage implements OnInit {
     document.body.removeChild(a);
 
     console.log(`✅ Contrato generado y listo para descargar.`);
-}
+  }
 
-toggleFilters() {
-  this.showFilters = !this.showFilters;
-}
+  toggleFilters() {
+    this.showFilters = !this.showFilters;
+  }
+
+  onSearchChange(event: any): void {
+    this.searchQuery = event.target.value;
+    this.applyFilters();
+  }
 }

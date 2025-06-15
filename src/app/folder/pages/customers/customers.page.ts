@@ -1,8 +1,20 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { InfiniteScrollCustomEvent, LoadingController, ModalController, Platform, ToastController } from '@ionic/angular';
+import {
+  InfiniteScrollCustomEvent,
+  LoadingController,
+  ModalController,
+  Platform,
+  ToastController,
+} from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
-import { BehaviorSubject, lastValueFrom, Observable } from 'rxjs';
+import {
+  BehaviorSubject,
+  firstValueFrom,
+  forkJoin,
+  lastValueFrom,
+  Observable,
+} from 'rxjs';
 import { CustomerModalComponent } from 'src/app/components/customer-modal/customer-modal.component';
 import { User } from 'src/app/core/models/auth.model';
 import { Car } from 'src/app/core/models/car.model';
@@ -12,7 +24,12 @@ import { CUSTOMER_COLLECTION_SUBSCRIPTION_TOKEN } from 'src/app/core/repositorie
 import { BaseAuthenticationService } from 'src/app/core/services/impl/base-authentication.service';
 import { BaseMediaService } from 'src/app/core/services/impl/base-media.service';
 import { CustomerService } from 'src/app/core/services/impl/customer.service';
-import { ICollectionSubscription, CollectionChange } from 'src/app/core/services/interfaces/collection-subscription.interface';
+import {
+  ICollectionSubscription,
+  CollectionChange,
+} from 'src/app/core/services/interfaces/collection-subscription.interface';
+import { saveAs } from 'file-saver';
+import { CarService } from 'src/app/core/services/impl/car.service';
 
 @Component({
   selector: 'app-customers',
@@ -20,109 +37,117 @@ import { ICollectionSubscription, CollectionChange } from 'src/app/core/services
   styleUrls: ['./customers.page.scss'],
 })
 export class CustomersPage implements OnInit {
-  _customers:BehaviorSubject<Customer[]> = new BehaviorSubject<Customer[]>([]);
-  customers$:Observable<Customer[]> = this._customers.asObservable();
-  _users:BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
-  users$:Observable<User[]> = this._users.asObservable();
-  isWeb: boolean = false
-  private loadedIds: Set<string> = new Set(); 
+  _customers: BehaviorSubject<Customer[]> = new BehaviorSubject<Customer[]>([]);
+  customers$: Observable<Customer[]> = this._customers.asObservable();
+  _users: BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
+  users$: Observable<User[]> = this._users.asObservable();
+  isMobile: boolean = false;
+  private loadedIds: Set<string> = new Set();
 
   constructor(
     private customerService: CustomerService,
+    private carService: CarService,
     private modalCtrl: ModalController,
     private platform: Platform,
-    @Inject(CUSTOMER_COLLECTION_SUBSCRIPTION_TOKEN) private customerSubscription: ICollectionSubscription<Customer>
-    
-  ) {
-    this.isWeb = this.platform.is('desktop')
-  }
+    @Inject(CUSTOMER_COLLECTION_SUBSCRIPTION_TOKEN)
+    private customerSubscription: ICollectionSubscription<Customer>
+  ) {}
 
   ngOnInit() {
-    this.loadCustomers()
-    this.customerSubscription.subscribe('customers').subscribe((change: CollectionChange<Customer>) => {
-          const currentCustomers = [...this._customers.value]
-    
-          // Solo procesar cambios de documentos que ya tenemos cargados
-          if (!this.loadedIds.has(change.id) && change.type !== 'added') {
-            return;
-          }
-    
-          switch(change.type) {
-            case 'added':
-            case 'modified':
-              const index = currentCustomers.findIndex(p => p.id === change.id);
-              if (index >= 0) {
-                currentCustomers[index] = change.data!;
-              }
-              break;
-            case 'removed':
-              const removeIndex = currentCustomers.findIndex(p => p.id === change.id);
-              if (removeIndex >= 0) {
-                currentCustomers.splice(removeIndex, 1);
-                this.loadedIds.delete(change.id);
-              }
-              break;
-          }
-          this._customers.next(currentCustomers);
-    
-        })
+    this.isMobile = window.innerWidth <= 1011;
+
+    window.addEventListener('resize', () => {
+      this.isMobile = window.innerWidth <= 1011;
+    });
+
+    this.loadCustomers();
+    this.customerSubscription
+      .subscribe('customers')
+      .subscribe((change: CollectionChange<Customer>) => {
+        const currentCustomers = [...this._customers.value];
+
+        // Solo procesar cambios de documentos que ya tenemos cargados
+        if (!this.loadedIds.has(change.id) && change.type !== 'added') {
+          return;
+        }
+
+        switch (change.type) {
+          case 'added':
+          case 'modified':
+            const index = currentCustomers.findIndex((p) => p.id === change.id);
+            if (index >= 0) {
+              currentCustomers[index] = change.data!;
+            }
+            break;
+          case 'removed':
+            const removeIndex = currentCustomers.findIndex(
+              (p) => p.id === change.id
+            );
+            if (removeIndex >= 0) {
+              currentCustomers.splice(removeIndex, 1);
+              this.loadedIds.delete(change.id);
+            }
+            break;
+        }
+        this._customers.next(currentCustomers);
+      });
   }
 
-  page: number = 1
-  pageSize: number = 20
-  pages: number = 0
+  page: number = 1;
+  pageSize: number = 20;
+  pages: number = 0;
 
-  loadCustomers(){
-    this.page = 1
-    this.customerService.getAll(this.page, this.pageSize, {}).subscribe({
-      next: (response: Paginated<Customer>) => {
-        console.log("Datos obtenidos de la API:", response.data);
+  loadCustomers() {
+    this.page = 1;
+    this.customerService
+      .getAll(this.page, this.pageSize, {}, 'name')
+      .subscribe({
+        next: (response: Paginated<Customer>) => {
+          console.log('Datos obtenidos de la API:', response.data);
 
-        const userData = response.data.map((customer) => {
-          const userId = customer.userId
-        })
+          const userData = response.data.map((customer) => {
+            const userId = customer.user;
+          });
 
-        response.data.forEach(customer => this.loadedIds.add(customer.id));
+          response.data.forEach((customer) => this.loadedIds.add(customer.id));
 
-        this._customers.next(response.data)
-        this.page++
-        this.pages = response.pages
+          this._customers.next(response.data);
+          this.page++;
+          this.pages = response.pages;
 
-        this._customers.subscribe(data =>{
-          console.log("Datos actualizados en _customers:", data); 
-        })
-
-      },
-      error: err=>{
-        console.log(err);
-      }
-    })
+          this._customers.subscribe((data) => {
+            console.log('Datos actualizados en _customers:', data);
+          });
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
   }
 
-  loadMoreCustomers(notify:HTMLIonInfiniteScrollElement | null = null){
-    if(this.page<=this.pages){
+  loadMoreCustomers(notify: HTMLIonInfiniteScrollElement | null = null) {
+    if (this.page <= this.pages) {
       this.customerService.getAll(this.page, this.pageSize).subscribe({
-        next:(response:Paginated<Customer>)=>{
-          response.data.forEach(customer => this.loadedIds.add(customer.id));
+        next: (response: Paginated<Customer>) => {
+          response.data.forEach((customer) => this.loadedIds.add(customer.id));
           this._customers.next([...this._customers.value, ...response.data]);
           this.page++;
           notify?.complete();
-        }
+        },
       });
-    }
-    else{
+    } else {
       notify?.complete();
     }
   }
 
-  onIonInfinite(ev:InfiniteScrollCustomEvent) {
+  onIonInfinite(ev: InfiniteScrollCustomEvent) {
     this.loadMoreCustomers(ev.target);
   }
 
   async openCustomerModal(customer: Customer) {
     const modal = await this.modalCtrl.create({
       component: CustomerModalComponent,
-      componentProps: { customer }
+      componentProps: { customer },
     });
 
     modal.onDidDismiss().then((result) => {
@@ -142,15 +167,25 @@ export class CustomersPage implements OnInit {
   updateCustomer(id: string, data: any) {
     this.customerService.update(id.toString(), data).subscribe({
       next: () => this.loadCustomers(),
-      error: (err) => console.error(err)
+      error: (err) => console.error(err),
     });
   }
 
   deleteCustomer(id: string) {
     this.customerService.delete(id.toString()).subscribe({
       next: () => this.loadCustomers(),
-      error: (err) => console.error(err)
+      error: (err) => console.error(err),
     });
   }
 
+  getCustomerThumbnail(customer: Customer): string {
+    const picture = customer.picture;
+    if (typeof picture === 'object') {
+      return (
+        picture.thumbnail ||
+        'https://ionicframework.com/docs/img/demos/avatar.svg'
+      );
+    }
+    return picture || 'https://ionicframework.com/docs/img/demos/avatar.svg';
+  }
 }

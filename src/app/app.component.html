@@ -4,19 +4,68 @@
       <ion-title>Menú</ion-title>
     </ion-toolbar>
   </ion-header>
+
   <ion-content>
     <ion-list>
-      <ion-item *ngFor="let p of appPages" [routerLink]="[p.url]" routerLinkActive="active-page">
-        <ion-icon [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'" slot="start"></ion-icon>
-        <ion-label>{{ p.title | translate }}</ion-label>
+
+      <!-- INICIO -->
+      <ion-item routerLink="/home" routerLinkActive="active-page">
+        <ion-icon ios="home-outline" md="home-sharp" slot="start"></ion-icon>
+        <ion-label>{{ "HOME" | translate }}</ion-label>
       </ion-item>
+
+      <!-- INVENTARIO -->
+      <ion-item routerLink="/inventory" routerLinkActive="active-page">
+        <ion-icon ios="file-tray-full-outline" md="file-tray-full-sharp" slot="start"></ion-icon>
+        <ion-label>{{ "INVENTORY" | translate }}</ion-label>
+      </ion-item>
+
+      <!-- HISTORIAL DE VENTAS (solo admin) -->
+      <ion-item
+        *ngIf="customer?.role?.includes('admin')"
+        routerLink="/sales"
+        routerLinkActive="active-page"
+      >
+        <ion-icon ios="cash-outline" md="cash-sharp" slot="start"></ion-icon>
+        <ion-label>{{ "SALES_HISTORY" | translate }}</ion-label>
+      </ion-item>
+
+      <!-- CLIENTES (solo admin) -->
+      <ion-item
+        *ngIf="customer?.role?.includes('admin')"
+        routerLink="/customers"
+        routerLinkActive="active-page"
+      >
+        <ion-icon ios="people-outline" md="people-sharp" slot="start"></ion-icon>
+        <ion-label>{{ "CUSTOMERS-PAGE" | translate }}</ion-label>
+      </ion-item>
+
+      <!-- SOBRE NOSOTROS -->
+      <ion-item routerLink="/about-us" routerLinkActive="active-page">
+        <ion-icon ios="information-circle-outline" md="information-circle-sharp" slot="start"></ion-icon>
+        <ion-label>{{ "ABOUT-US-PAGE" | translate }}</ion-label>
+      </ion-item>
+
+      <!-- GESTIÓN DE DATOS (solo admin) -->
+      <ion-item
+        *ngIf="customer?.role?.includes('admin')"
+        routerLink="/admin/data-management"
+        routerLinkActive="active-page"
+      >
+        <ion-icon ios="settings-outline" md="settings-sharp" slot="start"></ion-icon>
+        <ion-label>Gestión de Datos</ion-label>
+      </ion-item>
+
     </ion-list>
   </ion-content>
 </ion-menu>
 
+
 <ion-page id="main-content">
   <ion-header *ngIf="showNavbar">
-    <ion-toolbar class="dark-red">
+    <ion-toolbar
+      class="dark-red flex flex-wrap justify-between items-center px-4 py-2"
+    >
       <!-- 📌 Menú hamburguesa -->
       <ion-buttons slot="start" class="mobile-menu">
         <ion-menu-button></ion-menu-button>
@@ -24,35 +73,109 @@
 
       <!-- 📌 Logo -->
       <ion-buttons slot="start" class="logo-container">
-        <ion-button [routerLink]="'/home'" class="logo-button" [routerDirection]="'root'">
-          <ion-avatar class="logo">
+        <ion-button
+          [routerLink]="'/home'"
+          class="flex items-center gap-2 text-white hover:opacity-80"
+        >
+          <ion-avatar class="w-10 h-10">
             <img alt="Logo" src="../../../assets/icon/favicon.png" />
           </ion-avatar>
-          <ion-text class="logo-text">Concesionarios BaCa</ion-text>
+          <span class="font-bold text-white uppercase text-sm hidden md:inline">
+            Concesionarios Baca
+          </span>
         </ion-button>
       </ion-buttons>
 
       <!-- 📌 Menú en escritorio -->
-      <ion-buttons slot="end" class="desktop-menu">
-        <ion-button *ngFor="let p of appPages" [routerLink]="[p.url]" routerLinkActive="active-page">
-          <ion-icon [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'" slot="start"></ion-icon>
-          <ion-text class="nav-text">{{ p.title | translate }}</ion-text>
+      <ion-buttons slot="end" class="desktop-menu flex items-center gap-2">
+        <ion-button routerLink="/home" routerLinkActive="active-page">
+          <ion-icon ios="home-outline" md="home-sharp" slot="start"></ion-icon>
+          <ion-text class="nav-text">{{ "HOME" | translate }}</ion-text>
+        </ion-button>
+
+        <ion-button routerLink="/inventory" routerLinkActive="active-page">
+          <ion-icon
+            ios="file-tray-full-outline"
+            md="file-tray-full-sharp"
+            slot="start"
+          ></ion-icon>
+          <ion-text class="nav-text">{{ "INVENTORY" | translate }}</ion-text>
+        </ion-button>
+
+        <ion-button
+          *ngIf="customer?.role?.includes('admin')"
+          routerLink="/sales"
+          routerLinkActive="active-page"
+        >
+          <ion-icon ios="cash-outline" md="cash-sharp" slot="start"></ion-icon>
+          <ion-text class="nav-text">{{
+            "SALES_HISTORY" | translate
+          }}</ion-text>
+        </ion-button>
+
+        <ion-button
+          *ngIf="customer?.role?.includes('admin')"
+          routerLink="/customers"
+          routerLinkActive="active-page"
+        >
+          <ion-icon
+            ios="people-outline"
+            md="people-sharp"
+            slot="start"
+          ></ion-icon>
+          <ion-text class="nav-text">{{
+            "CUSTOMERS-PAGE" | translate
+          }}</ion-text>
+        </ion-button>
+
+        <ion-button routerLink="/about-us" routerLinkActive="active-page">
+          <ion-icon
+            ios="information-circle-outline"
+            md="information-circle-sharp"
+            slot="start"
+          ></ion-icon>
+          <ion-text class="nav-text">{{
+            "ABOUT-US-PAGE" | translate
+          }}</ion-text>
+        </ion-button>
+
+        <!-- Solo admins -->
+        <ion-button
+          *ngIf="customer?.role?.includes('admin')"
+          routerLink="/admin/data-management"
+          routerLinkActive="active-page"
+        >
+          <ion-icon
+            ios="settings-outline"
+            md="settings-sharp"
+            slot="start"
+          ></ion-icon>
+          <ion-text class="nav-text">Gestión de Datos</ion-text>
         </ion-button>
       </ion-buttons>
 
       <!-- 📌 Botón de idioma y perfil -->
-      <ion-buttons slot="end">
-        <ion-button (click)="presentLanguagePopover($event)">
-          <ion-label class="language-btn">{{ 'LANGUAGE' | translate }}</ion-label>
-          <ion-icon name="language"></ion-icon>
+      <ion-buttons slot="end" class="flex items-center gap-2">
+        <ion-button (click)="presentLanguagePopover($event)" class="text-white">
+          <ion-label class="language-btn text-sm">{{
+            "LANGUAGE" | translate
+          }}</ion-label>
+          <ion-icon name="language" class="ml-1"></ion-icon>
         </ion-button>
-        
-        <ion-button class="profile-button" (click)="presentPopover($event)">
-          <ion-avatar> 
-            <img alt="Perfil" [src]="profileImage$ | async" />
-          </ion-avatar>
+
+        <ion-button
+          (click)="presentPopover($event)"
+          class="p-0 rounded-full overflow-hidden w-10 h-10"
+        >
+          <img
+            [src]="
+              (profileImage$ | async) ||
+              'https://ionicframework.com/docs/img/demos/avatar.svg'
+            "
+            alt="Perfil"
+            class="min-w-12 min-h-12 object-cover rounded-full border-2 border-white shadow-md"
+          />
         </ion-button>
-        
       </ion-buttons>
     </ion-toolbar>
   </ion-header>
